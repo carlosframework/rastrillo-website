@@ -73,15 +73,16 @@ body {
 }
 
 /* The red margin rule — one continuous line down the book's gutter. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0.55rem;
+  border-left: 1px solid var(--margin-red);
+  pointer-events: none;
+}
 @media (min-width: 74rem) {
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; bottom: 0;
-    left: calc(50% - 34.5rem);
-    border-left: 1px solid var(--margin-red);
-    pointer-events: none;
-  }
+  body::before { left: calc(50% - 34.5rem); }
 }
 
 /* Browser surfaces belong to the world too. */
@@ -194,12 +195,15 @@ h1 .x {
   font-weight: 400;
   padding-right: 1.5rem;
 }
+/* The cash column: a red vertical rule fences the amounts, like a ledger's. */
 .posting td {
   text-align: right;
   font-family: var(--mono);
   font-size: 0.92rem;
   white-space: nowrap;
   width: 6.5rem;
+  border-left: 1px solid var(--margin-red);
+  padding-left: 1rem;
 }
 .posting .total th, .posting .total td {
   font-weight: 700;
@@ -250,6 +254,14 @@ h1 .x {
   font-size: 0.9rem;
   color: var(--muted);
   font-family: var(--sans);
+}
+/* Marginalia: on the open book, the note hangs off the margin rule itself. */
+@media (min-width: 74rem) {
+  .robot-note {
+    margin-left: -2.55rem;
+    padding-left: 3.35rem;
+    border-left-width: 3px;
+  }
 }
 
 /* ── Sections: entries in the book ──────────────────────────── */
@@ -307,7 +319,12 @@ section > .showcase { max-width: none; }
   padding-bottom: 0.15rem;
   margin-right: 0.6rem;
 }
-.manifest-in pre { margin: 0; }
+/* "The whole file" must be whole: wrap long lines instead of clipping them. */
+.manifest-in pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 .manifest-out .posting th[scope="row"] { font-size: 0.98rem; }
 .postscript {
   margin-top: 1.3rem;
@@ -356,8 +373,10 @@ section > .accounts { max-width: none; }
   padding: 0.55rem 1.3rem 0.5rem;
   transform: rotate(-3.5deg);
   margin-bottom: 1.4rem;
-  -webkit-mask-image: radial-gradient(ellipse 120% 100% at 50% 45%, #000 68%, rgba(0,0,0,0.72) 100%);
-  mask-image: radial-gradient(ellipse 120% 100% at 50% 45%, #000 68%, rgba(0,0,0,0.72) 100%);
+  /* Stamped, not drawn: turbulence roughens the edge, the mask unevens the ink. */
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="r"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter></svg>#r');
+  -webkit-mask-image: radial-gradient(ellipse 115% 95% at 48% 42%, #000 55%, rgba(0,0,0,0.82) 78%, rgba(0,0,0,0.58) 100%);
+  mask-image: radial-gradient(ellipse 115% 95% at 48% 42%, #000 55%, rgba(0,0,0,0.82) 78%, rgba(0,0,0,0.58) 100%);
 }
 .stamp .stamp-sub {
   font-size: 0.62rem;

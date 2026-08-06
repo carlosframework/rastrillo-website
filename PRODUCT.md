@@ -35,7 +35,7 @@ goal — while never overclaiming what the young framework can do.
 
 ## Positioning
 
-Rastrillo's uncopyable claim: **declare a resource in ~16 lines of
+Rastrillo's uncopyable claim: **declare a resource in 15 lines of
 TOML and read every line of the ~2,000 it generates** — plain Go, SQL,
 HTML, and locale keys, committed under `gen/`, diffable, ejectable.
 Generated, not interpreted; nothing parses a manifest at request time.
@@ -80,8 +80,8 @@ served by the CARLOS flagship — it runs on the thing it markets.
 
 ## Evidence on Hand
 
-- The verbatim `ticket_types.toml` manifest (16 lines) and its
-  measured output (21 files, ~1,980 lines) from `examples/tickets`.
+- The verbatim `ticket_types.toml` manifest (15 lines) and its
+  measured output (21 files, 1,978 lines) from `examples/tickets`.
 - Live deployment: https://helloworld.dev.oncarlos.com (200 as of
   2026-08-06).
 - No testimonials, no adopter logos, no benchmarks — do not fabricate
