@@ -6,7 +6,7 @@
   },
   {
     "title": "Build your app for the target host",
-    "cmd": "GOOS=linux GOARCH=arm64 go build -o myapp ./cmd/myapp",
+    "cmd": "GOOS=linux GOARCH=arm64 go build -o myapp-binary ./cmd/myapp",
     "note": ""
   },
   {

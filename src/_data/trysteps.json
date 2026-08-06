@@ -11,7 +11,7 @@
   },
   {
     "title": "Run it",
-    "cmd": "cd myapp && go mod tidy && rastrillo dev",
+    "cmd": "cd myapp && go get github.com/carlosframework/rastrillo@latest && rastrillo dev",
     "note": "Visit <code>localhost:8080</code> — that's your app. Edit an action, save, refresh: <code>rastrillo dev</code> regenerates, rebuilds, and restarts for you in about a second. A save that doesn't compile keeps the previous build serving while you fix it."
   }
 ]

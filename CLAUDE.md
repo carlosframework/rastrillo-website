@@ -88,8 +88,9 @@ The one difference: **this repo has a build step, so never ship the repo
 tree.** Ship the built `_site/` of a clean export:
 
 ```
+mkdir -p /tmp/rastrillo-ship
 git archive <sha> --prefix=export/ | tar -x -C /tmp/rastrillo-ship
-cd /tmp/rastrillo-ship/export && npm ci && npm run build
+cd /tmp/rastrillo-ship/export && npm ci && npm run check
 
 export AWS_PROFILE=keymail AWS_REGION=eu-west-1 \
        CARLOS_DEPLOYMENT_BUCKET=carlos-flagship-271376211898
