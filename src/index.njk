@@ -34,21 +34,8 @@ description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in 
   <div class="showcase">
     <figure class="manifest-in">
       <figcaption><span class="colhead">declared</span> manifest/ticket_types.toml — the whole file</figcaption>
-      <pre><code>name  = "ticket_types"
-route = "/admin/ticket_types"
-store = "exclusive"
-
-[list]
-columns = [{ field = "Name" }, { field = "Price", kind = "money" }, { field = "Status" }]
-search  = true
-
-[[list.filters]]
-field  = "Status"
-values = ["draft", "on_sale", "sold_out"]
-
-[form]
-basics   = [{ name = "Name", required = true }, { name = "Price", kind = "money", required = true }, { name = "Status" }]
-advanced = [{ name = "MaxPerOrder" }]</code></pre>
+      {# One .ln block per logical line: wrapped continuations hang-indent, so the eye still counts 15. #}
+      <pre><code><span class="ln">name  = "ticket_types"</span><span class="ln">route = "/admin/ticket_types"</span><span class="ln">store = "exclusive"</span><span class="ln"></span><span class="ln">[list]</span><span class="ln">columns = [{ field = "Name" }, { field = "Price", kind = "money" }, { field = "Status" }]</span><span class="ln">search  = true</span><span class="ln"></span><span class="ln">[[list.filters]]</span><span class="ln">field  = "Status"</span><span class="ln">values = ["draft", "on_sale", "sold_out"]</span><span class="ln"></span><span class="ln">[form]</span><span class="ln">basics   = [{ name = "Name", required = true }, { name = "Price", kind = "money", required = true }, { name = "Status" }]</span><span class="ln">advanced = [{ name = "MaxPerOrder" }]</span></code></pre>
     </figure>
     <figure class="manifest-out">
       <figcaption><span class="colhead">generated</span> what <code>rastrillo generate</code> wrote from it</figcaption>

@@ -6,7 +6,7 @@
    (brief-pinned). Direction contract: first comment in the built <body>. */
 
 :root {
-  --page: #fbfbf7;
+  --page: #fbfbf7; --sel: rgba(179, 64, 46, 0.18);
   --ink: #1f242b;
   --muted: #57616c;
   --ruling: rgba(94, 128, 168, 0.28);
@@ -26,7 +26,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --page: #131813;
+    --page: #131813; --sel: rgba(224, 112, 90, 0.3);
     --ink: #e8ece7;
     --muted: #a2aea4;
     --ruling: rgba(128, 164, 152, 0.26);
@@ -41,14 +41,14 @@
   }
 }
 :root[data-theme="dark"] {
-  --page: #131813; --ink: #e8ece7; --muted: #a2aea4;
+  --page: #131813; --sel: rgba(224, 112, 90, 0.3); --ink: #e8ece7; --muted: #a2aea4;
   --ruling: rgba(128, 164, 152, 0.26); --ruling-soft: rgba(128, 164, 152, 0.14);
   --margin-red: rgba(224, 112, 90, 0.45); --red-ink: #e0705a; --red-stamp: #e0705a;
   --cloth: #6cc79c; --cloth-deep: #8ad8b2; --cloth-soft: rgba(108, 199, 156, 0.12);
   --paper-btn-ink: #0d130f;
 }
 :root[data-theme="light"] {
-  --page: #fbfbf7; --ink: #1f242b; --muted: #57616c;
+  --page: #fbfbf7; --sel: rgba(179, 64, 46, 0.18); --ink: #1f242b; --muted: #57616c;
   --ruling: rgba(94, 128, 168, 0.28); --ruling-soft: rgba(94, 128, 168, 0.16);
   --margin-red: rgba(179, 64, 46, 0.5); --red-ink: #9c3322; --red-stamp: #b3402e;
   --cloth: #17604a; --cloth-deep: #114938; --cloth-soft: rgba(23, 96, 74, 0.1);
@@ -86,9 +86,7 @@ body::before {
 }
 
 /* Browser surfaces belong to the world too. */
-::selection { background: rgba(179, 64, 46, 0.18); }
-:root[data-theme="dark"] ::selection,
-:root:not([data-theme]) ::selection { background: rgba(179, 64, 46, 0.18); }
+::selection { background: var(--sel); }
 a { color: var(--cloth); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--cloth-deep); }
 a:focus-visible, .btn:focus-visible {
@@ -244,13 +242,14 @@ h1 .x {
 }
 .btn.ghost:hover { border-color: var(--cloth); color: var(--cloth-deep); }
 
+/* Below 74rem the page's own margin rule is the only red vertical; the note
+   goes borderless so the gutter never doubles up. */
 .robot-note {
   margin: 2.6rem 0 0;
   padding: 0.55rem 0.9rem;
   max-width: 36rem;
-  border-left: 1px solid var(--margin-red);
   background: var(--cloth-soft);
-  border-radius: 0 4px 4px 0;
+  border-radius: 4px;
   font-size: 0.9rem;
   color: var(--muted);
   font-family: var(--sans);
@@ -260,7 +259,8 @@ h1 .x {
   .robot-note {
     margin-left: -2.55rem;
     padding-left: 3.35rem;
-    border-left-width: 3px;
+    border-left: 3px solid var(--margin-red);
+    border-radius: 0 4px 4px 0;
   }
 }
 
@@ -319,11 +319,18 @@ section > .showcase { max-width: none; }
   padding-bottom: 0.15rem;
   margin-right: 0.6rem;
 }
-/* "The whole file" must be whole: wrap long lines instead of clipping them. */
+/* "The whole file" must be whole: wrap long lines instead of clipping them.
+   Each logical line is a block; continuations hang-indent so 15 lines read as 15. */
 .manifest-in pre {
   margin: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+}
+.manifest-in .ln {
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.4em;
+  text-indent: -1.4em;
 }
 .manifest-out .posting th[scope="row"] { font-size: 0.98rem; }
 .postscript {

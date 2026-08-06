@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-06T00:00:00Z",
+  "title": "Design System: rastrillo.org 🤖",
+  "extensions": {
+    "colorMeta": {
+      "page": { "role": "neutral", "displayName": "Page", "canonical": "#fbfbf7", "dark": "#131813", "tonalRamp": ["oklch(18% 0.01 130)", "oklch(30% 0.01 120)", "oklch(45% 0.01 110)", "oklch(60% 0.008 110)", "oklch(75% 0.007 110)", "oklch(86% 0.006 110)", "oklch(93% 0.005 110)", "oklch(98.5% 0.004 110)"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1f242b", "dark": "#e8ece7", "tonalRamp": ["oklch(15% 0.015 255)", "oklch(24% 0.015 255)", "oklch(35% 0.015 255)", "oklch(48% 0.015 255)", "oklch(60% 0.012 255)", "oklch(72% 0.01 255)", "oklch(84% 0.008 255)", "oklch(95% 0.005 255)"] },
+      "muted": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#57616c", "dark": "#a2aea4", "tonalRamp": ["oklch(15% 0.02 250)", "oklch(25% 0.02 250)", "oklch(35% 0.02 250)", "oklch(48% 0.02 250)", "oklch(60% 0.018 250)", "oklch(72% 0.015 250)", "oklch(84% 0.01 250)", "oklch(95% 0.006 250)"] },
+      "ruling": { "role": "neutral", "displayName": "Blue Feint Ruling", "canonical": "rgba(94, 128, 168, 0.28)", "dark": "rgba(128, 164, 152, 0.26)" },
+      "ruling-soft": { "role": "neutral", "displayName": "Soft Feint Ruling", "canonical": "rgba(94, 128, 168, 0.16)", "dark": "rgba(128, 164, 152, 0.14)" },
+      "margin-red": { "role": "secondary", "displayName": "Margin Red", "canonical": "rgba(179, 64, 46, 0.5)", "dark": "rgba(224, 112, 90, 0.45)" },
+      "red-ink": { "role": "secondary", "displayName": "Auditor's Red Ink", "canonical": "#9c3322", "dark": "#e0705a", "tonalRamp": ["oklch(15% 0.06 30)", "oklch(25% 0.09 30)", "oklch(35% 0.11 30)", "oklch(44% 0.12 30)", "oklch(55% 0.13 30)", "oklch(66% 0.12 30)", "oklch(80% 0.08 30)", "oklch(93% 0.03 30)"] },
+      "red-stamp": { "role": "secondary", "displayName": "Stamp Red", "canonical": "#b3402e", "dark": "#e0705a", "tonalRamp": ["oklch(15% 0.06 32)", "oklch(25% 0.09 32)", "oklch(35% 0.12 32)", "oklch(48% 0.14 32)", "oklch(58% 0.14 32)", "oklch(68% 0.13 32)", "oklch(80% 0.09 32)", "oklch(93% 0.03 32)"] },
+      "cloth": { "role": "primary", "displayName": "Bottle-Green Book Cloth", "canonical": "#17604a", "dark": "#6cc79c", "tonalRamp": ["oklch(15% 0.05 168)", "oklch(25% 0.07 168)", "oklch(34% 0.08 168)", "oklch(43% 0.08 168)", "oklch(55% 0.08 168)", "oklch(67% 0.09 168)", "oklch(80% 0.08 168)", "oklch(93% 0.04 168)"] },
+      "cloth-deep": { "role": "primary", "displayName": "Deep Cloth", "canonical": "#114938", "dark": "#8ad8b2", "tonalRamp": ["oklch(14% 0.04 168)", "oklch(22% 0.06 168)", "oklch(30% 0.07 168)", "oklch(36% 0.07 168)", "oklch(50% 0.08 168)", "oklch(64% 0.08 168)", "oklch(78% 0.07 168)", "oklch(92% 0.04 168)"] },
+      "cloth-soft": { "role": "primary", "displayName": "Cloth Wash", "canonical": "rgba(23, 96, 74, 0.1)", "dark": "rgba(108, 199, 156, 0.12)" },
+      "paper-btn-ink": { "role": "neutral", "displayName": "Paper Button Ink", "canonical": "#f6faf7", "dark": "#0d130f" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only; text-wrap: balance; may carry one red double-underlined phrase (border-bottom: 0.09em double red-ink)." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings, usually followed by an italic muted epigraph (1.12rem)." },
+      "title": { "displayName": "Title", "purpose": "Account entry terms and step headings; serif bold at body scale." },
+      "body": { "displayName": "Body", "purpose": "Serif ink prose, capped at 44rem measure; lede at 1.2rem muted. tabular-nums set globally." },
+      "label": { "displayName": "Column Head", "purpose": "Uppercase mono ledger column head; always ruled underneath with 1px of its own ink; never a kicker above a headline." },
+      "code": { "displayName": "Code", "purpose": "Code blocks on ruled paper; the 1.5rem line height is load-bearing (the feint ruling gradient is locked to it)." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "button-transition", "value": "background-color 140ms ease-out, border-color 140ms ease-out", "purpose": "The only hover transition: color properties on buttons and links, nothing structural." },
+      { "name": "stamp-press", "value": "animation: stamp-press linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; keyframes: from { transform: rotate(-8deg) scale(1.25); opacity: 0 } 60% { opacity: 1 } to { transform: rotate(-3.5deg) scale(1) }", "purpose": "The one authored motion: the stamp presses in on scroll. Double-gated behind @supports (animation-timeline: view()) and prefers-reduced-motion: no-preference." }
+    ],
+    "breakpoints": [
+      { "name": "accounts", "value": "52rem" },
+      { "name": "spread", "value": "60rem" },
+      { "name": "open-book", "value": "74rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Book-cloth pressing: the one conversion action (Try it now).",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Try it now</a>",
+      "css": ".ds-btn-primary { display: inline-block; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 1rem; font-weight: 600; text-decoration: none; padding: 0.72rem 1.5rem; border-radius: 3px; background: var(--cloth, #17604a); color: var(--paper-btn-ink, #f6faf7); border: 1px solid var(--cloth-deep, #114938); transition: background-color 140ms ease-out, border-color 140ms ease-out; } .ds-btn-primary:hover { background: var(--cloth-deep, #114938); } .ds-btn-primary:focus-visible { outline: 2px solid var(--red-stamp, #b3402e); outline-offset: 3px; border-radius: 1px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "A ruled blank beside the primary: outline in the feint ruling, text in cloth.",
+      "html": "<a class=\"ds-btn-ghost\" href=\"#\">Read the source</a>",
+      "css": ".ds-btn-ghost { display: inline-block; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 1rem; font-weight: 600; text-decoration: none; padding: 0.72rem 1.5rem; border-radius: 3px; color: var(--cloth, #17604a); border: 1px solid var(--ruling, rgba(94, 128, 168, 0.28)); transition: background-color 140ms ease-out, border-color 140ms ease-out; } .ds-btn-ghost:hover { border-color: var(--cloth, #17604a); color: var(--cloth-deep, #114938); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--red-stamp, #b3402e); outline-offset: 3px; border-radius: 1px; }"
+    },
+    {
+      "name": "Posting Table",
+      "kind": "custom",
+      "refersTo": "posting",
+      "description": "The signature ledger table: serif labels on feint rules, mono figures in a red-fenced cash column, the decisive figure double-ruled in red.",
+      "html": "<table class=\"ds-posting\"><tbody><tr><th scope=\"row\">declared, in <code>manifest/ticket_types.toml</code></th><td>15 lines</td></tr><tr><th scope=\"row\">generated, under <code>gen/</code> — plain Go, SQL, HTML</th><td>1,978 lines</td></tr><tr class=\"ds-total\"><th scope=\"row\">parsed behind your back at request time</th><td>0</td></tr></tbody></table>",
+      "css": ".ds-posting { border-collapse: collapse; width: 100%; max-width: 36rem; font-family: Charter, Georgia, 'Times New Roman', serif; font-size: 1.0625rem; color: var(--ink, #1f242b); font-variant-numeric: tabular-nums; } .ds-posting th, .ds-posting td { border-bottom: 1px solid var(--ruling, rgba(94, 128, 168, 0.28)); padding: 0.45rem 0; vertical-align: baseline; } .ds-posting th { text-align: left; font-weight: 400; padding-right: 1.5rem; } .ds-posting td { text-align: right; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.92rem; white-space: nowrap; width: 6.5rem; border-left: 1px solid var(--margin-red, rgba(179, 64, 46, 0.5)); padding-left: 1rem; } .ds-posting code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; background: var(--cloth-soft, rgba(23, 96, 74, 0.1)); padding: 0.08em 0.32em; border-radius: 3px; } .ds-posting .ds-total th, .ds-posting .ds-total td { font-weight: 700; border-bottom: 3px double var(--red-ink, #9c3322); } .ds-posting .ds-total td { color: var(--red-ink, #9c3322); font-size: 1rem; }"
+    },
+    {
+      "name": "Rubber Stamp",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "Live proof: red rubber stamp, rotated and roughened with an SVG turbulence filter and an ink mask. Reserved for certifying deployment.",
+      "html": "<p class=\"ds-stamp\"><span>Deployed</span><span class=\"ds-stamp-sub\">live · real edge</span></p>",
+      "css": ".ds-stamp { display: inline-flex; flex-direction: column; align-items: center; gap: 0.1rem; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-weight: 800; font-size: 1.05rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red-stamp, #b3402e); border: 3px solid var(--red-stamp, #b3402e); border-radius: 6px; padding: 0.55rem 1.3rem 0.5rem; transform: rotate(-3.5deg); filter: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"r\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.09\" numOctaves=\"2\" seed=\"7\" result=\"n\"/><feDisplacementMap in=\"SourceGraphic\" in2=\"n\" scale=\"2.4\"/></filter></svg>#r'); -webkit-mask-image: radial-gradient(ellipse 115% 95% at 48% 42%, #000 55%, rgba(0,0,0,0.82) 78%, rgba(0,0,0,0.58) 100%); mask-image: radial-gradient(ellipse 115% 95% at 48% 42%, #000 55%, rgba(0,0,0,0.82) 78%, rgba(0,0,0,0.58) 100%); } .ds-stamp .ds-stamp-sub { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.3em; }"
+    },
+    {
+      "name": "Brandline",
+      "kind": "nav",
+      "refersTo": "brandline",
+      "description": "The folio line: mono family breadcrumb under a feint rule, current site in red ink, domain as a right-aligned folio.",
+      "html": "<p class=\"ds-brandline\"><a href=\"#\"><b>CARLOS</b></a> <span>/</span> <span class=\"ds-here\">rastrillo</span><span class=\"ds-folio\">rastrillo.org</span></p>",
+      "css": ".ds-brandline { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85rem; letter-spacing: 0.04em; border-bottom: 1px solid var(--ruling, rgba(94, 128, 168, 0.28)); display: flex; align-items: baseline; gap: 0.45rem; padding: 1.1rem 0 0.8rem; color: var(--muted, #57616c); } .ds-brandline a { text-decoration: none; color: var(--muted, #57616c); } .ds-brandline a:hover b { color: var(--cloth-deep, #114938); } .ds-brandline a b { color: var(--ink, #1f242b); font-weight: 700; } .ds-brandline .ds-here { color: var(--red-ink, #9c3322); font-weight: 700; } .ds-brandline .ds-folio { margin-left: auto; font-size: 0.78rem; }"
+    },
+    {
+      "name": "Column Head",
+      "kind": "chip",
+      "refersTo": "colhead",
+      "description": "The uppercase mono ledger column head, red-inked and ruled underneath. Labels columns of figures; never a kicker.",
+      "html": "<span class=\"ds-colhead\">declared</span>",
+      "css": ".ds-colhead { display: inline-block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red-ink, #9c3322); border-bottom: 1px solid var(--margin-red, rgba(179, 64, 46, 0.5)); padding-bottom: 0.15rem; }"
+    },
+    {
+      "name": "Ruled Code Block",
+      "kind": "custom",
+      "refersTo": "code",
+      "description": "Code on ruled paper: feint lines locked to the 1.5rem line height, scrolling with the code.",
+      "html": "<pre class=\"ds-pre\"><code>go install github.com/carlosframework/rastrillo/cmd/rastrillo@latest\nrastrillo new tickets && cd tickets\nrastrillo generate && go run .</code></pre>",
+      "css": ".ds-pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85rem; line-height: 1.5rem; font-weight: 400; color: var(--ink, #1f242b); border: 1px solid var(--ruling, rgba(94, 128, 168, 0.28)); border-radius: 4px; padding: 0.75rem 1rem; overflow-x: auto; background-image: repeating-linear-gradient(to bottom, transparent 0, transparent calc(1.5rem - 1px), var(--ruling-soft, rgba(94, 128, 168, 0.16)) calc(1.5rem - 1px), var(--ruling-soft, rgba(94, 128, 168, 0.16)) 1.5rem); background-origin: content-box; background-attachment: local; scrollbar-width: thin; scrollbar-color: var(--ruling, rgba(94, 128, 168, 0.28)) transparent; }"
+    },
+    {
+      "name": "Status List",
+      "kind": "custom",
+      "refersTo": "yesno",
+      "description": "Posted/Pending ledger lists: column head over rows of hand-drawn stroke-SVG ticks on soft feint rules.",
+      "html": "<div class=\"ds-status\"><h3 class=\"ds-status-head\">Posted</h3><ul class=\"ds-status-list\"><li><svg class=\"ds-tick\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1.5 6.5l3 3 6-7.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg><span>Manifest slices 1–2: list, form, store</span></li><li><svg class=\"ds-tick\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M1.5 6.5l3 3 6-7.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg><span>Core loop, i18n, rastrillo/ui</span></li></ul></div>",
+      "css": ".ds-status { font-family: Charter, Georgia, 'Times New Roman', serif; color: var(--ink, #1f242b); max-width: 24rem; } .ds-status-head { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cloth, #17604a); border-bottom: 1px solid var(--cloth, #17604a); padding-bottom: 0.35rem; margin: 0 0 0.4rem; } .ds-status-list { list-style: none; margin: 0; padding: 0; } .ds-status-list li { display: flex; gap: 0.55rem; align-items: baseline; padding: 0.45rem 0; border-bottom: 1px solid var(--ruling-soft, rgba(94, 128, 168, 0.16)); font-size: 0.97rem; } .ds-tick { width: 0.72rem; height: 0.72rem; flex-shrink: 0; color: var(--cloth, #17604a); transform: translateY(0.05rem); }"
+    },
+    {
+      "name": "Marginalia Note",
+      "kind": "custom",
+      "refersTo": "robot-note",
+      "description": "The factor-X disclosure pattern: a sans note on cloth wash that hangs off the red margin rule at open-book width.",
+      "html": "<p class=\"ds-note\">🤖 This page was written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly, like this.</p>",
+      "css": ".ds-note { font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; font-size: 0.9rem; color: var(--muted, #57616c); background: var(--cloth-soft, rgba(23, 96, 74, 0.1)); padding: 0.55rem 0.9rem 0.55rem 3.35rem; max-width: 36rem; border-left: 3px solid var(--margin-red, rgba(179, 64, 46, 0.5)); border-radius: 0 4px 4px 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Account Book",
+    "overview": "rastrillo.org is drawn as the audience's own artifact of audit: an accountant's ledger where declared lines balance against generated lines. The page is near-white paper ruled with blue feint lines; a single red margin rule runs down the book's gutter; prose is serif ink; every figure is set in tabular mono against a red-fenced cash column; totals carry the accountant's double rule; live proof is a red rubber stamp, pressed slightly askew. The dark theme is not a second design — it is the same book read under a banker's lamp: green-black cloth, pale ruling, the same grammar re-inked.\n\nThe system deliberately refuses the category default — the dark neon code-window hero — and every other piece of framework-marketing theater. It is flat, quiet, and evidentiary: the design's job is to make numbers legible and claims checkable. There is zero client JavaScript, no external font or asset request, and both themes hold WCAG AA contrast; the site obeys the framework's own rules, and the visual system must keep obeying them.",
+    "keyCharacteristics": [
+      "Ledger grammar: hairline blue-feint ruling for structure, one red margin rule, red-fenced number columns, double-ruled totals.",
+      "Serif ink prose (Charter/Georgia) with tabular mono figures; the numbers are the argument.",
+      "Two accent inks with strict jobs: auditor's red for evidence, bottle-green book cloth for actions.",
+      "Flat paper — no shadows, no glows; depth is drawn with lines and faint tint fills.",
+      "One authored motion (the stamp press), fully gated behind @supports and prefers-reduced-motion.",
+      "Light and dark via prefers-color-scheme, with :root[data-theme=\"light|dark\"] override hooks."
+    ],
+    "rules": [
+      { "name": "The Two Inks Rule", "body": "Red is the auditor's ink — margin rules, fences, totals, the stamp, focus; green cloth is the actor's ink — links, buttons, done-marks. Red is never interactive (focus outline aside); actions are never red.", "section": "colors" },
+      { "name": "The Rule-Not-Fill Rule", "body": "Red and the blue feint appear as lines, never as area fills. The only background tints in the system are the paper itself and cloth-soft at ≤12% alpha.", "section": "colors" },
+      { "name": "The Tabular Figures Rule", "body": "font-variant-numeric: tabular-nums is set globally; every quantity is mono, right-aligned, and fenced by a red rule. Numbers are the argument — they must land in columns.", "section": "typography" },
+      { "name": "The Column Head Rule", "body": "The uppercase mono label is a ledger column head: it sits on tables, figure captions, and status lists, and is always ruled underneath. It never floats above a headline as a kicker.", "section": "typography" },
+      { "name": "The Flat Paper Rule", "body": "Nothing casts a shadow on this page. If a surface needs distinguishing, rule it with a 1px feint line or wash it with cloth-soft.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do draw all structure with 1px feint rules (ruling / ruling-soft); separate sections, rows, and list items with lines, not boxes or shadows.",
+      "Do set every figure in tabular mono, right-aligned, fenced left by a 1px margin-red rule; close a table's decisive figure with the 3px double red rule — and only that figure.",
+      "Do keep the two inks in role: green cloth for anything actionable, auditor's red for evidence, totals, and focus.",
+      "Do gate any new motion the way the stamp is gated: @supports + prefers-reduced-motion, and keep transitions at 140ms ease-out on color properties.",
+      "Do hold WCAG AA contrast in both themes, and theme exclusively through the custom properties (prefers-color-scheme plus :root[data-theme] overrides).",
+      "Do mark AI-authored prose with a visible 🤖 (binding factor-X commitment; the robot-note is the page-level pattern)."
+    ],
+    "donts": [
+      "Don't ship client JavaScript, external fonts, icon fonts, or any third-party request; interactivity is CSS-only and icons are inline stroke SVGs.",
+      "Don't build the dark neon code-window hero or any syntax-highlight-glow treatment — the world's confirmed anti-reference; code sits on ruled paper in one ink.",
+      "Don't use box-shadows, glows, or decorative gradients; gradients exist only as feint ruled lines and the stamp's ink mask.",
+      "Don't make red interactive or green evidentiary; never fill an area with red.",
+      "Don't float an uppercase mono label above a headline as a kicker; column heads belong on tables, captions, and lists, ruled underneath.",
+      "Don't round past 6px, center prose (stamp section excepted), or rotate anything but the stamp."
+    ]
+  }
+}
