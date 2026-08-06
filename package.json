@@ -1,0 +1,13 @@
+{
+  "name": "rastrillo-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "check": "eleventy && node hack/check-anchors.mjs _site/index.html"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

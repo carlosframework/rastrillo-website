@@ -1,7 +1,7 @@
 # 🤖 rastrillo.org
 
 The marketing site for **Rastrillo**, the CARLOS web framework
-(`carlosframework/rastrillo`). One meaty landing page: what a manifest
+(`rastrilloorg/rastrillo`). One meaty landing page: what a manifest
 buys you, why generated-not-interpreted matters, and a try-it-now path
 from `go install` to a deployed app.
 

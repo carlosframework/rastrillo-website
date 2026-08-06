@@ -1,0 +1,477 @@
+/* 🤖 rastrillo.org — the account book.
+   Ledger grammar: near-white page, blue feint ruling, one red margin rule,
+   bottle-green book cloth for actions, serif ink prose, mono tabular figures,
+   double-ruled totals, a rubber stamp for live proof. Dark theme is the same
+   book under a banker's lamp. Zero client JavaScript; system font stacks only
+   (brief-pinned). Direction contract: first comment in the built <body>. */
+
+:root {
+  --page: #fbfbf7; --sel: rgba(179, 64, 46, 0.18);
+  --ink: #1f242b;
+  --muted: #57616c;
+  --ruling: rgba(94, 128, 168, 0.28);
+  --ruling-soft: rgba(94, 128, 168, 0.16);
+  --margin-red: rgba(179, 64, 46, 0.5);
+  --red-ink: #9c3322;
+  --red-stamp: #b3402e;
+  --cloth: #17604a;
+  --cloth-deep: #114938;
+  --cloth-soft: rgba(23, 96, 74, 0.1);
+  --paper-btn-ink: #f6faf7;
+  --max: 44rem;
+  --wide: 64rem;
+  --serif: Charter, Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #131813; --sel: rgba(224, 112, 90, 0.3);
+    --ink: #e8ece7;
+    --muted: #a2aea4;
+    --ruling: rgba(128, 164, 152, 0.26);
+    --ruling-soft: rgba(128, 164, 152, 0.14);
+    --margin-red: rgba(224, 112, 90, 0.45);
+    --red-ink: #e0705a;
+    --red-stamp: #e0705a;
+    --cloth: #6cc79c;
+    --cloth-deep: #8ad8b2;
+    --cloth-soft: rgba(108, 199, 156, 0.12);
+    --paper-btn-ink: #0d130f;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #131813; --sel: rgba(224, 112, 90, 0.3); --ink: #e8ece7; --muted: #a2aea4;
+  --ruling: rgba(128, 164, 152, 0.26); --ruling-soft: rgba(128, 164, 152, 0.14);
+  --margin-red: rgba(224, 112, 90, 0.45); --red-ink: #e0705a; --red-stamp: #e0705a;
+  --cloth: #6cc79c; --cloth-deep: #8ad8b2; --cloth-soft: rgba(108, 199, 156, 0.12);
+  --paper-btn-ink: #0d130f;
+}
+:root[data-theme="light"] {
+  --page: #fbfbf7; --sel: rgba(179, 64, 46, 0.18); --ink: #1f242b; --muted: #57616c;
+  --ruling: rgba(94, 128, 168, 0.28); --ruling-soft: rgba(94, 128, 168, 0.16);
+  --margin-red: rgba(179, 64, 46, 0.5); --red-ink: #9c3322; --red-stamp: #b3402e;
+  --cloth: #17604a; --cloth-deep: #114938; --cloth-soft: rgba(23, 96, 74, 0.1);
+  --paper-btn-ink: #f6faf7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--serif);
+  -webkit-font-smoothing: antialiased;
+  padding: 0 1.25rem;
+  overflow-x: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The red margin rule — one continuous line down the book's gutter. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; bottom: 0;
+  left: 0.55rem;
+  border-left: 1px solid var(--margin-red);
+  pointer-events: none;
+}
+@media (min-width: 74rem) {
+  body::before { left: calc(50% - 34.5rem); }
+}
+
+/* Browser surfaces belong to the world too. */
+::selection { background: var(--sel); }
+a { color: var(--cloth); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--cloth-deep); }
+a:focus-visible, .btn:focus-visible {
+  outline: 2px solid var(--red-stamp);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+pre { scrollbar-width: thin; scrollbar-color: var(--ruling) transparent; }
+pre::-webkit-scrollbar { height: 8px; }
+pre::-webkit-scrollbar-thumb { background: var(--ruling); border-radius: 4px; }
+
+strong { font-weight: 700; }
+code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--cloth-soft);
+  padding: 0.08em 0.32em;
+  border-radius: 3px;
+}
+
+/* Ruled paper behind every code block: feint lines locked to the line-height. */
+pre {
+  font: 400 0.85rem/1.5rem var(--mono);
+  border: 1px solid var(--ruling);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  overflow-x: auto;
+  margin: 1.1rem 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent calc(1.5rem - 1px),
+    var(--ruling-soft) calc(1.5rem - 1px),
+    var(--ruling-soft) 1.5rem
+  );
+  background-origin: content-box;
+  background-attachment: local;
+}
+pre code { background: none; padding: 0; font-size: inherit; }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ── Folio line ─────────────────────────────────────────────── */
+.brandline {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 1.1rem 0 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--ruling);
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+.brandline a { text-decoration: none; color: var(--muted); }
+.brandline a b { color: var(--ink); font-weight: 700; }
+.brandline .here { color: var(--red-ink); font-weight: 700; }
+.brandline .folio { margin-left: auto; color: var(--muted); font-size: 0.78rem; }
+
+/* ── Hero: the opening statement ────────────────────────────── */
+.hero {
+  max-width: var(--wide);
+  margin: 0 auto;
+  padding: 4.5rem 0 3.25rem;
+}
+h1 {
+  font-size: clamp(2.15rem, 5vw, 3.4rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+  max-width: 46rem;
+  text-wrap: balance;
+}
+h1 .x {
+  color: var(--red-ink);
+  border-bottom: 0.09em double var(--red-ink);
+}
+.lede {
+  font-size: 1.2rem;
+  max-width: 38rem;
+  margin: 1.4rem 0 0;
+  color: var(--muted);
+}
+
+.posting {
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  width: 100%;
+}
+.posting th, .posting td {
+  border-bottom: 1px solid var(--ruling);
+  padding: 0.45rem 0;
+  vertical-align: baseline;
+}
+.posting th[scope="row"] {
+  text-align: left;
+  font-weight: 400;
+  padding-right: 1.5rem;
+}
+/* The cash column: a red vertical rule fences the amounts, like a ledger's. */
+.posting td {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.92rem;
+  white-space: nowrap;
+  width: 6.5rem;
+  border-left: 1px solid var(--margin-red);
+  padding-left: 1rem;
+}
+.posting .total th, .posting .total td {
+  font-weight: 700;
+  border-bottom: 3px double var(--red-ink);
+}
+.posting .total td { color: var(--red-ink); font-size: 1rem; }
+
+.opening {
+  max-width: 36rem;
+  margin: 2.1rem 0 0;
+}
+
+.cta {
+  margin: 2.3rem 0 0;
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+.btn {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.72rem 1.5rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: background-color 140ms ease-out, border-color 140ms ease-out;
+}
+.btn.primary {
+  background: var(--cloth);
+  color: var(--paper-btn-ink);
+  border-color: var(--cloth-deep);
+}
+.btn.primary:hover { background: var(--cloth-deep); color: var(--paper-btn-ink); }
+.btn.ghost {
+  color: var(--cloth);
+  border-color: var(--ruling);
+}
+.btn.ghost:hover { border-color: var(--cloth); color: var(--cloth-deep); }
+
+/* Below 74rem the page's own margin rule is the only red vertical; the note
+   goes borderless so the gutter never doubles up. */
+.robot-note {
+  margin: 2.6rem 0 0;
+  padding: 0.55rem 0.9rem;
+  max-width: 36rem;
+  background: var(--cloth-soft);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  font-family: var(--sans);
+}
+/* Marginalia: on the open book, the note hangs off the margin rule itself. */
+@media (min-width: 74rem) {
+  .robot-note {
+    margin-left: -2.55rem;
+    padding-left: 3.35rem;
+    border-left: 3px solid var(--margin-red);
+    border-radius: 0 4px 4px 0;
+  }
+}
+
+/* ── Sections: entries in the book ──────────────────────────── */
+main { max-width: var(--wide); margin: 0 auto; padding: 0 0 2rem; }
+main > section { padding: 3.4rem 0; border-top: 1px solid var(--ruling); }
+/* One book column: every entry sits against the red margin rule. */
+section > * { max-width: var(--max); }
+.status-strip { text-align: center; }
+.status-strip > * { margin-left: auto; margin-right: auto; }
+h2 {
+  font-size: clamp(1.5rem, 3.2vw, 1.95rem);
+  line-height: 1.22;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.45rem;
+  text-wrap: balance;
+}
+.epigraph {
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 1.7rem;
+}
+p { margin: 0 0 1.1rem; }
+section > p:last-child { margin-bottom: 0; }
+
+/* ── The showcase: a two-column spread ──────────────────────── */
+section > .showcase { max-width: none; }
+.showcase {
+  display: grid;
+  gap: 2.25rem;
+  margin-top: 2rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+@media (min-width: 60rem) {
+  .showcase { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+}
+.showcase figure { min-width: 0; }
+.showcase figcaption {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-bottom: 0.55rem;
+}
+.colhead {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red-ink);
+  border-bottom: 1px solid var(--margin-red);
+  padding-bottom: 0.15rem;
+  margin-right: 0.6rem;
+}
+/* "The whole file" must be whole: wrap long lines instead of clipping them.
+   Each logical line is a block; continuations hang-indent so 15 lines read as 15. */
+.manifest-in pre {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.manifest-in .ln {
+  display: block;
+  min-height: 1.5rem;
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+.manifest-out .posting th[scope="row"] { font-size: 0.98rem; }
+.postscript {
+  margin-top: 1.3rem;
+  font-size: 0.98rem;
+  color: var(--muted);
+}
+
+/* ── Pillars: the accounts ──────────────────────────────────── */
+section > .accounts { max-width: none; }
+.accounts { margin-top: 1.9rem; border-top: 1px solid var(--ruling); }
+.accounts .entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem 2.5rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--ruling);
+}
+@media (min-width: 52rem) {
+  .accounts .entry { grid-template-columns: 15rem minmax(0, 1fr); }
+}
+.accounts dt {
+  font-weight: 700;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+.accounts dd {
+  color: var(--muted);
+  font-size: 0.99rem;
+}
+.accounts dd code { color: var(--ink); }
+
+/* ── Live proof: the stamp ──────────────────────────────────── */
+.stamp {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red-stamp);
+  border: 3px solid var(--red-stamp);
+  border-radius: 6px;
+  padding: 0.55rem 1.3rem 0.5rem;
+  transform: rotate(-3.5deg);
+  margin-bottom: 1.4rem;
+  /* Stamped, not drawn: turbulence roughens the edge, the mask unevens the ink. */
+  filter: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><filter id="r"><feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.4"/></filter></svg>#r');
+  -webkit-mask-image: radial-gradient(ellipse 115% 95% at 48% 42%, #000 55%, rgba(0,0,0,0.82) 78%, rgba(0,0,0,0.58) 100%);
+  mask-image: radial-gradient(ellipse 115% 95% at 48% 42%, #000 55%, rgba(0,0,0,0.82) 78%, rgba(0,0,0,0.58) 100%);
+}
+.stamp .stamp-sub {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+}
+/* The one authored motion: the stamp presses in as it scrolls into view. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .stamp {
+      animation: stamp-press linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 60%;
+    }
+    @keyframes stamp-press {
+      from { transform: rotate(-8deg) scale(1.25); opacity: 0; }
+      60%  { opacity: 1; }
+      to   { transform: rotate(-3.5deg) scale(1); opacity: 1; }
+    }
+  }
+}
+
+/* ── Steps ──────────────────────────────────────────────────── */
+.step {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  margin: 1.7rem 0 0.4rem;
+}
+.step:first-of-type { margin-top: 0; }
+.step h3 { font-size: 1.05rem; font-weight: 700; }
+.stepnum {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--red-ink);
+}
+.stepnum::after { content: "."; }
+
+/* ── Status: posted / pending ───────────────────────────────── */
+section > .yesno { max-width: none; }
+.yesno {
+  display: grid;
+  gap: 2rem;
+  margin-top: 1.9rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 52rem) {
+  .yesno { grid-template-columns: 1.15fr 1fr; }
+}
+.yesno h3 {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--margin-red);
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
+}
+.built h3 { color: var(--cloth); border-bottom-color: var(--cloth); }
+.not-built h3 { color: var(--muted); border-bottom-color: var(--ruling); }
+.yesno ul { list-style: none; }
+.yesno li {
+  display: flex;
+  gap: 0.55rem;
+  align-items: baseline;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--ruling-soft);
+  font-size: 0.97rem;
+}
+.yesno .tick {
+  width: 0.72rem;
+  height: 0.72rem;
+  flex-shrink: 0;
+  color: var(--cloth);
+  transform: translateY(0.05rem);
+}
+.yesno .tick.open { color: var(--muted); }
+.not-built li { color: var(--muted); }
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer {
+  max-width: var(--wide);
+  margin: 0 auto;
+  border-top: 1px solid var(--ruling);
+  padding: 2rem 0 4.5rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+footer p { margin-bottom: 0.6rem; max-width: var(--max); }

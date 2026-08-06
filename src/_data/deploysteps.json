@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Install the platform binary",
+    "cmd": "brew install carlosframework/tap/carlos",
+    "note": "Or grab a binary directly from <a href=\"https://github.com/carlosframework/releases\">carlosframework/releases</a>."
+  },
+  {
+    "title": "Build your app for the target host",
+    "cmd": "GOOS=linux GOARCH=arm64 go build -o myapp-binary ./cmd/myapp",
+    "note": ""
+  },
+  {
+    "title": "Ship, promote, route",
+    "cmd": "carlos ship -app myapp -version $(git rev-parse --short HEAD) myapp-binary\ncarlos promote -app myapp <version> stable\ncarlos add -app myapp -kind instance myapp.yourdomain.com",
+    "note": "The same sequence — against a real S3-backed bucket, a real edge, a real certificate — that put rastrillo's own example live at <a href=\"https://helloworld.dev.oncarlos.com\">helloworld.dev.oncarlos.com</a>. Standing up the box, bucket, and DNS is the one-off part; from then on every deploy is <code>ship</code> then <code>promote</code>."
+  }
+]

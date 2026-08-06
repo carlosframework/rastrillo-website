@@ -1,0 +1,117 @@
+---
+layout: base.njk
+title: Rastrillo — the CARLOS web framework
+description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in a few lines of TOML and read every line it generates. Try it now — go install it and have an app running locally in a minute."
+---
+<p class="brandline"><a href="https://carlosframework.com"><b>CARLOS</b></a> <span aria-hidden="true">/</span> <span class="here">rastrillo</span><span class="folio" aria-hidden="true">rastrillo.org</span></p>
+
+<header class="hero">
+  <h1>Fast, cost-efficient, good: pick <span class="x">all three</span> with rastrillo.</h1>
+  <p class="lede">The web framework companion to CARLOS: declare what your app is, read every line it generates, and ship it to a platform that only bills you when someone shows up.</p>
+
+  <table class="posting opening">
+    <caption class="visually-hidden">The opening statement: what you write against what rastrillo generates</caption>
+    <tbody>
+      <tr><th scope="row">declared, in <code>manifest/ticket_types.toml</code></th><td>15 lines</td></tr>
+      <tr><th scope="row">generated, under <code>gen/</code> — plain Go, SQL, HTML</th><td>1,978 lines</td></tr>
+      <tr class="total"><th scope="row">parsed behind your back at request time</th><td>0</td></tr>
+    </tbody>
+  </table>
+
+  <div class="cta">
+    <a class="btn primary" href="#start">Try it now</a>
+    <a class="btn ghost" href="https://github.com/rastrilloorg/rastrillo">Read the source</a>
+  </div>
+  <p class="robot-note">🤖 This page was written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly, like this — that's <a href="https://11factor.org/#x">factor X</a>.</p>
+</header>
+
+<main>
+
+<section id="manifest">
+  <h2>Fifteen lines in. An admin you can read, out.</h2>
+  <p class="epigraph">Generated, not interpreted — everything it writes, you can read.</p>
+
+  <div class="showcase">
+    <figure class="manifest-in">
+      <figcaption><span class="colhead">declared</span> manifest/ticket_types.toml — the whole file</figcaption>
+      {# One .ln block per logical line: wrapped continuations hang-indent, so the eye still counts 15. #}
+      <pre><code><span class="ln">name  = "ticket_types"</span><span class="ln">route = "/admin/ticket_types"</span><span class="ln">store = "exclusive"</span><span class="ln"></span><span class="ln">[list]</span><span class="ln">columns = [{ field = "Name" }, { field = "Price", kind = "money" }, { field = "Status" }]</span><span class="ln">search  = true</span><span class="ln"></span><span class="ln">[[list.filters]]</span><span class="ln">field  = "Status"</span><span class="ln">values = ["draft", "on_sale", "sold_out"]</span><span class="ln"></span><span class="ln">[form]</span><span class="ln">basics   = [{ name = "Name", required = true }, { name = "Price", kind = "money", required = true }, { name = "Status" }]</span><span class="ln">advanced = [{ name = "MaxPerOrder" }]</span></code></pre>
+    </figure>
+    <figure class="manifest-out">
+      <figcaption><span class="colhead">generated</span> what <code>rastrillo generate</code> wrote from it</figcaption>
+      <table class="posting">
+        <tbody>
+          <tr><th scope="row">files committed under <code>gen/</code>, diffable in review like any code</th><td>21</td></tr>
+          <tr><th scope="row">lines of plain Go, SQL, HTML, and locale keys</th><td>1,978</td></tr>
+          <tr><th scope="row">actions, wired into the router — list, create, show, edit</th><td>7</td></tr>
+          <tr><th scope="row">screens — a list with search, a working Status filter and paging; a two-tier form; a show page</th><td>3</td></tr>
+          <tr><th scope="row">typed store — schema, additive migrations, sqlc queries</th><td>1</td></tr>
+          <tr class="total"><th scope="row">TOML parsed at request time</th><td>0</td></tr>
+        </tbody>
+      </table>
+      <p class="postscript"><code>required = true</code> is server-side: the generated actions 400 with the field's own message, re-rendered in the form. There is no <code>actions/</code> directory in this app at all — <a href="https://github.com/rastrilloorg/rastrillo/tree/main/examples/tickets">examples/tickets</a> is manifest-only, and it's the framework's own regression suite. And when a generated screen stops being enough, eject it: the file becomes yours, and the generator leaves it alone.</p>
+    </figure>
+  </div>
+</section>
+
+<section id="pillars">
+  <h2>Boring machinery, deliberately</h2>
+  <p class="epigraph">Go's standard library, SQLite, and files you can read — nothing decided behind your back.</p>
+  <dl class="accounts">
+  {% for p in pillars %}
+    <div class="entry">
+      <dt>{{ p.title }}</dt>
+      <dd>{{ p.body | safe }}</dd>
+    </div>
+  {% endfor %}
+  </dl>
+</section>
+
+<section id="proof" class="status-strip">
+  <p class="stamp"><span>Deployed</span><span class="stamp-sub">live · real edge</span></p>
+  <h2>Not a mockup</h2>
+  <p>Rastrillo's example app is deployed on a real CARLOS platform right now: real S3-backed storage, a real edge, a real certificate. <a href="https://helloworld.dev.oncarlos.com">helloworld.dev.oncarlos.com</a> — the exact code you'll have running locally two minutes from now, actually shipped. This site is served the same way.</p>
+</section>
+
+<section id="start">
+  <h2>Run it locally</h2>
+  <p class="epigraph">One command to install, three more to a running app.</p>
+  {% for s in trysteps %}
+  <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
+  <pre><code>{{ s.cmd }}</code></pre>
+  {% if s.note %}<p>{{ s.note | safe }}</p>{% endif %}
+  {% endfor %}
+</section>
+
+<section id="deploy">
+  <h2>Deploy it for real</h2>
+  <p class="epigraph">CARLOS is self-hostable — one binary, a bucket, and DNS. No PaaS account to sign up for.</p>
+  {% for s in deploysteps %}
+  <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
+  <pre><code>{{ s.cmd }}</code></pre>
+  {% if s.note %}<p>{{ s.note | safe }}</p>{% endif %}
+  {% endfor %}
+</section>
+
+<section id="status">
+  <h2>What's real today</h2>
+  <p class="epigraph">A young framework that ships its status on its homepage — this list moves when the work lands, not before.</p>
+  <div class="yesno">
+    <div class="built">
+      <h3>Posted</h3>
+      <ul>{% for item in status.built %}<li><svg class="tick" viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 6.5l3 3 6-7.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>{{ item | safe }}</span></li>{% endfor %}</ul>
+    </div>
+    <div class="not-built">
+      <h3>Pending</h3>
+      <ul>{% for item in status.notyet %}<li><svg class="tick open" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>{{ item | safe }}</span></li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>🤖 Written by an LLM (Claude), on the ideas, instruction, and editing of humans. AI-written text here is always marked and always disclosed — see <a href="https://11factor.org/#x">factor X</a>.</p>
+  <p>Rastrillo builds apps that run on <a href="https://carlosframework.com/platform">the CARLOS platform</a>, keeping the promises set out in <a href="https://11factor.org">The Eleven Factors</a>.</p>
+  <p><a href="https://github.com/rastrilloorg/rastrillo">Source for rastrillo on GitHub</a>. Open, of course.</p>
+</footer>

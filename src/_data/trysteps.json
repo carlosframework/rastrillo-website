@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Install the CLI",
+    "cmd": "go install github.com/carlosframework/rastrillo/cmd/rastrillo@latest",
+    "note": "Or via Homebrew: <code>brew install carlosframework/tap/rastrillo</code>."
+  },
+  {
+    "title": "Scaffold an app",
+    "cmd": "rastrillo new myapp",
+    "note": "Writes a <code>go.mod</code>, one starter action, a <code>main.go</code> wiring <code>rastrillo.Run</code>, and the <code>rastrillo/ui</code> design tokens — then runs <code>generate</code> once, so the next step just works."
+  },
+  {
+    "title": "Run it",
+    "cmd": "cd myapp && go get github.com/carlosframework/rastrillo@latest && rastrillo dev",
+    "note": "Visit <code>localhost:8080</code> — that's your app. Edit an action, save, refresh: <code>rastrillo dev</code> regenerates, rebuilds, and restarts for you in about a second. A save that doesn't compile keeps the previous build serving while you fix it."
+  }
+]

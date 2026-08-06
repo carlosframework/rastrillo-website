@@ -5,7 +5,7 @@ Working notes for anyone (human or agent) changing this repo.
 ## What this is
 
 The website for **Rastrillo** — the CARLOS web framework
-(`carlosframework/rastrillo`) — served at `rastrillo.org`. One landing
+(`rastrilloorg/rastrillo`) — served at `rastrillo.org`. One landing
 page, marketing-led but claim-backed, with a try-it-now path front and
 centre.
 
@@ -61,12 +61,13 @@ person marker.**
 
 - **Don't overclaim the framework's maturity.** Rastrillo is a young
   framework: the core loop (new/generate/dev/Run/Serve), localization,
-  the ui List-screen partials, and manifest slices 1–2 (Resource → four
-  generated states, declared filters, Required validation) are real;
-  Mergeable, blobs, crypto, WebAuthn, agents and the rest are designed
-  but not built. The site says so, in its own Built/Not-yet section.
+  the ui component vocabulary (27 partials plus class idioms, landed
+  2026-08-06), and manifest slices 1–2 (Resource → four generated
+  states, declared filters, Required validation) are real; Mergeable,
+  blobs, crypto, WebAuthn, agents and the rest are designed but not
+  built. The site says so, in its own Built/Not-yet section.
   Update that section when the work actually lands, not before.
-- **Every technical claim traces to `carlosframework/rastrillo`** — its
+- **Every technical claim traces to `rastrilloorg/rastrillo`** — its
   README, its code, its examples. If you change a claim, check it against
   the repo rather than against the previous copy. The manifest showcase
   on the page uses real code from `examples/tickets`; when the example
@@ -88,8 +89,9 @@ The one difference: **this repo has a build step, so never ship the repo
 tree.** Ship the built `_site/` of a clean export:
 
 ```
+mkdir -p /tmp/rastrillo-ship
 git archive <sha> --prefix=export/ | tar -x -C /tmp/rastrillo-ship
-cd /tmp/rastrillo-ship/export && npm ci && npm run build
+cd /tmp/rastrillo-ship/export && npm ci && npm run check
 
 export AWS_PROFILE=keymail AWS_REGION=eu-west-1 \
        CARLOS_DEPLOYMENT_BUCKET=carlos-flagship-271376211898
