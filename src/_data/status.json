@@ -7,13 +7,13 @@
     "<code>rastrillo.Run</code> — the full platform activation contract, hibernate and systemd tenants included",
     "SQLite bootstrap: pragma ordering, single-writer, additive migrations",
     "Localization: locale-resolved routes, <code>T</code>/<code>Tf</code> with fallback, a ship-gate catalog check",
-    "<code>rastrillo/ui</code> — list-screen and form partials plus design tokens: light and dark, WCAG AA, zero JavaScript",
+    "<code>rastrillo/ui</code> — the component vocabulary: 27 partials across list, form, display and route families, documented class idioms, design tokens — light and dark, WCAG AA enforced by tests, zero JavaScript",
     "<code>examples/blog</code> — a real blog from stock components, coexisting with hand-written actions"
   ],
   "notyet": [
     "The mergeable event-log store, blobs",
     "The crypto core, WebAuthn",
     "Agents",
-    "The rest of the component vocabulary — and the rest of the manifest surface (delete flows, derived fields, richer kinds)"
+    "The rest of the manifest surface (delete flows, derived fields, richer kinds)"
   ]
 }

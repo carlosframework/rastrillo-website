@@ -13,7 +13,7 @@
   },
   {
     "title": "A UI vocabulary, zero JavaScript",
-    "body": "<code>rastrillo/ui</code> ships list-screen and form partials plus design tokens: light and dark, WCAG AA contrast, and not one line of client-side JavaScript. <code>examples/blog</code> is a real blog, admin side and all, from stock components only."
+    "body": "<code>rastrillo/ui</code> ships 27 partials — list screens, forms, display and route families — plus documented class idioms and design tokens: light and dark, WCAG AA contrast enforced by tests, and not one line of client-side JavaScript. <code>examples/blog</code> is a real blog, admin side and all, from stock components only."
   },
   {
     "title": "One binary, no toolchain sprawl",
