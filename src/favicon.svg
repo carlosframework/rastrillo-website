@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- 🤖 rastrillo: the rake, drawn in ledger ink. -->
+  <style>
+    .handle { stroke: #17604a; }
+    .head { stroke: #b3402e; }
+    @media (prefers-color-scheme: dark) {
+      .handle { stroke: #6cc79c; }
+      .head { stroke: #e0705a; }
+    }
+  </style>
+  <g fill="none" stroke-width="3" stroke-linecap="round">
+    <path class="handle" d="M16 3v16"/>
+    <path class="head" d="M6.5 19h19M7.5 19.5l-1.5 8M13 19.5l-.7 8M19 19.5l.7 8M24.5 19.5l1.5 8"/>
+  </g>
+</svg>
