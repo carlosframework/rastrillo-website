@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Filesystem routing",
+    "body": "<code>actions/orders/[id]/cancel.POST.go</code> becomes <code>POST /orders/{id}/cancel</code> — the directory structure <em>is</em> the route table. Bracket segments are path params, the filename suffix is the HTTP verb, and <code>rastrillo generate</code> writes it all into a plain <code>gen/router.go</code> on Go's standard <code>http.ServeMux</code>: committed, readable, diffable."
+  },
+  {
+    "title": "Platform-ready by default",
+    "body": "<code>rastrillo.Run</code> speaks the CARLOS platform's activation contract end to end — hibernating instances, <code>carlos-app@</code> systemd unit tenants, plain instances, and a bare dev fallback, no separate integration per deployment shape. Hibernation is the cost-efficiency receipt: your app isn't running when nobody's knocking, and the platform wakes it when someone does."
+  },
+  {
+    "title": "Localization built in",
+    "body": "Declare your locales and <code>/fr/orders</code> and <code>/orders</code> reach the same route. Request-scoped <code>T</code>/<code>Tf</code> fall back through catalogs so a missing translation stays visible, never blank — and <code>generate --check</code> fails loudly on incomplete catalogs before you ship, not after."
+  },
+  {
+    "title": "A UI vocabulary, zero JavaScript",
+    "body": "<code>rastrillo/ui</code> ships list-screen and form partials plus design tokens: light and dark, WCAG AA contrast, and not one line of client-side JavaScript. <code>examples/blog</code> is a real blog, admin side and all, from stock components only."
+  },
+  {
+    "title": "One binary, no toolchain sprawl",
+    "body": "<code>go install</code> gets you the CLI, <code>go build</code> gets you the app — a single static binary with SQLite compiled in. No bundler, no separate codegen service, no runtime to babysit. The framework whose family motto is \"no build step\" doesn't ship one to your visitors either."
+  }
+]

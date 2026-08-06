@@ -1,0 +1,19 @@
+{
+  "built": [
+    "<code>rastrillo new</code> / <code>generate</code> — scaffold and route",
+    "<code>rastrillo dev</code> — save, and it regenerates, rebuilds, restarts",
+    "Manifests: a declared <code>Resource</code> generates store, actions, screens, and locale keys — with declared filters and server-side <code>required</code> validation",
+    "<code>examples/tickets</code> — a fully generated admin: zero hand actions, zero ejected templates",
+    "<code>rastrillo.Run</code> — the full platform activation contract, hibernate and systemd tenants included",
+    "SQLite bootstrap: pragma ordering, single-writer, additive migrations",
+    "Localization: locale-resolved routes, <code>T</code>/<code>Tf</code> with fallback, a ship-gate catalog check",
+    "<code>rastrillo/ui</code> — list-screen and form partials plus design tokens: light and dark, WCAG AA, zero JavaScript",
+    "<code>examples/blog</code> — a real blog from stock components, coexisting with hand-written actions"
+  ],
+  "notyet": [
+    "The mergeable event-log store, blobs",
+    "The crypto core, WebAuthn",
+    "Agents",
+    "The rest of the component vocabulary — and the rest of the manifest surface (delete flows, derived fields, richer kinds)"
+  ]
+}

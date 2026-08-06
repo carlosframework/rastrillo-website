@@ -3,4 +3,118 @@ layout: base.njk
 title: Rastrillo — the CARLOS web framework
 description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in a few lines of TOML and read every line it generates. Try it now — go install it and have an app running locally in a minute."
 ---
-<h1>rastrillo</h1>
+<p class="brandline"><a href="https://carlosframework.com"><b>CARLOS</b></a> <span aria-hidden="true">/</span> <span class="here">rastrillo</span></p>
+
+<header class="hero">
+  <h1>Fast, cost-efficient, good: pick <span class="x">all three</span> with rastrillo.</h1>
+  <p class="lede">The web framework companion to CARLOS: declare what your app is, read every line it generates, and ship it to a platform that only bills you when someone shows up.</p>
+  <div class="cta">
+    <a class="btn primary" href="#start">Try it now</a>
+    <a class="btn ghost" href="https://github.com/carlosframework/rastrillo">Read the source</a>
+  </div>
+  <p class="robot-note">🤖 This page was written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly, like this — that's <a href="https://11factor.org/#x">factor X</a>.</p>
+</header>
+
+<main>
+
+<section id="manifest">
+  <span class="eyebrow">the manifest system</span>
+  <h2>Sixteen lines in. An admin you can read, out.</h2>
+  <p class="epigraph">Generated, not interpreted — everything it writes, you can read.</p>
+
+  <div class="showcase">
+    <figure class="manifest-in">
+      <figcaption>manifest/ticket_types.toml — the whole file</figcaption>
+      <pre><code>name  = "ticket_types"
+route = "/admin/ticket_types"
+store = "exclusive"
+
+[list]
+columns = [{ field = "Name" }, { field = "Price", kind = "money" }, { field = "Status" }]
+search  = true
+
+[[list.filters]]
+field  = "Status"
+values = ["draft", "on_sale", "sold_out"]
+
+[form]
+basics   = [{ name = "Name", required = true }, { name = "Price", kind = "money", required = true }, { name = "Status" }]
+advanced = [{ name = "MaxPerOrder" }]</code></pre>
+    </figure>
+    <div class="manifest-out">
+      <h3>What <code>rastrillo generate</code> wrote from it</h3>
+      <ul>
+        <li><strong>21 files, ~1,980 lines</strong> of plain Go, SQL, HTML, and locale keys — committed under <code>gen/</code>, diffable in review like any code</li>
+        <li><strong>Seven actions</strong>: list, create, show, edit — wired into the router</li>
+        <li><strong>Three screens</strong>: list with search, a working Status filter dropdown, and paging; a two-tier form; a show page</li>
+        <li><strong>A typed store</strong>: schema, additive migrations, and sqlc-generated queries</li>
+        <li><strong>Server-side validation</strong>: <code>required = true</code> means the generated actions 400 with the field's own message, re-rendered in the form</li>
+      </ul>
+      <p>Nothing parses that TOML at request time. There is no <code>actions/</code> directory in this app at all — <a href="https://github.com/carlosframework/rastrillo/tree/main/examples/tickets">examples/tickets</a> is manifest-only, and it's the framework's own regression suite. And when a generated screen stops being enough, eject it: the file becomes yours, and the generator leaves it alone.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pillars">
+  <span class="eyebrow">what you stand on</span>
+  <h2>Boring machinery, deliberately</h2>
+  <p class="epigraph">Go's standard library, SQLite, and files you can read — nothing decided behind your back.</p>
+  <div class="cards">
+  {% for p in pillars %}
+    <div class="card">
+      <h3>{{ p.title }}</h3>
+      <p>{{ p.body | safe }}</p>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<section id="proof" class="status-strip">
+  <p class="live">Live proof</p>
+  <h2>Not a mockup</h2>
+  <p>Rastrillo's example app is deployed on a real CARLOS platform right now: real S3-backed storage, a real edge, a real certificate. <a href="https://helloworld.dev.oncarlos.com">helloworld.dev.oncarlos.com</a> — the exact code you'll have running locally two minutes from now, actually shipped. This site is served the same way.</p>
+</section>
+
+<section id="start">
+  <span class="eyebrow">try it now</span>
+  <h2>Run it locally</h2>
+  <p class="epigraph">One command to install, three more to a running app.</p>
+  {% for s in trysteps %}
+  <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
+  <pre><code>{{ s.cmd }}</code></pre>
+  {% if s.note %}<p>{{ s.note | safe }}</p>{% endif %}
+  {% endfor %}
+</section>
+
+<section id="deploy">
+  <span class="eyebrow">then ship it</span>
+  <h2>Deploy it for real</h2>
+  <p class="epigraph">CARLOS is self-hostable — one binary, a bucket, and DNS. No PaaS account to sign up for.</p>
+  {% for s in deploysteps %}
+  <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
+  <pre><code>{{ s.cmd }}</code></pre>
+  {% if s.note %}<p>{{ s.note | safe }}</p>{% endif %}
+  {% endfor %}
+</section>
+
+<section id="status">
+  <span class="eyebrow">honestly</span>
+  <h2>What's real today</h2>
+  <p class="epigraph">A young framework that ships its status on its homepage — this list moves when the work lands, not before.</p>
+  <div class="yesno built">
+    <h3>Built</h3>
+    <ul>{% for item in status.built %}<li>{{ item | safe }}</li>{% endfor %}</ul>
+  </div>
+  <div class="yesno not-built">
+    <h3>Not yet</h3>
+    <ul>{% for item in status.notyet %}<li>{{ item | safe }}</li>{% endfor %}</ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>🤖 Written by an LLM (Claude), on the ideas, instruction, and editing of humans. AI-written text here is always marked and always disclosed — see <a href="https://11factor.org/#x">factor X</a>.</p>
+  <p>Rastrillo builds apps that run on <a href="https://carlosframework.com/platform">the CARLOS platform</a>, keeping the promises set out in <a href="https://11factor.org">The Eleven Factors</a>.</p>
+  <p><a href="https://github.com/carlosframework/rastrillo">Source for rastrillo on GitHub</a>. Open, of course.</p>
+</footer>

@@ -29,7 +29,7 @@
 **Interfaces:**
 - Produces: `npm run build` → `_site/index.html` + `_site/site.css`; `npm run check` → runs build then anchor check; layout `base.njk` consumed by Task 2's `index.njk`.
 
-- [ ] **Step 1: package.json**
+- [x] **Step 1: package.json**
 
 ```json
 {
@@ -47,7 +47,7 @@
 }
 ```
 
-- [ ] **Step 2: eleventy.config.js**
+- [x] **Step 2: eleventy.config.js**
 
 ```js
 // 🤖 Build-time only — the served site ships no JavaScript.
@@ -62,7 +62,7 @@ export default function (eleventyConfig) {
 
 (`src/favicon.svg` arrives in Task 3; passthrough of a missing file is not an error in Eleventy 3 — if the build complains, add a 1-line placeholder SVG.)
 
-- [ ] **Step 3: src/_includes/base.njk**
+- [x] **Step 3: src/_includes/base.njk**
 
 ```njk
 <!doctype html>
@@ -85,7 +85,7 @@ export default function (eleventyConfig) {
 </html>
 ```
 
-- [ ] **Step 4: minimal src/index.njk**
+- [x] **Step 4: minimal src/index.njk**
 
 ```njk
 ---
@@ -96,13 +96,13 @@ description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in 
 <h1>rastrillo</h1>
 ```
 
-- [ ] **Step 5: src/site.css placeholder**
+- [x] **Step 5: src/site.css placeholder**
 
 ```css
 /* 🤖 rastrillo.org stylesheet — real design lands with the impeccable cycle (Task 3). */
 ```
 
-- [ ] **Step 6: hack/check-anchors.mjs**
+- [x] **Step 6: hack/check-anchors.mjs**
 
 ```js
 // 🤖 Fails the build when an in-page href="#x" has no matching id="x".
@@ -119,7 +119,7 @@ if (missing.length) {
 console.log("anchors ok");
 ```
 
-- [ ] **Step 7: .github/workflows/build.yml**
+- [x] **Step 7: .github/workflows/build.yml**
 
 ```yaml
 name: build
@@ -138,12 +138,12 @@ jobs:
       - run: npm run check
 ```
 
-- [ ] **Step 8: install and verify**
+- [x] **Step 8: install and verify**
 
 Run: `npm install && npm run check`
 Expected: `_site/index.html` written; `anchors ok`.
 
-- [ ] **Step 9: Commit**
+- [x] **Step 9: Commit**
 
 ```bash
 git add -A && git commit -m "Eleventy scaffold: build, anchor check, CI 🤖"
@@ -161,7 +161,7 @@ git add -A && git commit -m "Eleventy scaffold: build, anchor check, CI 🤖"
 - Consumes: `base.njk` layout from Task 1.
 - Produces: the complete semantic page — sections with ids `manifest`, `pillars`, `proof`, `start`, `deploy`, `status`; class hooks used by Task 3's CSS (`brandline`, `hero`, `lede`, `cta`, `btn primary|ghost`, `robot-note`, `eyebrow`, `epigraph`, `showcase`, `cards`/`card`, `status-strip`, `yesno built|not-built`, `step`/`stepnum`).
 
-- [ ] **Step 1: src/_data/pillars.json**
+- [x] **Step 1: src/_data/pillars.json**
 
 ```json
 [
@@ -188,7 +188,7 @@ git add -A && git commit -m "Eleventy scaffold: build, anchor check, CI 🤖"
 ]
 ```
 
-- [ ] **Step 2: src/_data/status.json**
+- [x] **Step 2: src/_data/status.json**
 
 ```json
 {
@@ -212,7 +212,7 @@ git add -A && git commit -m "Eleventy scaffold: build, anchor check, CI 🤖"
 }
 ```
 
-- [ ] **Step 3: src/_data/trysteps.json**
+- [x] **Step 3: src/_data/trysteps.json**
 
 ```json
 [
@@ -234,7 +234,7 @@ git add -A && git commit -m "Eleventy scaffold: build, anchor check, CI 🤖"
 ]
 ```
 
-- [ ] **Step 4: src/_data/deploysteps.json**
+- [x] **Step 4: src/_data/deploysteps.json**
 
 ```json
 [
@@ -256,7 +256,7 @@ git add -A && git commit -m "Eleventy scaffold: build, anchor check, CI 🤖"
 ]
 ```
 
-- [ ] **Step 5: src/index.njk full body** — front matter as Task 1 plus the page. The manifest TOML below is `examples/tickets/manifest/ticket_types.toml` **verbatim**; do not prettify it.
+- [x] **Step 5: src/index.njk full body** — front matter as Task 1 plus the page. The manifest TOML below is `examples/tickets/manifest/ticket_types.toml` **verbatim**; do not prettify it.
 
 ```njk
 ---
@@ -381,12 +381,12 @@ advanced = [{ name = "MaxPerOrder" }]</code></pre>
 </footer>
 ```
 
-- [ ] **Step 6: verify**
+- [x] **Step 6: verify**
 
 Run: `npm run check`
 Expected: build succeeds, `anchors ok`. Manually confirm `_site/index.html` contains all six section ids and the verbatim hero headline.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A && git commit -m "Full page content: manifest showcase, pillars, proof, try-it, deploy, status 🤖"
