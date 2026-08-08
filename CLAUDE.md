@@ -107,6 +107,35 @@ found". Routes (`carlos add`) are registry-mode: they run on the flagship
 box itself (instance `i-092c0c1eea75723cb`, via SSM; env comes from
 `/etc/carlos/host.env`, binary at `/opt/carlos/carlos`).
 
+🤖 As of CARLOS platform PR #108 (2026-08-08, live), adoption after
+`promote` converges in **seconds**, not minutes — there's no meaningful
+wait between the pointer move and the box picking it up. That collapses
+`ship` + `promote` into a single command, `carlos deploy`, which does
+both and then polls until the site is actually serving the new version
+before returning:
+
+```
+carlos deploy -app rastrillo -kind static -version <sha> _site
+```
+
+Same env as above (`CARLOS_DEPLOYMENT_BUCKET`, `CARLOS_RELEASE_KEY`).
+`deploy` exits `0` only once the box is confirmed serving `<sha>` — a
+clean exit **is** the live confirmation, no separate check needed. It
+needs a `carlos` CLI built from `platform` main at or after `1fba18f`;
+older binaries don't have the subcommand. Use `ship` + `promote`
+separately only when you want the pointer moved without waiting for the
+box to converge.
+
+Either way, verify against the edge, not against the CLI's own claim:
+
+```
+curl -sI https://rastrillo.org | grep -i x-carlos-version
+```
+
+That header should read `<sha>`. If it doesn't, the box hasn't converged
+yet — with PR #108 that should read as "check again in a few seconds,"
+not "go find out what's stuck."
+
 `rastrillo.org` and `www.rastrillo.org` are CARLOS routes on the same
 app and channel; DNS `A` records point at the flagship
 (`99.81.104.219`). The channel is `canary/rehearsal` for the same reason
@@ -115,5 +144,5 @@ of a channel head, which would mean 72h of downtime for a
 never-before-served route.
 
 Rollback is a pointer move: promote the previous good sha back onto
-`canary/rehearsal` and the edge swaps within a minute
+`canary/rehearsal` and the edge picks it up within seconds
 (`carlos channels -app rastrillo` to see what's on the channel).
