@@ -109,32 +109,22 @@ box itself (instance `i-092c0c1eea75723cb`, via SSM; env comes from
 
 🤖 As of CARLOS platform PR #108 (2026-08-08, live), adoption after
 `promote` converges in **seconds**, not minutes — there's no meaningful
-wait between the pointer move and the box picking it up. That collapses
-`ship` + `promote` into a single command, `carlos deploy`, which does
-both and then polls until the site is actually serving the new version
-before returning:
+wait between the pointer move and the box picking it up. `carlos deploy`
+folds `ship` + `promote` + a wait-until-serving watch into one command,
+but that watch doesn't yet cover instance-less static apps like this one
+(platform#112) — a clean exit isn't a reliable live confirmation here.
+Use `ship` + `promote` separately (above); for this app that pair IS the
+deploy, and convergence is still seconds.
+
+Verify against the edge by content, not by header — `X-Carlos-Version`
+is a binary-app header, and STATIC routes like this one never carry it
+(platform#112):
 
 ```
-carlos deploy -app rastrillo -kind static -version <sha> _site
+curl -s https://rastrillo.org | grep -i "<something from the change>"
 ```
 
-Same env as above (`CARLOS_DEPLOYMENT_BUCKET`, `CARLOS_RELEASE_KEY`).
-`deploy` exits `0` only once the box is confirmed serving `<sha>` — a
-clean exit **is** the live confirmation, no separate check needed. It
-needs a `carlos` CLI built from `platform` main at or after `1fba18f`;
-older binaries don't have the subcommand. Use `ship` + `promote`
-separately only when you want the pointer moved without waiting for the
-box to converge.
-
-Either way, verify against the edge, not against the CLI's own claim:
-
-```
-curl -sI https://rastrillo.org | grep -i x-carlos-version
-```
-
-That header should read `<sha>`. If it doesn't, the box hasn't converged
-yet — with PR #108 that should read as "check again in a few seconds,"
-not "go find out what's stuck."
+or check the pointer with `carlos channels -app rastrillo`.
 
 `rastrillo.org` and `www.rastrillo.org` are CARLOS routes on the same
 app and channel; DNS `A` records point at the flagship
