@@ -61,12 +61,14 @@ person marker.**
 
 - **Don't overclaim the framework's maturity.** Rastrillo is a young
   framework: the core loop (new/generate/dev/Run/Serve), localization,
-  the ui component vocabulary (27 partials plus class idioms, landed
-  2026-08-06), and manifest slices 1–2 (Resource → four generated
-  states, declared filters, Required validation) are real; Mergeable,
-  blobs, crypto, WebAuthn, agents and the rest are designed but not
-  built. The site says so, in its own Built/Not-yet section.
-  Update that section when the work actually lands, not before.
+  the ui component vocabulary, the manifest system (Resource → store/
+  actions/screens/locale keys, filters, Required, delete flows), and
+  the v0.6.0 subsystem packages (crypto, auth, webauthn, eventlog,
+  blobs, mail, agents/tools — landed 2026-08-18) are real. Still not
+  built: richer manifest kinds and derived fields, mergeable manifest
+  wiring and edge sync, step-up auth, invite derivation. The site says
+  so, in its own Built/Pending section — update that section when the
+  work actually lands, not before.
 - **Every technical claim traces to `rastrilloorg/rastrillo`** — its
   README, its code, its examples. If you change a claim, check it against
   the repo rather than against the previous copy. The manifest showcase
