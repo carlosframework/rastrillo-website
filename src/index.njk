@@ -13,7 +13,7 @@ description: "🤖 Rastrillo is the CARLOS web framework: GORM models, chi route
     <caption class="visually-hidden">The opening statement: what a real multi-user app costs to write</caption>
     <tbody>
       <tr><th scope="row">written, in <code>examples/notes</code> — accounts, sessions, owner-scoped CRUD</th><td>163 lines</td></tr>
-      <tr><th scope="row">proving Bob can never read Alice's notes — the isolation suite, in CI</th><td>530 lines</td></tr>
+      <tr><th scope="row">proving Bob can never read Alice's notes — or her bookmarks — the isolation suite, in CI</th><td>741 lines</td></tr>
       <tr class="total"><th scope="row">client-side JavaScript, new DSLs, config formats</th><td>0</td></tr>
     </tbody>
   </table>
@@ -64,7 +64,7 @@ description: "🤖 Rastrillo is the CARLOS web framework: GORM models, chi route
           <tr class="total"><th scope="row">TOML parsed at request time</th><td>0</td></tr>
         </tbody>
       </table>
-      <p class="postscript"><code>required = true</code> is server-side: the generated actions 400 with the field's own message, re-rendered in the form. There is no <code>actions/</code> directory in this app at all — <a href="https://github.com/rastrilloorg/rastrillo/tree/main/examples/tickets">examples/tickets</a> is manifest-only, and it's the framework's own regression suite. And when a generated screen stops being enough, eject it: the file becomes yours, and the generator leaves it alone.</p>
+      <p class="postscript"><code>required = true</code> is server-side: the generated actions 400 with the field's own message, re-rendered in the form. There is no <code>actions/</code> directory in this app at all — <a href="https://github.com/rastrilloorg/rastrillo/tree/main/examples/tickets">examples/tickets</a> is manifest-only, and it's the framework's own regression suite. Add <code>scope = "user"</code> and every generated query is owner-filtered by the signed-in subject — someone else's row answers 404, the same contract the hand-written path enforces; <a href="https://github.com/rastrilloorg/rastrillo/tree/main/examples/notes">examples/notes</a> runs a declared, scoped resource beside hand-written handlers under one two-user isolation suite. And when a generated screen stops being enough, eject it: the file becomes yours, and the generator leaves it alone.</p>
     </figure>
   </div>
 </section>
