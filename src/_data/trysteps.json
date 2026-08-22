@@ -11,7 +11,7 @@
   },
   {
     "title": "Start your own",
-    "cmd": "mkdir myapp && cd myapp && go mod init myapp\ngo get github.com/carlosframework/rastrillo@latest github.com/go-chi/chi/v5 gorm.io/gorm",
-    "note": "Then read <a href=\"https://github.com/rastrilloorg/rastrillo/blob/main/SKILL.md\"><code>SKILL.md</code></a> — the whole app story in one file — and copy the five-file shape from <code>examples/notes</code>. Building with an agent? That file is exactly what it should load."
+    "cmd": "go install github.com/carlosframework/rastrillo/cmd/rastrillo@latest\nrastrillo new myapp && cd myapp && go mod tidy && go test ./...",
+    "note": "The scaffold is the same five-file shape, tests passing before you write a line. Then read <a href=\"https://github.com/rastrilloorg/rastrillo/blob/main/SKILL.md\"><code>SKILL.md</code></a> — the whole app story in one file. Building with an agent? That file is exactly what it should load."
   }
 ]

@@ -14,11 +14,12 @@
     "Localization: locale-resolved routes, <code>T</code>/<code>Tf</code> with fallback, a ship-gate catalog check",
     "<code>rastrillo/ui</code> — the component vocabulary: 27 partials, documented class idioms, design tokens — light and dark, WCAG AA enforced by tests, zero JavaScript",
     "The manifest path: a declared <code>Resource</code> generates store, actions, screens, and locale keys — an optional, equal alternative to hand-written handlers, mixed per resource; <code>examples/tickets</code> is its regression suite",
+    "<code>rastrillo new</code> — scaffolds the middle-layer five-file shape with a passing test suite out of the box; the declarative path stays one TOML away (<code>manifest/README.md</code> carries the mounting recipe)",
+    "<code>rastrillo/passkey</code> — the WebAuthn second factor on the step-up seam: enroll while signed in, then satisfy <code>RequireFresh</code> with an assertion instead of a full re-sign-in — single-use, subject-bound server-side challenges",
     "Agents: actions opt in as tools; the generated registry dispatches consent-gated, actor-attributed calls; sidecars speak the platform contract"
   ],
   "notyet": [
-    "A middle-layer scaffold — <code>rastrillo new</code> still writes the manifest-era shape; start from <code>examples/notes</code> and <code>SKILL.md</code> instead",
-    "Passkey second factor on the step-up seam (<code>rastrillo/webauthn</code> is built; the wired 2FA flow is not)",
-    "Manifest resources with per-user scoping, and a thinner emitter that composes the middle-layer primitives harder — the declarative path should reach where the code path does"
+    "Manifest resources with per-user scoping, and a thinner emitter that composes the middle-layer primitives harder — the declarative path should reach where the code path does",
+    "Sign-in-time passkey 2FA (a pending half-session between factors) — step-up hardening ships; the first-factor gate does not yet"
   ]
 }
