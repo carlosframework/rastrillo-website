@@ -1,24 +1,24 @@
 {
   "built": [
-    "<code>rastrillo new</code> / <code>generate</code> — scaffold and route",
-    "<code>rastrillo dev</code> — save, and it regenerates, rebuilds, restarts",
-    "Manifests: a declared <code>Resource</code> generates store, actions, screens, and locale keys — declared filters, server-side <code>required</code> validation, and delete flows as their own confirm-page URL",
-    "<code>examples/tickets</code> — a fully generated admin: zero hand actions, zero ejected templates",
-    "<code>rastrillo.Run</code> — the full platform activation contract, hibernate and systemd tenants included",
-    "SQLite bootstrap: pragma ordering, single-writer, additive migrations",
-    "Localization: locale-resolved routes, <code>T</code>/<code>Tf</code> with fallback, a ship-gate catalog check",
-    "<code>rastrillo/ui</code> — the component vocabulary: 27 partials across list, form, display and route families, documented class idioms, design tokens — light and dark, WCAG AA enforced by tests, zero JavaScript",
-    "<code>examples/blog</code> — a real blog from stock components, coexisting with hand-written actions",
-    "<code>rastrillo/crypto</code> — the family envelope: P-256 sealing and signing with a WebCrypto JS twin, proven against amadan's golden vectors",
-    "<code>rastrillo/auth</code> — sign in with Keymail, magic-link email fallback, sessions, CSRF — over <code>keymaildev/signin</code>",
+    "The middle layer: <code>db</code> (GORM on cgo-free SQLite, split writer/reader pools, translated constraint errors), <code>sessions</code> (revocable rows, step-up <code>RequireFresh</code>), <code>csrf</code>, <code>flash</code>, <code>form</code>, <code>view</code>, <code>scope</code> — each importable alone, tested alone",
+    "<code>rastrillo/auth</code> — the family default sign-in: magic-link email that auto-upgrades to Keymail when the address has a claimed inbox, over <code>keymaildev/signin</code>",
+    "<code>rastrillo/password</code> — classic email+password on the sessions core: stdlib PBKDF2, per-account rate limiting, one non-oracle failure message",
+    "<code>SKILL.md</code> — the authoring contract, under 15,000 bytes, reviewed like code: what an agent loads instead of the framework source",
+    "<code>examples/notes</code> — accounts, sessions, CSRF, flash, and owner-scoped CRUD in 163 domain lines, with a two-user isolation suite in CI",
+    "<code>rastrillo/crypto</code> — the family envelope: P-256 sealing and signing, invite derivation and key wrapping, a WebCrypto JS twin — all pinned by golden vectors from real consumers",
     "<code>rastrillo/webauthn</code> — passkeys, verify-only, with a test authenticator and the browser module included",
     "<code>rastrillo/eventlog</code> — the mergeable store shape: append-only streams, pure <code>Derive</code>, deterministic merge pinned by vectors",
     "<code>rastrillo/blobs</code> — content-addressed bytes on the platform's object store, presigned URLs, sealed E2EE wrapper",
+    "<code>rastrillo.Resolve</code>/<code>Serve</code>/<code>Run</code> — the full platform activation contract, hibernate and systemd tenants included",
+    "SQLite bootstrap: pragma ordering, single-writer, additive migrations",
+    "Localization: locale-resolved routes, <code>T</code>/<code>Tf</code> with fallback, a ship-gate catalog check",
+    "<code>rastrillo/ui</code> — the component vocabulary: 27 partials, documented class idioms, design tokens — light and dark, WCAG AA enforced by tests, zero JavaScript",
+    "The manifest admin add-on: a declared <code>Resource</code> still generates store, actions, screens, and locale keys — frozen vocabulary, maintenance-only, <code>examples/tickets</code> is its regression suite",
     "Agents: actions opt in as tools; the generated registry dispatches consent-gated, actor-attributed calls; sidecars speak the platform contract"
   ],
   "notyet": [
-    "Richer manifest kinds (bool, time, select, blob) and derived fields",
-    "Mergeable manifest resources (the store shape is built; the generator wiring and edge sync are not)",
-    "Step-up auth, and the crypto core's invite derivation"
+    "A middle-layer scaffold — <code>rastrillo new</code> still writes the manifest-era shape; start from <code>examples/notes</code> and <code>SKILL.md</code> instead",
+    "Passkey second factor on the step-up seam (<code>rastrillo/webauthn</code> is built; the wired 2FA flow is not)",
+    "Richer manifest kinds — frozen deliberately: manifests are the admin add-on now, not the app story"
   ]
 }

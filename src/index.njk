@@ -1,20 +1,20 @@
 ---
 layout: base.njk
 title: Rastrillo — the CARLOS web framework
-description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in a few lines of TOML and read every line it generates. Try it now — go install it and have an app running locally in a minute."
+description: "🤖 Rastrillo is the CARLOS web framework: GORM models, chi routes, and sessions, CSRF, and owner scoping done right — a real multi-user app in ~160 lines of domain code. Clone it and have it running locally in a minute."
 ---
 <p class="brandline"><a href="https://carlosframework.com"><b>CARLOS</b></a> <span aria-hidden="true">/</span> <span class="here">rastrillo</span><span class="folio" aria-hidden="true">rastrillo.org</span></p>
 
 <header class="hero">
   <h1>Fast, cost-efficient, good: pick <span class="x">all three</span> with rastrillo.</h1>
-  <p class="lede">The web framework companion to CARLOS: declare what your app is, read every line it generates, and ship it to a platform that only bills you when someone shows up.</p>
+  <p class="lede">The web framework companion to CARLOS: libraries you already know — GORM, chi, <code>html/template</code> — on a middle layer that gets sessions, CSRF, and owner scoping right, shipped to a platform that only bills you when someone shows up.</p>
 
   <table class="posting opening">
-    <caption class="visually-hidden">The opening statement: what you write against what rastrillo generates</caption>
+    <caption class="visually-hidden">The opening statement: what a real multi-user app costs to write</caption>
     <tbody>
-      <tr><th scope="row">declared, in <code>manifest/ticket_types.toml</code></th><td>15 lines</td></tr>
-      <tr><th scope="row">generated, under <code>gen/</code> — plain Go, SQL, HTML</th><td>1,978 lines</td></tr>
-      <tr class="total"><th scope="row">parsed behind your back at request time</th><td>0</td></tr>
+      <tr><th scope="row">written, in <code>examples/notes</code> — accounts, sessions, owner-scoped CRUD</th><td>163 lines</td></tr>
+      <tr><th scope="row">proving Bob can never read Alice's notes — the isolation suite, in CI</th><td>530 lines</td></tr>
+      <tr class="total"><th scope="row">client-side JavaScript, new DSLs, config formats</th><td>0</td></tr>
     </tbody>
   </table>
 
@@ -27,9 +27,24 @@ description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in 
 
 <main>
 
+
+
+<section id="pillars">
+  <h2>Boring machinery, deliberately</h2>
+  <p class="epigraph">Libraries you already know, SQLite, and files you can read — nothing decided behind your back.</p>
+  <dl class="accounts">
+  {% for p in pillars %}
+    <div class="entry">
+      <dt>{{ p.title }}</dt>
+      <dd>{{ p.body | safe }}</dd>
+    </div>
+  {% endfor %}
+  </dl>
+</section>
+
 <section id="manifest">
-  <h2>Fifteen lines in. An admin you can read, out.</h2>
-  <p class="epigraph">Generated, not interpreted — everything it writes, you can read.</p>
+  <h2>The admin add-on: fifteen lines in, an admin out</h2>
+  <p class="epigraph">Generated, not interpreted — a frozen, maintenance-only vocabulary for the admin screens <em>beside</em> your app, not the app itself.</p>
 
   <div class="showcase">
     <figure class="manifest-in">
@@ -41,10 +56,10 @@ description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in 
       <figcaption><span class="colhead">generated</span> what <code>rastrillo generate</code> wrote from it</figcaption>
       <table class="posting">
         <tbody>
-          <tr><th scope="row">files committed under <code>gen/</code>, diffable in review like any code</th><td>21</td></tr>
-          <tr><th scope="row">lines of plain Go, SQL, HTML, and locale keys</th><td>1,978</td></tr>
-          <tr><th scope="row">actions, wired into the router — list, create, show, edit</th><td>7</td></tr>
-          <tr><th scope="row">screens — a list with search, a working Status filter and paging; a two-tier form; a show page</th><td>3</td></tr>
+          <tr><th scope="row">files committed under <code>gen/</code>, diffable in review like any code</th><td>25</td></tr>
+          <tr><th scope="row">lines of plain Go, SQL, HTML, and locale keys — thinner since the emitter learned to compose the framework's own <code>form</code>/<code>view</code> helpers</th><td>1,226</td></tr>
+          <tr><th scope="row">actions, wired into the router — list, create, show, edit, and the delete flow</th><td>9</td></tr>
+          <tr><th scope="row">screens — a list with search, a working Status filter and paging; a two-tier form; a show page; a delete confirm</th><td>4</td></tr>
           <tr><th scope="row">typed store — schema, additive migrations, sqlc queries</th><td>1</td></tr>
           <tr class="total"><th scope="row">TOML parsed at request time</th><td>0</td></tr>
         </tbody>
@@ -54,28 +69,15 @@ description: "🤖 Rastrillo is the CARLOS web framework: declare a resource in 
   </div>
 </section>
 
-<section id="pillars">
-  <h2>Boring machinery, deliberately</h2>
-  <p class="epigraph">Go's standard library, SQLite, and files you can read — nothing decided behind your back.</p>
-  <dl class="accounts">
-  {% for p in pillars %}
-    <div class="entry">
-      <dt>{{ p.title }}</dt>
-      <dd>{{ p.body | safe }}</dd>
-    </div>
-  {% endfor %}
-  </dl>
-</section>
-
 <section id="proof" class="status-strip">
   <p class="stamp"><span>Deployed</span><span class="stamp-sub">live · real edge</span></p>
   <h2>Not a mockup</h2>
-  <p>Rastrillo's example app is deployed on a real CARLOS platform right now: real S3-backed storage, a real edge, a real certificate. <a href="https://helloworld.dev.oncarlos.com">helloworld.dev.oncarlos.com</a> — the exact code you'll have running locally two minutes from now, actually shipped. This site is served the same way.</p>
+  <p>Rastrillo's example app is deployed on a real CARLOS platform right now: real S3-backed storage, a real edge, a real certificate. <a href="https://helloworld.dev.oncarlos.com">helloworld.dev.oncarlos.com</a> — the same framework you'll have running locally two minutes from now, actually shipped. This site is served the same way.</p>
 </section>
 
 <section id="start">
   <h2>Run it locally</h2>
-  <p class="epigraph">One command to install, three more to a running app.</p>
+  <p class="epigraph">Nothing to install but Go: clone, run, and try to break the isolation yourself.</p>
   {% for s in trysteps %}
   <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
   <pre><code>{{ s.cmd }}</code></pre>

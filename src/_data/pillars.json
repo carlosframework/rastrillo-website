@@ -1,22 +1,22 @@
 [
   {
-    "title": "Filesystem routing",
-    "body": "<code>actions/orders/[id]/cancel.POST.go</code> becomes <code>POST /orders/{id}/cancel</code> — the directory structure <em>is</em> the route table. Bracket segments are path params, the filename suffix is the HTTP verb, and <code>rastrillo generate</code> writes it all into a plain <code>gen/router.go</code> on Go's standard <code>http.ServeMux</code>: committed, readable, diffable."
+    "title": "Libraries you already know",
+    "body": "Models are plain <a href=\"https://gorm.io\">GORM</a> structs, routes are a <a href=\"https://github.com/go-chi/chi\">chi</a> router, pages are <code>html/template</code> — no bespoke DSL to learn, and nothing your Go experience (or your model's training data) doesn't already cover. <code>errors.Is(err, gorm.ErrDuplicatedKey)</code> just works. Rastrillo supplies the parts that are hard to get right twice, not a new language for the parts that aren't."
+  },
+  {
+    "title": "The security defaults",
+    "body": "Sessions are SQLite rows — sign-out and revocation are real, not a cookie hoping to be forgotten — with <code>__Host-</code> cookies on https and step-up re-auth (<code>RequireFresh</code>) for sensitive routes. CSRF is an origin check on every mutating request; no tokens to mint or forget. Failed sign-ins are rate-limited per account. And owner scoping has one contract: a row that isn't yours is a row that doesn't exist — 404, never 403 — enforced in <code>examples/notes</code> by a two-user isolation suite that runs in CI."
+  },
+  {
+    "title": "A 15KB contract, not 150KB of source",
+    "body": "<code>SKILL.md</code> at the repo root is the whole app story — the file shape, the scoping rules, the mass-assignment rule, the identity plugins — budgeted under 15,000 bytes and reviewed like code. It's what an agent loads instead of the framework source, and what a person reads first. The docs are part of the artifact, not an afterthought."
   },
   {
     "title": "Platform-ready by default",
-    "body": "<code>rastrillo.Run</code> speaks the CARLOS platform's activation contract end to end — hibernating instances, <code>carlos-app@</code> systemd unit tenants, plain instances, and a bare dev fallback, no separate integration per deployment shape. Hibernation is the cost-efficiency receipt: your app isn't running when nobody's knocking, and the platform wakes it when someone does."
-  },
-  {
-    "title": "Localization built in",
-    "body": "Declare your locales and <code>/fr/orders</code> and <code>/orders</code> reach the same route. Request-scoped <code>T</code>/<code>Tf</code> fall back through catalogs so a missing translation stays visible, never blank — and <code>generate --check</code> fails loudly on incomplete catalogs before you ship, not after."
-  },
-  {
-    "title": "A UI vocabulary, zero JavaScript",
-    "body": "<code>rastrillo/ui</code> ships 27 partials — list screens, forms, display and route families — plus documented class idioms and design tokens: light and dark, WCAG AA contrast enforced by tests, and not one line of client-side JavaScript. <code>examples/blog</code> is a real blog, admin side and all, from stock components only."
+    "body": "<code>rastrillo.Resolve</code> and <code>Serve</code> speak the CARLOS platform's activation contract end to end — hibernating instances, <code>carlos-app@</code> systemd unit tenants, plain instances, and a bare dev fallback, no separate integration per deployment shape. Hibernation is the cost-efficiency receipt: your app isn't running when nobody's knocking, and the platform wakes it when someone does."
   },
   {
     "title": "One binary, no toolchain sprawl",
-    "body": "<code>go install</code> gets you the CLI, <code>go build</code> gets you the app — a single static binary with SQLite compiled in. No bundler, no separate codegen service, no runtime to babysit. The framework whose family motto is \"no build step\" doesn't ship one to your visitors either."
+    "body": "<code>go build</code> with <code>CGO_ENABLED=0</code> gets you the whole app — SQLite compiled in via pure-Go <code>modernc.org/sqlite</code> under an owned GORM dialector, a writer pool capped at one connection and a reader pool that keeps WAL reads flowing. No bundler, no codegen service, no runtime to babysit, and not one line of client-side JavaScript by default."
   }
 ]
