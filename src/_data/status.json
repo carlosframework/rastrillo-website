@@ -13,12 +13,12 @@
     "SQLite bootstrap: pragma ordering, single-writer, additive migrations",
     "Localization: locale-resolved routes, <code>T</code>/<code>Tf</code> with fallback, a ship-gate catalog check",
     "<code>rastrillo/ui</code> — the component vocabulary: 27 partials, documented class idioms, design tokens — light and dark, WCAG AA enforced by tests, zero JavaScript",
-    "The manifest admin add-on: a declared <code>Resource</code> still generates store, actions, screens, and locale keys — frozen vocabulary, maintenance-only, <code>examples/tickets</code> is its regression suite",
+    "The manifest path: a declared <code>Resource</code> generates store, actions, screens, and locale keys — an optional, equal alternative to hand-written handlers, mixed per resource; <code>examples/tickets</code> is its regression suite",
     "Agents: actions opt in as tools; the generated registry dispatches consent-gated, actor-attributed calls; sidecars speak the platform contract"
   ],
   "notyet": [
     "A middle-layer scaffold — <code>rastrillo new</code> still writes the manifest-era shape; start from <code>examples/notes</code> and <code>SKILL.md</code> instead",
     "Passkey second factor on the step-up seam (<code>rastrillo/webauthn</code> is built; the wired 2FA flow is not)",
-    "Richer manifest kinds — frozen deliberately: manifests are the admin add-on now, not the app story"
+    "Manifest resources with per-user scoping, and a thinner emitter that composes the middle-layer primitives harder — the declarative path should reach where the code path does"
   ]
 }
