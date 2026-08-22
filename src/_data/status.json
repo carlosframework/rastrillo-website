@@ -4,7 +4,7 @@
     "<code>rastrillo/auth</code> — the family default sign-in: magic-link email that auto-upgrades to Keymail when the address has a claimed inbox, over <code>keymaildev/signin</code>",
     "<code>rastrillo/password</code> — classic email+password on the sessions core: stdlib PBKDF2, per-account rate limiting, one non-oracle failure message",
     "<code>SKILL.md</code> — the authoring contract, under 15,000 bytes, reviewed like code: what an agent loads instead of the framework source",
-    "<code>examples/notes</code> — accounts, sessions, CSRF, flash, and owner-scoped CRUD in 163 domain lines, with a two-user isolation suite in CI",
+    "<code>examples/notes</code> — accounts, sessions, CSRF, flash, owner-scoped CRUD, and a background export in 263 domain lines, with a two-user isolation suite in CI",
     "<code>rastrillo/crypto</code> — the family envelope: P-256 sealing and signing, invite derivation and key wrapping, a WebCrypto JS twin — all pinned by golden vectors from real consumers",
     "<code>rastrillo/webauthn</code> — passkeys, verify-only, with a test authenticator and the browser module included",
     "<code>rastrillo/eventlog</code> — the mergeable store shape: append-only streams, pure <code>Derive</code>, deterministic merge pinned by vectors",
@@ -17,10 +17,13 @@
     "Manifest resources with per-user scoping — <code>scope = \"user\"</code> owner-filters every generated query by the session subject, so someone else's row answers 404, the same contract the hand-written path enforces; <code>examples/notes</code> mixes a declared, scoped resource beside its hand handlers, proven by one two-user isolation suite",
     "<code>rastrillo new</code> — scaffolds the middle-layer five-file shape with a passing test suite out of the box; the declarative path stays one TOML away (<code>manifest/README.md</code> carries the mounting recipe)",
     "<code>rastrillo/passkey</code> — the WebAuthn second factor, both places it belongs: on the step-up seam (enroll while signed in, satisfy <code>RequireFresh</code> with an assertion instead of a full re-sign-in) and at first sign-in (<code>Gate</code> on the identity plugins' <code>SecondFactor</code> hook: a verified first factor becomes a pending half-session only an assertion completes — the minted session names both factors) — single-use, subject-bound challenges and half-sessions throughout",
-    "Agents: actions opt in as tools; the generated registry dispatches consent-gated, actor-attributed calls; sidecars speak the platform contract"
+    "Agents: actions opt in as tools; the generated registry dispatches consent-gated, actor-attributed calls; sidecars speak the platform contract",
+    "Background work made observable — <code>jobs</code> gives a goroutine an owner-scoped handle and a status page that works with scripts off: a <code>noscript</code> refresh while it runs, a 303 to the result when it's done. The one script in the framework is <code>rastrillo.js</code>, a ~130-line app-owned shim that polls HTML fragments for the smooth version — no JS required, htmx a choice rather than a dependency; <code>examples/notes</code> ships a background export under the same isolation suite"
   ],
   "notyet": [
     "Manifest resources on the mergeable store — <code>store = \"mergeable\"</code> is declared vocabulary the generator still refuses; the eventlog shape ships, the declarative path doesn't reach it yet",
-    "2FA recovery codes — an account whose only passkey is lost falls back to the operator today"
+    "2FA recovery codes — an account whose only passkey is lost falls back to the operator today",
+    "Per-owner job caps — the <code>jobs</code> registry trusts signed-in callers: nothing bounds how many running jobs one account can start, and a never-finishing job holds its goroutine until the process restarts",
+    "Server push — fragments poll every two seconds today; SSE is the upgrade path the shim's design deliberately leaves open"
   ]
 }
