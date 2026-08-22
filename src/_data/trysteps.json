@@ -1,17 +1,17 @@
 [
   {
-    "title": "Install the CLI",
-    "cmd": "go install github.com/carlosframework/rastrillo/cmd/rastrillo@latest",
-    "note": "Or via Homebrew: <code>brew install carlosframework/tap/rastrillo</code>."
-  },
-  {
-    "title": "Scaffold an app",
-    "cmd": "rastrillo new myapp",
-    "note": "Writes a <code>go.mod</code>, one starter action, a <code>main.go</code> wiring <code>rastrillo.Run</code>, and the <code>rastrillo/ui</code> design tokens — then runs <code>generate</code> once, so the next step just works."
+    "title": "Clone the repo",
+    "cmd": "git clone https://github.com/rastrilloorg/rastrillo && cd rastrillo/examples/notes",
+    "note": "<code>examples/notes</code> is the front-door example: accounts, sessions, CSRF, flash, and owner-scoped notes — 163 lines of domain code."
   },
   {
     "title": "Run it",
-    "cmd": "cd myapp && go get github.com/carlosframework/rastrillo@latest && rastrillo dev",
-    "note": "Visit <code>localhost:8080</code> — that's your app. Edit an action, save, refresh: <code>rastrillo dev</code> regenerates, rebuilds, and restarts for you in about a second. A save that doesn't compile keeps the previous build serving while you fix it."
+    "cmd": "CGO_ENABLED=0 go run ./cmd/notes -addr localhost:8080",
+    "note": "Visit <code>localhost:8080</code> — sign up, write a note. Open a private window, sign up as someone else, and try to reach the first account's note by URL: 404. That isolation is the framework's owner-scoping contract, and the same check runs as a test suite in CI."
+  },
+  {
+    "title": "Start your own",
+    "cmd": "mkdir myapp && cd myapp && go mod init myapp\ngo get github.com/carlosframework/rastrillo@latest github.com/go-chi/chi/v5 gorm.io/gorm",
+    "note": "Then read <a href=\"https://github.com/rastrilloorg/rastrillo/blob/main/SKILL.md\"><code>SKILL.md</code></a> — the whole app story in one file — and copy the five-file shape from <code>examples/notes</code>. Building with an agent? That file is exactly what it should load."
   }
 ]
