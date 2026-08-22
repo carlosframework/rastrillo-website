@@ -57,7 +57,7 @@ description: "🤖 Rastrillo is the CARLOS web framework: GORM models, chi route
       <table class="posting">
         <tbody>
           <tr><th scope="row">files committed under <code>gen/</code>, diffable in review like any code</th><td>25</td></tr>
-          <tr><th scope="row">lines of plain Go, SQL, HTML, and locale keys — thinner since the emitter learned to compose the framework's own <code>form</code>/<code>view</code> helpers</th><td>1,226</td></tr>
+          <tr><th scope="row">lines of plain Go, SQL, HTML, and locale keys — each action opens with one <code>form.Parse</code> call, the same documented helper a hand-written handler uses</th><td>1,202</td></tr>
           <tr><th scope="row">actions, wired into the router — list, create, show, edit, and the delete flow</th><td>9</td></tr>
           <tr><th scope="row">screens — a list with search, a working Status filter and paging; a two-tier form; a show page; a delete confirm</th><td>4</td></tr>
           <tr><th scope="row">typed store — schema, additive migrations, sqlc queries</th><td>1</td></tr>
