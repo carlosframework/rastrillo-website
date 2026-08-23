@@ -48,6 +48,18 @@ export default function (eleventyConfig) {
       .filter(({ slug }) => slug !== "index"),
   );
 
+  // The /docs index page's own prose, as its own collection.
+  //
+  // docs-index.njk renders this page's content above the cards. It must
+  // NOT reach for collections.all to find it: that collection contains
+  // docs-index.njk itself, and Eleventy rejects a template that reads
+  // templateContent from a collection it belongs to as a circular
+  // reference. A one-page collection it is not a member of is the way
+  // to read another template's rendered output.
+  eleventyConfig.addCollection("docsIndex", (api) =>
+    api.getFilteredByGlob("src/docs/index.md"),
+  );
+
   // Section headings of one page, for the sidebar's sub-nav. Read from
   // the source rather than the rendered HTML so it needs no DOM.
   eleventyConfig.addFilter("docsSections", (raw) => {

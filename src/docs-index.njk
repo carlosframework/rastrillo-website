@@ -5,8 +5,7 @@ description: "🤖 Everything Rastrillo can do, in three tiers: getting started,
 isIndex: true
 permalink: /docs/index.html
 ---
-{% set indexPage = collections.all | selectattr("filePathStem", "equalto", "/docs/index") | first %}
-{{ indexPage.templateContent | safe }}
+{{ collections.docsIndex[0].templateContent | safe }}
 
 {% for section in docsnav.sections %}
 <h2 id="{{ section.title | docsSlugify }}">{{ section.title }}</h2>
