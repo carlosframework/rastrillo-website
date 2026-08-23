@@ -1,0 +1,21 @@
+---
+layout: docs.njk
+title: Documentation
+description: "🤖 Everything Rastrillo can do, in three tiers: getting started, the guides for building an app, and a reference page for every exported package."
+isIndex: true
+permalink: /docs/index.html
+---
+{% set indexPage = collections.all | selectattr("filePathStem", "equalto", "/docs/index") | first %}
+{{ indexPage.templateContent | safe }}
+
+{% for section in docsnav.sections %}
+<h2 id="{{ section.title | docsSlugify }}">{{ section.title }}</h2>
+<ul class="docs-cards">
+  {% for entry in section.pages %}
+  <li>
+    <a href="/docs/{{ entry.slug }}/"><strong>{{ entry.label }}</strong></a>
+    <span>{{ entry.blurb }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% endfor %}
