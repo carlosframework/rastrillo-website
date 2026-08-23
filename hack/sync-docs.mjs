@@ -58,6 +58,24 @@ if (files.length === 0) {
 
 const nav = readFileSync(join(source, "nav.json"), "utf8");
 
+// Eleventy directory data for the vendored tree. This script owns it
+// because this script wipes the directory: the vendored markdown is
+// input for src/docs.njk and src/docsmd.njk, not pages in its own
+// right, and without permalink:false every page also writes itself to
+// its default output — index.md collides with the /docs index and the
+// build fails. Leaving it as a hand-maintained file meant the first
+// re-sync deleted it.
+const dirData =
+  JSON.stringify(
+    {
+      "//": "Written by hack/sync-docs.mjs. The vendored markdown is input for src/docs.njk and src/docsmd.njk, not pages of its own.",
+      permalink: false,
+      eleventyExcludeFromCollections: false,
+    },
+    null,
+    2,
+  ) + "\n";
+
 if (check) {
   // A drifted vendored copy is a stale site, which is worse than a
   // failed build because it looks fine.
@@ -83,6 +101,11 @@ if (check) {
     if (!files.some((f) => relative(source, f) === rel)) problems.push(`stale: ${rel}`);
   }
   if (readFileSync(navDest, "utf8") !== nav) problems.push("differs: nav.json");
+  try {
+    if (readFileSync(join(dest, "docs.json"), "utf8") !== dirData) problems.push("differs: docs.json");
+  } catch {
+    problems.push("missing: docs.json");
+  }
   if (problems.length) {
     console.error(`src/docs is out of sync with ${checkout}:`);
     for (const p of problems) console.error(`  ${p}`);
@@ -100,6 +123,7 @@ for (const file of files) {
   mkdirSync(dirname(target), { recursive: true });
   writeFileSync(target, readFileSync(file));
 }
+writeFileSync(join(dest, "docs.json"), dirData);
 writeFileSync(navDest, nav);
 writeFileSync(
   versionDest,
