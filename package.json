@@ -5,7 +5,7 @@
   "scripts": {
     "build": "eleventy",
     "serve": "eleventy --serve",
-    "check": "eleventy && node hack/check-anchors.mjs _site/index.html && node hack/check-docs.mjs",
+    "check": "eleventy && node hack/check-anchors.mjs _site/index.html && node hack/check-docs.mjs && node hack/check-fences.mjs",
     "sync-docs": "node hack/sync-docs.mjs"
   },
   "devDependencies": {
