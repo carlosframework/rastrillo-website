@@ -65,12 +65,23 @@ const nav = readFileSync(join(source, "nav.json"), "utf8");
 // its default output — index.md collides with the /docs index and the
 // build fails. Leaving it as a hand-maintained file meant the first
 // re-sync deleted it.
+//
+// templateEngineOverride:"md" belongs here for the same reason, and it
+// learned the lesson the hard way: it arrived as a second hand-written
+// file (docs.11tydata.js) and the next re-sync duly deleted it, taking
+// the fix with it. Without it Eleventy runs the vendored markdown
+// through Nunjucks first, and Nunjucks eats every {{ ... }} it finds —
+// which in a corpus about Go templates means code blocks shipping
+// empty. Nothing here is authored for Eleventy, so there is nothing to
+// lose by turning the pre-pass off. check-fences.mjs is the gate that
+// notices when it goes missing.
 const dirData =
   JSON.stringify(
     {
       "//": "Written by hack/sync-docs.mjs. The vendored markdown is input for src/docs.njk and src/docsmd.njk, not pages of its own.",
       permalink: false,
       eleventyExcludeFromCollections: false,
+      templateEngineOverride: "md",
     },
     null,
     2,
