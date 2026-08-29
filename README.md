@@ -12,7 +12,7 @@ no analytics.
 
 ## Working here
 
-Read [`CLAUDE.md`](CLAUDE.md) first — it carries the 🤖/👨 authorship
+Read [`AGENTS.md`](AGENTS.md) first — it carries the 🤖/👨 authorship
 rule (AI-written prose is always visibly marked), the accuracy rules
 (claims trace to the rastrillo repo, not to previous copy), and the
 deploy runbook.
@@ -27,7 +27,7 @@ npm run build    # writes _site/
 
 The site runs on the CARLOS flagship as app `rastrillo` — the same
 `ship`/`promote`/`add` sequence as carlosframework.com. See
-[`CLAUDE.md`](CLAUDE.md) for the runbook.
+[`AGENTS.md`](AGENTS.md) for the runbook.
 
 ## Provenance
 
