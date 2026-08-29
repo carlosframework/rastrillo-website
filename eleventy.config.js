@@ -26,6 +26,11 @@ export function slugify(text) {
 
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ "src/site.css": "site.css" });
+  // The design-system tree (vendored by hack/sync-docs.mjs) is finished
+  // static HTML — copy it through untouched, and keep Eleventy from
+  // treating its .html files as input templates.
+  eleventyConfig.addPassthroughCopy({ "src/design-system": "design-system" });
+  eleventyConfig.ignores.add("src/design-system/**");
   eleventyConfig.addPassthroughCopy({ "src/favicon.svg": "favicon.svg" });
 
   const md = markdownIt({ html: true, linkify: false, typographer: false }).use(

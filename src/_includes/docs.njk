@@ -28,6 +28,10 @@
 <div class="docs-shell">
   <aside class="docs-nav" aria-label="Documentation">
     <p class="docs-nav-title"><a href="/docs/"{% if isIndex %} class="active" aria-current="page"{% endif %}>Documentation</a></p>
+    <p class="docs-nav-section">Design system</p>
+    <ul class="docs-nav-list">
+      <li><a href="/design-system/">Every component, rendered</a></li>
+    </ul>
     {% for section in docsnav.sections %}
     <p class="docs-nav-section">{{ section.title }}</p>
     <ul>

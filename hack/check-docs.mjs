@@ -17,6 +17,36 @@ const nav = JSON.parse(readFileSync("src/_data/docsnav.json", "utf8"));
 const problems = [];
 const fail = (m) => problems.push(m);
 
+// The design-system passthrough: the built site must carry the tree the
+// sync vendored — same count, and the root index present. Content
+// equality is the framework repo's gate; this catches a broken
+// passthrough (the failure mode the Nunjucks bug taught us to fear).
+{
+  const src = "src/design-system";
+  const out = join(site, "design-system");
+  const count = (dir) => {
+    let n = 0;
+    try {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const p = join(dir, entry.name);
+        n += entry.isDirectory() ? count(p) : 1;
+      }
+    } catch {
+      return -1;
+    }
+    return n;
+  };
+  const want = count(src);
+  const got = count(out);
+  if (want < 1) fail(`no vendored design-system tree at ${src}`);
+  else if (got !== want) fail(`design-system: built ${got} files, vendored ${want}`);
+  try {
+    statSync(join(out, "index.html"));
+  } catch {
+    fail("design-system: no index.html in the built site");
+  }
+}
+
 function walk(dir, match) {
   const out = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {

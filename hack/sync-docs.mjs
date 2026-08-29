@@ -23,15 +23,22 @@ if (!checkout) {
 
 const source = join(checkout, "docs", "site");
 const dest = "src/docs";
+// The design-system tree is pre-rendered static HTML/CSS/JS, vendored
+// byte-for-byte (every file kind, not just markdown) and served via an
+// Eleventy passthrough at /design-system — the framework repo's
+// TestDesignSystemIsCurrent keeps it true to the ui package.
+const dsSource = join(checkout, "docs", "design-system");
+const dsDest = "src/design-system";
+const anyFile = () => true;
 const navDest = "src/_data/docsnav.json";
 const versionDest = "src/_data/docsversion.json";
 
-function walk(dir) {
+function walk(dir, match = (name) => name.endsWith(".md")) {
   const out = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...walk(p));
-    else if (entry.name.endsWith(".md")) out.push(p);
+    if (entry.isDirectory()) out.push(...walk(p, match));
+    else if (match(entry.name)) out.push(p);
   }
   return out.sort();
 }
@@ -123,7 +130,34 @@ if (check) {
     console.error(`run: node hack/sync-docs.mjs ${checkout}`);
     process.exit(1);
   }
-  console.log(`docs in sync with ${sha.slice(0, 7)} (${files.length} pages)`);
+  const dsFiles = walk(dsSource, anyFile);
+  for (const file of dsFiles) {
+    const rel = relative(dsSource, file);
+    let have = null;
+    try {
+      have = readFileSync(join(dsDest, rel));
+    } catch {
+      problems.push(`missing: design-system/${rel}`);
+      continue;
+    }
+    if (!have.equals(readFileSync(file))) problems.push(`differs: design-system/${rel}`);
+  }
+  let dsVendored = [];
+  try {
+    dsVendored = walk(dsDest, anyFile).map((p) => relative(dsDest, p));
+  } catch {
+    dsVendored = [];
+  }
+  for (const rel of dsVendored) {
+    if (!dsFiles.some((f) => relative(dsSource, f) === rel)) problems.push(`stale: design-system/${rel}`);
+  }
+  if (problems.length) {
+    console.error(`src/design-system is out of sync with ${checkout}:`);
+    for (const p of problems) console.error(`  ${p}`);
+    console.error(`run: node hack/sync-docs.mjs ${checkout}`);
+    process.exit(1);
+  }
+  console.log(`docs in sync with ${sha.slice(0, 7)} (${files.length} pages, ${dsFiles.length} design-system files)`);
   process.exit(0);
 }
 
@@ -140,4 +174,16 @@ writeFileSync(
   versionDest,
   JSON.stringify({ sha, short: sha.slice(0, 7), pages: files.length }, null, 2) + "\n",
 );
-console.log(`synced ${files.length} pages from ${sha.slice(0, 7)}`);
+const dsFiles = walk(dsSource, anyFile);
+if (dsFiles.length === 0) {
+  console.error(`no design-system tree at ${dsSource}`);
+  process.exit(1);
+}
+rmSync(dsDest, { recursive: true, force: true });
+for (const file of dsFiles) {
+  const rel = relative(dsSource, file);
+  const target = join(dsDest, rel);
+  mkdirSync(dirname(target), { recursive: true });
+  writeFileSync(target, readFileSync(file));
+}
+console.log(`synced ${files.length} pages and ${dsFiles.length} design-system files from ${sha.slice(0, 7)}`);
