@@ -118,15 +118,25 @@ but that watch doesn't yet cover instance-less static apps like this one
 Use `ship` + `promote` separately (above); for this app that pair IS the
 deploy, and convergence is still seconds.
 
-Verify against the edge by content, not by header — `X-Carlos-Version`
-is a binary-app header, and STATIC routes like this one never carry it
-(platform#112):
+Verify with the version header, then confirm by content. **This route
+does carry `X-Carlos-Version`** — an earlier note here said static routes
+never do, and that was wrong; it has now returned the promoted sha on the
+first poll of three consecutive deploys (2026-08-24, 2026-08-28,
+2026-08-29). It is the fastest confirmation available:
 
 ```
+curl -sI https://rastrillo.org/docs/compare/ | grep -i x-carlos-version
 curl -s https://rastrillo.org | grep -i "<something from the change>"
 ```
 
-or check the pointer with `carlos channels -app rastrillo`.
+Check content as well as the header. The header tells you which sha the
+edge is serving; only the content tells you the build inside it is the
+one you meant.
+
+`carlos channels -app rastrillo` does **not** work for this app — it
+fails with `CARLOS_RELEASE_PUBKEY: expected a base64 32-byte Ed25519
+public key`, and that parameter is not in SSM. Reproduced 2026-08-29.
+Use the header instead.
 
 `rastrillo.org` and `www.rastrillo.org` are CARLOS routes on the same
 app and channel; DNS `A` records point at the flagship
@@ -136,5 +146,6 @@ of a channel head, which would mean 72h of downtime for a
 never-before-served route.
 
 Rollback is a pointer move: promote the previous good sha back onto
-`canary/rehearsal` and the edge picks it up within seconds
-(`carlos channels -app rastrillo` to see what's on the channel).
+`canary/rehearsal` and the edge picks it up within seconds. Read the
+version header to see what is actually being served, since
+`carlos channels` is unusable here (above).
