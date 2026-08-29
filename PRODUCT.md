@@ -74,7 +74,7 @@ served by the CARLOS flagship — it runs on the thing it markets.
   `#0d6e63`/`#4cc3ae`; the retiring rastrillo page used blue
   `#0f5e85`/`#5db8dd`).
 - **Factor X marking is binding:** AI-written prose always carries a
-  visible 🤖 marker; the page renders a robot-note. See CLAUDE.md.
+  visible 🤖 marker; the page renders a robot-note. See AGENTS.md.
 - Hero headline is fixed copy: "Fast, cost-efficient, good: pick all
   three with rastrillo."
 
