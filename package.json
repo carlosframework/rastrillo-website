@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "eleventy",
-    "serve": "eleventy --serve",
-    "check": "eleventy && node hack/check-anchors.mjs _site/index.html && node hack/check-docs.mjs && node hack/check-fences.mjs",
+    "build": "node hack/gen-design-system.mjs && eleventy",
+    "serve": "node hack/gen-design-system.mjs && eleventy --serve",
+    "check": "npm run build && node hack/check-anchors.mjs _site/index.html && node hack/check-docs.mjs && node hack/check-fences.mjs",
+    "gen-design-system": "node hack/gen-design-system.mjs",
     "sync-docs": "node hack/sync-docs.mjs"
   },
   "devDependencies": {
