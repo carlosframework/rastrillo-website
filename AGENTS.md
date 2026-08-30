@@ -57,6 +57,42 @@ person marker.**
   top links to carlosframework.com — the two sites cross-reference, they
   don't duplicate each other.
 
+## The design system is generated, not vendored
+
+🤖 `/design-system` — the gallery of every partial, class idiom and
+token, in three themes and twelve languages — is 369 files and 20 MB.
+It is **not in this repo**. `src/design-system/` is gitignored and
+rebuilt on every `npm run build` by `hack/gen-design-system.mjs`, which
+shells out to the framework's own generator:
+
+```
+go run github.com/carlosframework/rastrillo/cmd/dsgen@<sha> \
+    -out src/design-system -mount /design-system
+```
+
+`go run …@<sha>` resolves an unreleased commit through
+`proxy.golang.org`, including the module path's redirect from
+`carlosframework/rastrillo` to the public `rastrilloorg/rastrillo` —
+measured cold at ~24s, warm at ~1s. If that ever stops working (a
+rename undone, a private module, an offline build), the fallback is a
+framework checkout at the same sha and `go run ./cmd/dsgen` with the
+same two flags; the output is byte-identical.
+
+The sha is read from `src/_data/docsversion.json` — the same commit
+`hack/sync-docs.mjs` vendored the 49 markdown pages from. That is the
+point of reading it from there rather than pinning it twice: the gallery
+and the prose beside it can never end up describing different versions
+of the framework. To move both, re-sync the docs from a newer rastrillo
+checkout and rebuild; the sha follows.
+
+**So building this site needs Go 1.25+ and network access**, not just
+Node. It also brings the one failure this repo never used to have: a
+generator that dies quietly, or an Eleventy run that beats it, publishes
+a site with no design system and no error. `npm run check` is what
+catches that — `hack/check-docs.mjs` fails unless the generator's
+`.dsgen` stamp is there, the sha it recorded matches the docs' sha, and
+every theme, locale and page kind arrived in `_site`. Don't weaken it.
+
 ## Accuracy rules (these matter more than the prose)
 
 - **Don't overclaim the framework's maturity.** Rastrillo is a young
@@ -94,6 +130,7 @@ tree.** Ship the built `_site/` of a clean export:
 mkdir -p /tmp/rastrillo-ship
 git archive <sha> --prefix=export/ | tar -x -C /tmp/rastrillo-ship
 cd /tmp/rastrillo-ship/export && npm ci && npm run check
+find _site/design-system -type f | wc -l    # 369 at c5fd8c9
 
 export AWS_PROFILE=keymail AWS_REGION=eu-west-1 \
        CARLOS_DEPLOYMENT_BUCKET=carlos-flagship-271376211898
@@ -102,6 +139,15 @@ CARLOS_RELEASE_KEY=$(aws ssm get-parameter --name /carlos/release-key \
   --with-decryption --query Parameter.Value --output text) \
   carlos promote -app rastrillo <sha> canary/rehearsal
 ```
+
+🤖 That export carries no `src/design-system/` — the gallery is
+generated, not committed (above) — so whatever runs it needs **Go 1.25+
+on `PATH` and network access to `proxy.golang.org`** as well as Node.
+`npm run check` renders the gallery first and then refuses to pass if it
+is missing or partial, so a green check on the export is a complete
+`_site`; a missing Go stops the build with an explanation rather than
+shipping a site with a hole in it. The `find` line is belt and braces —
+read the count before you ship.
 
 The env matters: without `CARLOS_DEPLOYMENT_BUCKET` the CLI goes through
 the console API, where this app is not registered, and fails with "not
