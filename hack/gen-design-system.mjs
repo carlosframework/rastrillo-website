@@ -6,7 +6,7 @@
 // it is now rendered on demand by the framework's own dsgen command, so
 // this repo carries a sha instead of a tree:
 //
-//   go run github.com/carlosframework/rastrillo/cmd/dsgen@<sha> \
+//   go run amadan.net/rastrillo/rastrillo/cmd/dsgen@<sha> \
 //       -out src/design-system -mount /design-system
 //
 // The sha is the one in src/_data/docsversion.json — the same commit
@@ -28,7 +28,12 @@ import { execFileSync } from "node:child_process";
 import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const MODULE = "github.com/carlosframework/rastrillo/cmd/dsgen";
+// The framework moved to amadan.net (rastrillo #140, 2026-09-01). The old
+// github.com/carlosframework/rastrillo path cannot serve any sha from after
+// that move: go verifies the module path against go.mod, and go.mod now
+// reads amadan.net/rastrillo/rastrillo. Pinning a post-move sha with the old
+// path fails to resolve rather than silently building something stale.
+const MODULE = "amadan.net/rastrillo/rastrillo/cmd/dsgen";
 // Every URL in the output is an absolute path under the mount, so this
 // has to be the path the site serves the tree from. eleventy.config.js
 // maps src/design-system to /design-system; the two must agree, and

@@ -11,7 +11,7 @@
   },
   {
     "title": "Start your own",
-    "cmd": "go install github.com/carlosframework/rastrillo/cmd/rastrillo@latest\nrastrillo new myapp && cd myapp && go mod tidy && go test ./...",
+    "cmd": "go install amadan.net/rastrillo/rastrillo/cmd/rastrillo@latest\nrastrillo new myapp && cd myapp && go mod tidy && go test ./...",
     "note": "The scaffold is the same five-file shape, tests passing before you write a line. Then read <a href=\"https://github.com/rastrilloorg/rastrillo/blob/main/SKILL.md\"><code>SKILL.md</code></a> — the whole app story in one file. Building with an agent? That file is exactly what it should load."
   }
 ]
