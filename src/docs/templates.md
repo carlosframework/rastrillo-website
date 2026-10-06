@@ -22,7 +22,8 @@ so the layout can render a notice. See [Forms](/docs/forms).
 ## Template functions
 
 `ui.Funcs()` registers `dict`, `list`, `menuGroup`, `searchClear`,
-`icon`, `iconAssets`, `T`, `Tf` and `dateWords`.
+`icon`, `iconAssets`, `T`, `Tf`, `dateWords`, `opt`, `Tbdi`,
+`stageArt`, `displayURL`, `safeHref` and `rowMenuItems`.
 
 Each partial takes exactly one data value, and `dict` is how you build
 it at the call site:
@@ -53,15 +54,16 @@ a partial's built-in strings resolve in the request's locale. See
 They span the list-screen, display, form and route families:
 
 ```text
-back-nav      error-page       field-time          meter
-badge         field            form-error          notice
-bulk-bar      field-check      form-foot           page-header
-callout       field-date       job-status          pagination
-choice-field  field-daterange  list-bar            person
-confirm-form  field-datetime   list-bar-search     seg-tabs
-detail-list   field-select     list-row-action     stat
-dropdown      field-text       list-search-submit  status-pill
-empty-state   field-textarea   locale-menu
+back-nav      field            form-error          page-header
+badge         field-check      form-foot           pagination
+bulk-bar      field-date       job-status          person
+callout       field-daterange  list-bar            row-menu
+choice-field  field-datetime   list-bar-search     seg-tabs
+confirm-form  field-select     list-row-action     signin
+detail-list   field-text       list-search-submit  signin-title
+dropdown      field-textarea   locale-menu         stat
+empty-state   field-time       meter               status-pill
+error-page    field-url        notice
 ```
 
 `locale-menu` is the language switcher; see
@@ -143,6 +145,18 @@ the same reason — it lives in a `rst-list` card your own page markup
 writes, and a `<li>` needs a list around it that the partial does not
 own.
 
+A row that stands for a record is a link across its whole width: its
+name link covers the row, and the row's other buttons, checkboxes and
+menus sit on top of it. Give each row one name link. A row with no link
+does not look or act clickable.
+
+Put a row's other actions in `row-menu`, at the end of the row. Each
+item is a link (`Href`) or a form that posts (`Action`, with `Hidden`
+fields). Put a destructive item last: it links to its confirm page and
+its label ends with …. Inside a bulk-selection form, every item must be
+a link. `list-row-action` takes the same list as `Menu` and puts the
+menu after its action pill.
+
 `job-status`'s `rst-job` is the third, and the reason is behaviour
 rather than structure: the shim replaces that element **wholesale** on
 every poll, and whether a live region whose host node keeps being
@@ -162,10 +176,9 @@ around it. `<details name>` exclusivity is document-wide, not
 sibling-scoped, so a submenu sharing its parent's group closes that
 parent the moment it opens.
 
-The sidebar shell's `rst-shell-chrome` strip and the toggle-block are
-deliberately outside the group: neither is a menu, and closing the
-narrow-screen nav rail because someone opened a filter would take the
-navigation away.
+The toggle-block is outside the group: it is not a menu. So is the Menu
+button of the topbar and console on a phone: the account menu opens
+inside it, and in the same group it would close it.
 
 Closing an open menu on a click elsewhere, or on Escape, is the one part
 native `<details>` cannot express, so `rastrillo.js` does it — two
@@ -178,12 +191,31 @@ time.
 ### A button that changes something says so
 
 Every submit button in every form gets a loading state on its way out:
-`aria-busy="true"`, a spinner before the label, and — a tick later, once
-the submission is under way — `disabled`. `rastrillo.js` does it by
-default, with no attribute to remember. A button that only *reveals*
+`aria-busy="true"`, a spinner in place of the label, and — a tick later,
+once the submission is under way — `disabled`. `busy.js` does it by
+default, with no attribute to remember; linking the file is the whole
+opt-in.
+
+The spinner shows for at least 650ms. A response faster than that would
+make it flicker, which reads as a glitch rather than an answer, so the
+submit is held until 650ms after the click and then sent — the clicked
+button's `name` and `value` with it, exactly as the click would have
+sent them. Only a submit with a spinner on screen is held: a button that
+opted out, or a script's `requestSubmit()` with no button, goes at once
+(the form is still guarded). A script that wants the spinner passes the
+button: `form.requestSubmit(button)`. Leaving the page while a submit is held drops it, and going
+Back to a page whose form was sent hands the form back, clean. A button that only *reveals*
 something gets nothing: a disclosure, a dropdown, a tab is not doing
 work, and dressing it as though it were is a lie the reader has to learn
 to ignore.
+
+The button keeps its width while it works, so nothing beside it moves,
+and its label is still there for a screen reader to announce. A button
+with a `data-busy-label` shows those words beside the spinner instead.
+For someone who has asked for reduced motion, or who uses forced
+colours, the label stays and the spinner sits beside it: a spinner that
+does not turn, or one drawn over repainted text, is too easy to miss on
+its own.
 
 Only the button that was clicked. The others in the same form keep their
 `name` and their `value`, so a Save / Save-draft pair still tells your
@@ -195,7 +227,7 @@ at the same place and are all refused while the first submission is out.
 |---|---|---|
 | `data-busy="false"` | the `<form>` | the whole form opts out |
 | `data-busy="false"` | one submit button | that button opts out; the form is still guarded |
-| `data-busy-label="Saving…"` | either | replaces the button's text while it works |
+| `data-busy-label="Saving…"` | either | shows this text beside the spinner, in place of the label |
 
 Three things the rule deliberately does not do. It does not touch a form
 whose `target` sends the result somewhere else — that page is not going
@@ -276,6 +308,24 @@ a sibling `rst-box-head` before it:
 
 `rst-form` is a hook the form partials assume, not a container: it draws
 nothing on its own, so it needs a `rst-box` (or the bare page) around it.
+
+### Set a grid's columns in your stylesheet
+
+A `rst-card` of `rst-lrow` rows takes its columns from `--rst-cols`. Set
+it with a class in your own stylesheet, not a `style` attribute. The
+baseline content-security policy blocks inline styles, and the rows fall
+back to one column.
+
+```html
+<div rst-card class="orders">…</div>
+```
+
+```css
+.orders { --rst-cols: 2fr 110px var(--rst-col-menu); }
+```
+
+End `--rst-cols` with `var(--rst-col-menu)` when the rows have a ⋮
+menu. The column is 32px on a desktop and 44px on a phone.
 
 ### Screens stack vertically
 
@@ -380,6 +430,48 @@ confidently wrong about half your deltas. `callout` with `Alert`
 adds `role="alert"`, which interrupts a screen reader mid-sentence:
 reserve it for a problem happening now, and leave ambient notes as the
 ordinary tones.
+
+## Web address fields
+
+`field-url` takes a web address and does not care whether the person
+types `https://`. It has `field-text`'s keys, `Name`, `Label`, `Value`,
+`Required`, `Hint` and `Error`, plus `Autocomplete`:
+
+```html
+{{template "field-url" dict "Name" "Website" "Label" "Website"
+	"Value" .Fields.Website "Error" (T (index .Errors "Website"))}}
+```
+
+It is a text input, not `<input type="url">`, because browsers refuse
+`example.com` in a url input until it has a scheme. It still asks a
+phone for the URL keyboard, and it turns off autocapitalise and
+autocorrect so the phone leaves the address alone.
+
+`Autocomplete` defaults to `url`, which offers the visitor their own
+homepage. For a field about someone else's site, such as a customer's,
+pass `"off"`.
+
+Read it on the server with `form.URL`. It turns `example.com` into
+`https://example.com` and refuses anything that is not an http or https
+address, so what you store is safe to link. See
+[Forms](/docs/forms#web-addresses).
+
+To show a stored address, use `displayURL` for the text and `safeHref`
+for the link:
+
+```html
+{{with safeHref .Website}}<a href="{{.}}" rel="noopener noreferrer">{{displayURL .}}</a>{{end}}
+```
+
+`displayURL` drops the scheme and the trailing slash. `safeHref` gives
+back the address unchanged if it is an http or https URL, and `""` for
+anything else, so a bad value from before validation shows no link at
+all. On its own, `html/template` would let a stored `mailto:` into the
+`href`.
+
+Seed the form with the stored value as it is, not with `displayURL`.
+Dropping the scheme would turn a stored `http://` address into
+`https://` the next time the form is saved.
 
 ## Date and time fields
 
@@ -512,8 +604,29 @@ any size.
 `Options` is flat here, so `<optgroup>` is a hand-written-markup thing —
 and `select.js` renders those groups rather than flattening them: each
 optgroup becomes a `role="group"` with its label as the group's
-accessible name, and loose options sit at the top level. A group
-filtered down to nothing takes its heading with it.
+accessible name, and loose options sit at the top level. While someone
+searches, the best matches come first and the group headings step aside;
+clear the search and every row is back in its group.
+
+A search puts the row someone meant first. Accents don't matter, so
+`osterreich` finds Österreich; the start of a name beats the middle of
+one, and an exact match beats both. Leaving the box after a search takes
+the one row it can only mean. Two letters never do.
+
+An `<option>` can say more, all optional. `data-rst-terms` lists more
+words the search matches, such as an ISO code or a calling code.
+`data-rst-first` puts it first when an exact search matches several.
+`data-rst-name` and `data-rst-desc` split a label into a name and a
+quieter description. `data-rst-short` is what the closed box shows once
+it is picked (`+44`). `data-rst-lead` is a decorative glyph such as a
+flag, drawn before the row and the box. An `<hr>` between two options
+draws a divider in the list, hidden while searching.
+
+A blank that asks rather than answers is a prompt: the blank of a
+`required` select, a disabled blank, or one marked `data-rst-prompt`.
+The box never shows a prompt as the pick, and a required select never
+lists its blank. With nothing picked yet, the list opens with nothing
+highlighted, so pressing Enter can't answer the question for someone.
 
 A hand-written select opts out from the markup side with
 `data-rst-select="false"`, which is never enhanced whatever its size.
@@ -522,17 +635,18 @@ This partial never emits it — `Plain` simply emits nothing — but
 
 ## The design system
 
-Every partial, every state, every markup idiom and all four shells,
-rendered live for all three themes and all twelve base locales — five
-pages per theme × locale, one per section, plus a full-page demo for
+Every partial, every state, every markup idiom and all five shells,
+rendered live for all three themes and all twelve base locales: one
+page per section for each theme and locale, plus a full-page demo for
 each shell and one for the modal route. It is live at
 rastrillo.org/design-system.
 
 The gallery is generated by `internal/designsystem` and is not kept in
-the repository: it is 20 MB of machine output, rewritten whole every
-time a `ui` template changes. The site builds it at deploy time by
-running `cmd/dsgen` against the version of the framework the docs were
-vendored from, so the gallery documents the version the prose describes:
+the repository: it is about 33 MB of machine output in some 5,700 files,
+rewritten whole every time a `ui` template changes. The site builds it
+at deploy time by running `cmd/dsgen` against the version of the
+framework the docs were vendored from, so the gallery documents the
+version the prose describes:
 
 ```
 go run amadan.net/rastrillo/rastrillo/cmd/dsgen@<version> \
@@ -551,21 +665,22 @@ there is nothing that can fall out of date, so there is no longer a
 freshness gate to run.
 
 Every page is laid out in the `sidebar` shell, because that shell is one
-of the things the gallery exists to show. The rail is the same on all
-five: a search box over a nav that links every section, every partial
-and every markup idiom in the whole gallery, with the section you are
-reading expanded and the rest folded away —
+of the things the gallery exists to show. On a desktop the rail is the
+same on every page: a search box over a nav that links every section,
+every partial and every markup idiom in the whole gallery, with the
+section you are reading expanded and the rest folded away.
 `TestTheSidebarLinksEverythingOnThePageExactlyOnce` derives that list
 from the same markers the coverage gates read, so a new partial shows up
 there without anyone touching it. Typing in the box hides the entries
-that do not match, and any section that empties out. Below 800px the
-rail folds into the shell's own `<details>` chrome strip, with no script
-involved.
+that do not match, and it also finds things by the names people call
+them: "checkbox", "dialog", "card". Below 800px the gallery works the
+way a sidebar app does on a phone: the Overview is an index of every
+section, and every other page has a back control that returns you to the
+row you left.
 
 The reader-facing names for two of those sections are not the code's.
 The gallery calls them **Components** and **UI primitives**; `ui`
-returns partials and this page calls them partials, and the Components
-page says so in a sentence of its own.
+returns partials, and this page calls them partials.
 
 **Every word on the page is translated**, not only the components. The
 gallery's headings, leads and notes come from a catalog of its own, in
@@ -578,25 +693,37 @@ that reached a page in another language.
 Sample content is the deliberate exception. The names, routes and labels
 inside a component sample are stand-ins, and translating them would
 suggest the framework ships those words, so they stay English on every
-page. The shell and modal demos go the other way — they impersonate a
-real application, so their chrome speaks the language you picked. The
-page says so itself, under Partials, in all twelve languages.
+page. The shell and modal demos go the other way: they impersonate a
+real application, so their chrome speaks the language you picked.
 
-Every example on the page is shown three ways behind one control:
-**Desktop**, **Mobile** and **Code**. The two previews are one
-`<iframe>` holding a document of its own — the sample, the stylesheets,
-and nothing else — laid out at a virtual width and scaled into whatever
-width you are reading at, so the desktop rendering is the desktop
-rendering on a phone. Mobile is 390px. Desktop is 900px for a
-component, which is the width one gets in an app's column and wide
-enough that a comfortable reading width leaves it unscaled, and 1200px
-for the examples that are a whole page — the shell demos and the demo
-application, which want a window to be a page frame in. The tabs are radio inputs and `:has()`;
-no JavaScript is involved in switching them. Each preview is a window on
-its document rather than a fit to it, so a tall sample scrolls inside
-the box — and the box has a resize grip on its bottom edge. Drag it and
-the frame takes its new height, which means you see more of the
-document rather than more of the box.
+Every example is shown three ways behind one control: **Desktop**,
+**Mobile** and **Code**. The two previews are an `<iframe>` holding a
+document of its own: the sample, the stylesheets, and nothing else.
+Desktop is laid out at a fixed width and scaled to fit the column you
+are reading in: 900px for a component, which is the width one gets in an
+app's column, and 1200px for the examples that are a whole page. On a
+narrow screen it stops shrinking and scrolls sideways inside its box
+instead. Mobile is the page at a phone's size: 390px on a desktop, and
+on a phone the width of your own screen, never scaled, so what you see
+is what the phone shows. The tabs are radio inputs and `:has()`, with no
+JavaScript involved in switching them. Each preview is a window on its
+document rather than a fit to it, so a tall sample scrolls inside the
+box, and the box has a resize grip on its bottom edge.
+
+The Code tab leads with the template call to copy: the partial and its
+arguments, exactly as you would write them in a template. Under it,
+behind a Rendered HTML disclosure, is the markup that call produces,
+formatted and highlighted. When a partial only works inside something,
+such as a form or a box, a line above the call says what to put it in.
+Every block has a Copy button, and what it copies is exactly the text
+you see. Status pills, badges and meters show every state in one row,
+with one call per state.
+
+Above the first example, **Show every example as** sets every example on
+the page at once: Auto, Desktop, Mobile or Code. Auto lets each example
+pick Desktop or Mobile from the width of your screen. The choice is
+remembered from page to page, and if you then change one example by
+hand, none of the four stays pressed.
 
 Giving each sample a document of its own is what makes the awkward ones
 work. The two shell frames carry their own `<main>` and the gallery
@@ -616,26 +743,26 @@ before it is framed and every form is aimed at a hidden sink. The Code
 tab beside the preview keeps the routes the sample was written with,
 which are the ones worth copying.
 
-Three switchers sit in the header, top right. **Theme** is three links,
-one per theme, landing on the same page in that theme's palette.
-**Colour scheme** is System / Light / Dark, and it is the only one of
-the three that needs JavaScript: it writes `data-theme` on `<html>`,
-remembers the choice in `localStorage`, and puts the same attribute on
-every preview frame, because a colour scheme does not reach into an
-embedded document that declares one of its own. **Language** is the
-`locale-menu` dropdown, twelve entries, each keeping you on the page you
-were reading.
+On a desktop three switchers sit in a bar pinned above the page; on a
+phone they sit at the foot of the index. **Theme** is three links, one
+per theme, landing on the same page in that theme's palette. **Colour
+scheme** is System, Light and Dark, and it is the only one of the three
+that needs JavaScript: it writes `data-theme` on `<html>`, remembers the
+choice in `localStorage`, and puts the same attribute on every preview
+frame, because a colour scheme does not reach into an embedded document
+that declares one of its own. **Language** is a menu of twelve links.
+Switching theme or language keeps your place: you land on the section
+you were reading, not the top of the page.
 
-The script behind that toggle is `gallery.js`, the only JavaScript in
-the tree that is not part of the framework — furniture for the page
+The script behind those controls is `gallery.js`, the only JavaScript in
+the tree that is not part of the framework: furniture for the page
 rather than something an app is ever given, which is why it lives beside
-the renderer instead of in `ui`. It follows the same rules as its three
-neighbours anyway:
-first-party, no dependencies, no network. The scheme toggle and the
-filter box are both `display: none` until the file sets
-`data-rst-js`, so with scripts off you get the nav and the theme's own
-`color-scheme: light dark` rather than two controls that cannot do
-anything.
+the renderer instead of in `ui`. It follows the same rules as the
+framework's own scripts anyway: first-party, no dependencies, no
+network. The scheme toggle, the filter box, the page-wide view and the
+Copy buttons are all hidden until the file sets `data-rst-js`, so with
+scripts off you get the nav, the theme's own `color-scheme: light dark`
+and the tabs, rather than controls that cannot do anything.
 
 Every link in that tree — stylesheets, scripts, the theme and language
 switchers, the shell and modal demos — is an absolute path under
@@ -645,26 +772,26 @@ serves `/design-system` and `/design-system/` as the same page without
 redirecting between them, and a relative href resolves differently on
 each.
 
-The gallery is scanned to WCAG 2.2 AA on every CI run — the
-`browser-tagged tests` job runs `./internal/designsystem/`, and a
-violation fails the build. Locally it is `go test -tags browser -p 1
-./internal/designsystem/` (the `-p 1` matters: two Chromium-heavy
-packages starting together contend badly enough to blow a drive's
-deadline). It injects a pinned copy of axe-core into a real browser and
-runs it over the tree as the renderer produces it — the same bytes
-`dsgen` writes, served from memory: the index in each of the three themes
-in both colour schemes, an RTL page, the modal and a shell demo, and the
-preview documents the components actually live in — those in every theme
-and scheme too. Plus two checks axe cannot make: that nothing scrolls
-sideways in a 320px viewport, and that a Tab through the page shows a
-focus ring at every stop and never gets stuck.
+The gallery is scanned to WCAG 2.2 AA on every CI run, and a violation
+fails the build. Locally it is `go test -tags browser -p 1
+./internal/designsystem/ ./internal/designsystem/sweep/` (the `-p 1`
+matters: two Chromium-heavy packages starting together contend badly
+enough to blow a drive's deadline). It injects a pinned copy of axe-core
+into a real browser and runs it over the tree as the renderer produces
+it, served from memory: the gallery's pages in every theme in both
+colour schemes, at desktop and phone widths, an RTL page, the modal, the
+shell demos, and the preview documents the components live in. Plus
+checks axe cannot make: that nothing scrolls sideways in a 320px
+viewport, that a Tab through the page shows a focus ring at every stop
+and never gets stuck, and that every preview fits its frame. The slowest
+of these run in full only with `make browser-sweep`, which is worth
+running before a release that changes the gallery's words.
 
 That is a floor, not a certificate. Automated scanning reaches roughly
-half of the WCAG success criteria, and the other half — whether alt text
+half of the WCAG success criteria, and the other half (whether alt text
 says something true, whether the reading order makes sense, whether a
-label means what it says — is read by a person. And it is a sample: six
-pages of a hundred and eighty, eight previews of a hundred and ten,
-chosen for what they would catch rather than for coverage.
+label means what it says) is read by a person. And it is a sample,
+chosen for what it would catch rather than for coverage.
 
 ## Styling
 
@@ -867,8 +994,8 @@ The shell is the page frame — `templates/layout.html`, written once by
 |-----------|----------------------------------------------------------------------------|
 | `column`  | a centred content column, no chrome (default)                              |
 | `topbar`  | header bar: brand, nav, account menu, locale switcher, footer              |
-| `sidebar` | a left rail of nav groups, collapsing to a `<details>` chrome bar below 800px |
-| `console` | both at once: a brand-and-account bar across the top with the rail beneath it down the side, the two folding behind one disclosure below 800px |
+| `sidebar` | a rail of nav groups beside the page; on a phone, an index page of sections and a back control |
+| `console` | both at once: a bar across the top with the rail beneath it down the side; on a phone, the bar's menu opens as a card and the rail is an index page |
 
 Every shell defines `layout`, renders `{{template "content" .}}` for the
 page's own body, and puts each piece of chrome in a block with a working
@@ -888,12 +1015,13 @@ block:
 {{define "content"}}<h1>Your notes</h1>{{end}}
 ```
 
-The blocks are `title`, `lang`, `dir` and `head` in all four shells,
+The blocks are `title`, `lang`, `dir` and `head` in all five shells,
 plus `brand`, `nav`, `account` and `locale` in `topbar`, `sidebar` and
-`console`, and `foot` in `topbar` and `console`. None of them reads a field off the data, so
-a shell renders whether your handler passes a struct, a `dict`-built map
-or nil — a shell can never break because a page's view model changed
-shape.
+`console`, `view` and `up` in `sidebar` and `console`, `foot` in
+`topbar`, `console` and `stage`, and `backdrop` in `stage`. None of them
+reads a field off the data, so a shell renders whether your handler
+passes a struct, a `dict`-built map or nil. A shell can never break
+because a page's view model changed shape.
 
 `head` is the odd one out: it is not chrome, it is your slot in
 `<head>`. A favicon, an Open Graph tag, one more stylesheet, a script
@@ -913,35 +1041,99 @@ between `topbar` and `console` and nothing changes; move it to or from
 The chrome attributes live in `tokens.css` like every other idiom:
 `rst-shell-topbar`, `rst-shell-bar`, `rst-shell-brand`,
 `rst-shell-nav`, `rst-shell-account` and `rst-shell-foot` for the
-topbar; `rst-shell-sidebar`, `rst-shell-rail`, `rst-shell-chrome`,
-`rst-shell-group` and `rst-shell-main` for the sidebar;
-`rst-shell-console` for the console, which reuses the bar, the rail and
-the topbar's `rst-shell-menu` rather than naming anything of its own;
-and `rst-skip`, the skip link, which all four shells carry — `column`
-included. The sidebar's mobile collapse is that
-`<details rst-shell-chrome>` and nothing else — no JavaScript,
-like every other idiom here.
+topbar, with `rst-shell-menu` and `rst-shell-tail` for its phone menu;
+`rst-shell-sidebar`, `rst-shell-rail`, `rst-shell-group`,
+`rst-shell-main`, `rst-shell-title` and `rst-shell-back` for the
+sidebar; `rst-shell-console` for the console, which reuses the rest;
+and `rst-skip`, the skip link, in all five shells. None of it needs
+JavaScript.
 
-### The console folds two chromes behind one control
+`stage` has no chrome. It centres one card, usually the sign-in screen,
+over a full-page backdrop drawn by `{{stageArt "rastrillo"}}` unless you
+redefine `backdrop`. `{{define "backdrop"}}{{stageArt "your-app"}}{{end}}`
+draws a pattern of your own from any word, and an `<img>` or your own
+SVG replaces it outright. Its attributes are `rst-stage`,
+`rst-stage-scene`, `rst-stage-art` and `rst-stage-foot`, and it carries
+`rst-skip` like the others.
 
-`console` is the only shell with two pieces of chrome to put away below
-800px: the bar's tail and the rail. It puts them away with **one**
-`<details rst-shell-menu>` rather than two, because two disclosures on a
-phone is two things to learn. The disclosure gates its own next sibling
-— the tail — with `+`, and gates the rail from the shell root with
-`:has()`.
+### On a phone: an index and a way back
 
-Both rules are written as *hide when closed* rather than *show when
-open*, which is worth copying if you write chrome of your own. In a
-browser without `:has()` the rail's rule never matches, so the rail
-renders as a plain column of links under the bar: a longer page, and the
-navigation still reachable. Written the other way round, the same
-missing selector would be a phone with no way to navigate.
+Below 800px, `sidebar` and `console` show each page in one of two ways.
+Your index page is the list of sections. Every other page shows its
+content, with a back control at the top that returns to that list. The
+sections are never behind a menu button: `sidebar` has none, and the
+console's Menu button holds only its account and language menus.
 
-Nothing is reordered at any width. Grid places the bar and the rail by
-named area, so the DOM order — bar, rail, page — is the reading order
-and the focus order at 320px and at 1280px, in both directions of the
-language.
+Mark your index page with the `view` block:
+
+```html
+{{define "view"}}index{{end}}
+```
+
+Give every other page an `up` block that points back to its own row on
+the index, and give that row the matching id:
+
+```html
+{{define "up"}}/#nav-invoices{{end}}
+{{define "nav"}}<a id="nav-invoices" href="/invoices" aria-current="page">Invoices</a>…{{end}}
+```
+
+With JavaScript off, the fragment brings the reader back to the row
+they left. With `shell.js`, the back control uses the browser's history
+when it can, the pages slide, and focus returns to the row. A page with
+no `view` block is a content page, so a page you forget still shows its
+content and a way back.
+
+In `topbar` and `console`, the Menu button on a phone opens a card over
+the page. A tap outside it, or Escape, closes it. The page underneath
+does not move.
+
+In this release's `sidebar` and `console` layouts, `rastrillo.Serve`
+prerenders the pages your navigation links to, so the next page is ready
+when it is tapped. On a phone, Chrome may prerender a section as soon as
+its row is on screen, before anyone taps it; on a desktop, when the
+pointer rests on a link. Older layouts and other pages are not
+prerendered. A prerendered page is fetched with a GET and runs its
+scripts before anyone sees it, so a GET handler must never change
+anything, and a script that changes something as the page opens must
+wait until `document.prerendering` is false. To turn it off, set
+`Options.NoSpeculationRules`.
+
+### The console on a phone
+
+`console` has two pieces of chrome to put away below 800px, and each
+goes the way it goes in the shell it comes from. The bar's account and
+language menus go behind the Menu button, which opens a card, as in
+`topbar`. The rail is an index page, as in `sidebar`: mark the index
+with `view` and give other pages `up`.
+
+Nothing is reordered at any width. The DOM order, bar, rail, page, is
+the reading order and the focus order at 320px and at 1280px, in both
+directions of the language.
+
+### Upgrading to the phone index
+
+A layout from before this release keeps working: its sidebar drawer
+still opens. To move to the index:
+
+1. Upgrade the module and run `rastrillo doctor --fix`. It re-copies
+   `tokens.css` and adds `shell.js` and `shell.css`.
+2. Replace `templates/layout.html` with the new shell
+   (`ui.Layout("sidebar")` or `ui.Layout("console")`), and carry your
+   own edits across.
+3. Add `{{define "view"}}index{{end}}` to your index page, and an `up`
+   block to every other page.
+4. If you already have a template called `view` or `up`, rename it.
+   The shells use those names now.
+5. In a list grid, end `--rst-cols` with `var(--rst-col-menu)` instead
+   of `32px`.
+
+`rastrillo new --shell=sidebar` and `--shell=console` now write two
+pages, an index and an Overview section, to show the shape.
+
+An app on `topbar`, `column` or `stage` can delete `shell.js` and
+`shell.css`. Add both to `vendoredIsMine` in `vendored_test.go`, or
+that test fails on the missing files.
 
 ### Upgrading: the topbar's tail is a level deeper
 

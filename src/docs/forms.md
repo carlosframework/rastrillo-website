@@ -68,6 +68,7 @@ the common thing.
 | `Date` | `p.Date` | `2006-01-02`, parsed in `Location` |
 | `Time` | `p.Time` | `15:04` — a clock reading, no location |
 | `DateTime` | `p.DateTime` | `2006-01-02T15:04`, parsed in `Location` |
+| `URL` | `p.String` | A web address, scheme optional; stored as an http(s) URL |
 
 `Required` on a blank `Text` or `Textarea` reports "<Field name> is
 required", humanized from the field name.
@@ -139,7 +140,8 @@ kind works on either side, and the two can be mixed.
 ### Errors are catalog keys
 
 `Text`, `Textarea` and `Money` report finished English sentences. The
-three date kinds report `rastrillo.ui.*` keys instead —
+three date kinds (and `URL`, below) report `rastrillo.ui.*` keys
+instead —
 `rastrillo.ui.date_invalid`, `rastrillo.ui.field_required`,
 `rastrillo.ui.date_end_before_start` — so a French app's date error is
 in French without the app writing one.
@@ -167,6 +169,33 @@ a finished sentence keeps rendering it unchanged.
 the hour a spring-forward skips — using the offset in force before the
 transition, so a time inside the skipped hour and the real time it
 collapses onto land on the same instant.
+
+## Web addresses
+
+`form.URL` takes a web address however it was typed and gives you one
+you can link to:
+
+```go
+p := form.Parse(r, form.Field{Name: "website", Kind: form.URL})
+site := p.String("website") // "example.com" arrives as "https://example.com"
+```
+
+It adds `https://` when there is no scheme, lowercases the host and
+drops a bare trailing slash. It refuses any scheme but http and https,
+a username or password in the address, a host with no dot, and
+whitespace. A refused address reads back as `""`, so it cannot reach
+your database even if you forget to check `p.OK()`. The echo keeps what
+was typed.
+
+Its errors are catalog keys, like the date kinds':
+`rastrillo.ui.url_invalid`, `rastrillo.ui.url_credentials`, and
+`rastrillo.ui.field_required` when a required field is blank. Wrap them
+in `T` the same way.
+
+Render the input with `field-url`, and show a stored address with
+`displayURL` and `safeHref`; see
+[Templates](/docs/templates#web-address-fields). To tell whether two
+addresses are the same site, compare `form.URLKey` of each.
 
 ## Money is int64 cents
 
@@ -197,6 +226,72 @@ Both handle negatives correctly, writing the sign once against the
 absolute value. Formatting a negative directly produces `"$-1.-50"`,
 since Go's `/` and `%` both truncate toward zero.
 
+## What a form looks like
+
+Everything above is about reading a form. This is about drawing one,
+and it is the half that gets hand-rolled by accident: `<label>Email
+<input></label>` compiles, submits and validates perfectly well, so
+nothing fails — it just renders as a ragged column of labels sitting
+inline beside inputs of a dozen different widths, with an unstyled
+button under it.
+
+**A labelled control is never hand-written.** There is a partial for
+every field kind, and each draws the label above the control, wires
+`aria-describedby` to the lines that actually rendered, and sets
+`aria-invalid` when there is an error. `field-text` and
+`field-textarea` are the two you reach for most:
+
+```html
+<form rst-form method="post" action="/notes">
+{{template "field-text" dict "Name" "title" "Label" "Title" "Value" .Note.Title "Required" true "Error" (index .Errors "Title")}}
+{{template "field-textarea" dict "Name" "body" "Label" "Body" "Value" .Note.Body "Error" (index .Errors "Body")}}
+{{template "form-foot" dict "Submit" "Create" "CancelHref" "/" "CancelLabel" "Cancel"}}
+</form>
+```
+
+The rest are `field-select`, `field-check`, `field-date`,
+`field-datetime`, `field-time` and `field-daterange`. `field` is the
+older, more configurable text control — reach for it when you need
+`Pattern`, `Maxlength` or `Placeholder`.
+
+**Read the partial's own doc comment before your first call to it;
+the keys are not uniform.** `field-text` derives the control's `id`
+from `Name`, and its `Hint` is the muted line under the control.
+`field-select` and `field` take `ID` *and* `Name` separately, put
+`Hint` in parentheses after the label, and use `Help` for the line
+underneath. Copying one call shape onto the other silently renders
+`for=""` and drops the guidance.
+
+`rst-form` is yours to write, as `rst-page` and `rst-list` are. It is
+what makes the column a column: a `44rem` maximum, so lines stay
+readable, and a consistent gap between fields. Without it the fields
+are loose in the page and inherit whatever the surrounding layout does.
+
+`form-foot` closes the form. It emits one primary submit and, given
+`CancelHref`, a cancel that is a real `<a>` — leaving a form is
+navigation, so it must survive middle-click, a new tab and no JS.
+Destructive actions do not belong there; they get a confirm route of
+their own.
+
+### Buttons have a size
+
+`rst-btn` comes in three steps — `sm`, the default, and `lg` — and the
+size composes with the variant, so a form's submit is
+`rst-btn="primary lg"`. `form-foot` and `confirm-form` both write that
+for you; the one place a submit stays at the default step is the sticky
+save bar (`rst-form-bar`), which is persistent chrome pinned to the
+viewport rather than the end of a form, and where a taller button just
+eats the page.
+
+The default step is sized for a control that sits beside other controls:
+a page-header action, a button in a row. It is the wrong size for a
+form's submit, and the failure is easy to recognise once you have seen
+it — a 34px-tall button with a 12.5px label stretched the full width of
+a 44rem column reads as a skinny blue bar rather than the thing the
+screen is asking you to press. If you are reaching for a full-width
+button, that is `rst-btn="primary lg block"`, and `block` centres its
+own label.
+
 ## The main field
 
 Most forms have one main field that is required to be filled and
@@ -204,7 +299,7 @@ typically labels the record.
 
 Mark it `Primary` to get a bigger input; the label stays the same, so
 the emphasis lands on what someone types. One per form. A primary field
-almost always sits on its own row (except in cases like first/last name)
+almost always sits on its own row (except in cases like first/last name).
 
 ## Two fields on one row
 
@@ -275,9 +370,10 @@ stylesheet after `tokens.css`.
 
 ## The busy button is not a guarantee
 
-`rastrillo.js` gives every submit button a loading state while its form
-is out — spinner, `aria-busy`, then `disabled` — and refuses a second
-submit from the same form while the first is in flight. It is on by
+`busy.js` gives every submit button a loading state while its form is
+out — a spinner in place of the label for at least 650ms, `aria-busy`,
+then `disabled` — and refuses a second submit from the same form while
+the first is in flight. It is on by
 default; `data-busy="false"` on the form or on one button opts out, and
 `data-busy-label` replaces the text. The whole rule, including what it
 looks like, is in

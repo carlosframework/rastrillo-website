@@ -69,15 +69,20 @@ before falling back to `:8080`.
 **`Locales`**, **`DefaultLocale`**, **`LocaleFS`** — the locale set and
 its catalogs.
 
-**`CSP`** — swaps the baseline content-security policy. The framework
-sets baseline security headers outermost, and your own `Set` or `Del`
-wins.
+**`CSP`** — swaps the baseline content-security policy. The baseline
+allows no inline styles or scripts. The framework sets baseline security
+headers outermost, and your own `Set` or `Del` wins.
 
 **`NextDue`** — answers the activator's `GET /api/next-due` scheduled-wake
 poll. Unset, the route does not exist.
 
 **`Sidecar`** — the app's sidecar pass, run in a loop when the platform
 spawns `<binary> sidecar run`. See [Agents and tools](/docs/agents).
+
+**`Background`** — your app's
+[`background.Group`](/docs/reference/background). `Serve` stops it after
+the last request finishes and before the database closes, so work still
+running does not lose its database.
 
 **`ErrorPage`** — your own error page, for a failure your app never saw.
 The framework recovers a panicking handler outermost of all — outside
@@ -104,6 +109,16 @@ the user saw to what you grep for. The alphabet has no `0`, `1`, `8` or
 `9`, so a reference read down a phone line cannot be heard as an `O`, an
 `l` or a `B`. `view.Fail` mints one too; `NewRef` is exported for a
 hand-written handler doing the same job.
+
+**`NoSpeculationRules`**: turns off prerendering. By default every
+response names `SpeculationRulesPath`, where `Serve` answers with rules
+that prerender the navigation in this release's sidebar and console
+layouts. A content-security policy does not turn it off; this field
+does, or deleting the `Speculation-Rules` header in a handler.
+
+```go
+const SpeculationRulesPath = "/_speculation-rules"
+```
 
 ## Ctx and RenderFunc
 
