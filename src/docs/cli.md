@@ -248,6 +248,49 @@ as **absent**, not as drift, and does not fail the exit code — you get a
 line saying what the library ships and how big it is. `--fix` will still
 add it, because asking for `--fix` is asking.
 
+### An app on the old module path
+
+Until v0.25.0 rastrillo's module path was
+`github.com/carlosframework/rastrillo`. An app that still imports from
+there is stuck at v0.23.0. It gets no fix released since, and its own
+`vendored_test.go` still passes, because it checks against the same old
+module. `go get
+github.com/carlosframework/rastrillo/cmd/rastrillo@upgrade` fails with
+"module declares its path as: amadan.net/rastrillo/rastrillo".
+
+`doctor` checks for this first. If the app's `go.mod` requires the old
+path directly, it compares no files, prints the steps below and exits 5.
+`--fix` refuses, even with `--force`.
+
+The app's own CLI is on the old path too, so run a current one:
+
+```sh
+go run amadan.net/rastrillo/rastrillo/cmd/rastrillo@latest doctor
+```
+
+To move the app, run these from its root on a clean tree:
+
+```sh
+git grep -lz github.com/carlosframework/rastrillo -- ':(glob,exclude)**/go.mod' ':(glob,exclude)**/go.sum' |
+  xargs -0 perl -pi -e 's#github\.com/carlosframework/rastrillo#amadan.net/rastrillo/rastrillo#g'
+go mod edit -droprequire=github.com/carlosframework/rastrillo \
+  -droptool=github.com/carlosframework/rastrillo/cmd/rastrillo \
+  -tool=amadan.net/rastrillo/rastrillo/cmd/rastrillo
+go get amadan.net/rastrillo/rastrillo@latest
+go mod tidy
+go tool rastrillo doctor --fix
+```
+
+The text rewrite leaves `go.mod` alone on purpose. Many apps already
+require the new path, and rewriting would add a second requirement on it
+at v0.23.0, a version that does not build under the new path. Then read
+the changelog for each release since the one you were on: some change
+markup your app keeps a copy of.
+
+If other modules sit inside the app, `doctor` names the ones on the old
+path. The text rewrite changes their imports too, so run the `go mod`
+steps in each of them.
+
 ### Exit codes
 
 | Code | Meaning |
@@ -257,6 +300,7 @@ add it, because asking for `--fix` is asking.
 | `2` | Usage |
 | `3` | Drift: files differ from the library copy |
 | `4` | The app and the CLI are on different rastrillo versions, so the comparison is not authoritative |
+| `5` | The app imports rastrillo from its old module path; nothing was compared |
 
 Drift and version mismatch are separate codes because they call for
 opposite actions: one means "re-copy these", the other means "do not
@@ -429,3 +473,26 @@ suite is neither a Go package nor a static asset.
 `generate --check` runs this same gate automatically when
 `cmd/genvectors` exists — one gate before ship, not two to remember; CI
 that already runs `generate --check` needs no extra step.
+
+## rastrillo budget
+
+```sh
+rastrillo budget size [dir]
+rastrillo budget test [-no-time] [-require TestA,TestB] [go test arguments]
+```
+
+`budget size` counts the lines in each directory of the module at `dir`
+(default `.`) and holds them to 5,000 lines of code and 8,000 of tests,
+minus the exceptions in `.rastrillo/budgets.txt`. It stops at a nested
+module, which has its own budget. It exits 1 when something is over and 2
+when `budgets.txt` cannot be read.
+
+`budget test` runs `go test -json` with your arguments (`./...` if you give
+none), and exits with `go test`'s own status. It holds each package to its
+time budget using the line `budget.Main` prints, fails a package that ran
+tests without printing it, and ends with a receipt. `-no-time` turns the
+time budget off, for the perf lane. `-require` names tests that must pass
+in the run, so a lane cannot go green having run nothing.
+
+The scaffold's `make budget`, `make test` and `make perf` call these.
+[Testing](/docs/testing) explains the budgets.

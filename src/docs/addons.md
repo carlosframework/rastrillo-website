@@ -70,6 +70,7 @@ if err != nil {
 }
 ph, err := password.New(password.Config{
 	Sessions:     sess,
+	Proof:        guard, // the app's pow.Guard: see /docs/reference/pow
 	Lookup:       lookupUser(d.G),
 	Create:       roster.Admitting(createUser(d.G)),
 	RenderSignin: renderSignin,
@@ -96,6 +97,123 @@ policy rather than an error, and writing a caller-supplied string and a
 visitor's address to the log on every uninvited signup is noise and
 personal data both. An addon that wants the audit trail keeps it
 itself, at whatever fidelity its own policy calls for.
+
+### aviso — Web Push
+
+**Status:** released, v0.1.0. The manual iOS smoke test
+(`docs/ios-smoke.md` in the module) is written down and not yet run.
+
+**Module:** `amadan.net/rastrillo/aviso` ·
+**Source:** <https://amadan.net/rastrillo/aviso>
+
+The subscriptions a signed-in person enrols from their browsers, one
+VAPID key per app, and a sender that fans a payload out to those
+devices through the browser vendors' push services. Extracted from
+Eleven messenger's push transport; the design is in
+`docs/superpowers/specs/2026-09-07-aviso-web-push-design.md`.
+
+```sh
+go get amadan.net/rastrillo/aviso
+cat "$(go list -m -f '{{.Dir}}' amadan.net/rastrillo/aviso)/SKILL.md"
+```
+
+It moves bytes to devices; the app owns policy. Who is notified, what
+the payload means, and the service worker's lifecycle stay the app's —
+aviso never decides who should be told what. Ownership of a
+subscription is the [session](/docs/sessions) subject; the request
+body never names one, and an endpoint another account enrolled is
+refused rather than reassigned. The VAPID private key is provisioned
+once, as one environment variable refused when empty, the way every
+family secret is; nothing mints a key at boot, because a key minted
+into local state is a key lost at the next restore.
+
+Three halves: a Go transport (subscriptions table merged into
+`BootSchema`, an SSRF-guarded sender over `webpush-go`, three handlers
+gated by session and origin), an embedded browser module for
+enrolment, and an embedded service-worker helper the app's own
+`sw.js` loads with `importScripts`. Every push ends in a visible
+notification, because WebKit revokes push for a worker that receives
+silently.
+
+**What it deliberately does not do.** It does not cache, work offline,
+or own the worker's lifecycle. It does not retry, queue, or report
+delivery: a push service's acceptance is where its knowledge ends. It
+does not make the app installable — the manifest is the app's
+identity — but it ships the recipe, because iOS delivers push only to
+a Home Screen app.
+
+## Client kits
+
+Add a client kit when the app needs installation or a native companion.
+Each lives in its own repository, with its own skill and release schedule.
+The web framework does not import either kit. Browser and Swift helpers
+can be used without adding a server-framework dependency.
+
+### PWA — installation and an offline fallback
+
+**Status:** released, v0.1.0.
+
+**Source and Go module:** `amadan.net/rastrillo/pwa` ·
+[Repository](https://amadan.net/rastrillo/pwa)
+
+Use the kit to serve an app manifest, register one service worker and show
+a public offline page when navigation fails. Its worker never stores
+application pages, API responses, keys or pending writes. Waiting updates
+are reported to the app; activation and reloading remain explicit so an
+update cannot silently discard edits.
+
+Install a reviewed revision, then read the bundled skill:
+
+```sh
+go get amadan.net/rastrillo/pwa@v0.1.0
+cat "$(go list -m -f '{{.Dir}}' amadan.net/rastrillo/pwa)/SKILL.md"
+```
+
+The repository's `examples/basic` is the complete wiring example, including
+manifest icons and aviso's worker helper. Add aviso's handlers to the same
+worker and use the same registration for push enrolment. The example does
+not provision push subscriptions or send notifications; use aviso's skill
+for those steps.
+
+### Native — shared components and an Apple companion scaffold
+
+**Status:** released, v0.1.0; adopted by Keymail and Ocho.
+
+**Swift package:** `RastrilloNative` ·
+[Repository](https://amadan.net/rastrillo/native)
+
+Add the repository URL as a Swift package dependency pinned to a reviewed
+revision. Read `SKILL.md` from that checkout. The initial package supports
+iOS 17+ and macOS 14+; its `examples/companion` supplies an app-owned SwiftUI
+starting point for both platforms.
+
+`CoalescedRunner` shares the refresh gate previously copied between
+Keymail and Eleven/Ocho. A burst of refresh requests queues one trailing
+pass, and callers wait for fresh data before resuming. Use one runner per
+operation and account.
+
+The native skill includes optional Go Mobile binding guidance. This first
+kit does not ship Android adapters, account linking, native push or a
+cross-platform UI renderer. Those components need their own extraction and
+consumer proof before joining the package.
+
+Prefer fully native UI so menus, right-click actions, links and navigation
+work as people expect on their platform. For complex apps, use native
+navigation around selected webview screens. Consider a shared manifest of
+destinations and commands rendered separately for web and native; the kit's
+architecture guide describes that approach, but no dual-target compiler
+ships yet. The existing resource manifests still generate web CRUD only.
+
+### Offline data
+
+For offline reading or editing, define the app's local data and sync
+contract first. The PWA fallback is not an offline data engine. A reusable
+offline kit must prove restart recovery, duplicate-safe retries, account
+isolation, migrations and conflict handling in a second, different app.
+Encrypted offline storage also needs explicit locking, key recovery and
+notification-preview policy. Reuse the existing crypto and keyring
+contracts where compatible; do not import an app's message policy into a
+general storage library.
 
 ## Publishing an addon
 
