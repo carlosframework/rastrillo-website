@@ -38,10 +38,10 @@ func Funcs(opts ...Option) template.FuncMap
 ```
 
 The function map the partials need, for an app that renders through its
-own template tree instead of [`ui.Pages`](#pages). It holds twenty-one:
+own template tree instead of [`ui.Pages`](#pages). It holds twenty-two:
 `dict`, `list`, `menuGroup`, `searchClear`, `icon`, `iconAssets`, `opt`,
 `stageArt`, `displayURL`, `safeHref`, `rowMenuItems`, `paginationItems`,
-`localizer`, `withL`, and the locale functions `T`, `Tf`, `Tbdi`,
+`localizer`, `withL`, `strong`, and the locale functions `T`, `Tf`, `Tbdi`,
 `number`, `displayValue`, `dateWords` and `money`. Add your own on top;
 do not drop any. `rowMenuItems` checks `row-menu`'s items and stops the
 render on one it cannot show.
@@ -145,6 +145,7 @@ type Localized struct {
 	L       *Localizer
 	Locales []rastrillo.LocaleItem
 	Return  string
+	Scheme  string
 }
 
 func ForRequest(r *http.Request) Localized
@@ -163,9 +164,11 @@ and `Dir` the page's `dir`, `rtl` or `ltr`. `Pages` makes one for each
 language you offer; `NewLocalizer` is for a test or your own rendering.
 
 A page's data carries its localizer as `L`. `ForRequest` gives the
-request's localizer, the language switcher's items and the path to come
-back to. Put them in a map as `L`, `Locales` and `Return`, or embed
-`Localized` in a view struct. `Localized.Request` is promoted to every
+request's localizer, the language switcher's items, the path to come
+back to (locale prefix included) and the colour scheme the cookie
+chose, `light`, `dark` or `""` for System. Put them in a map as `L`,
+`Locales`, `Return` and `Scheme`, or embed `Localized` in a view
+struct. `Localized.Request` is promoted to every
 struct that embeds it, so a render function can read those values off
 any generated view. `WithLocalizer` and `LocalizerFrom` put a localizer
 on a request and read it back; `Pages.Middleware` uses them.
@@ -291,7 +294,13 @@ It is one `:root` block under `color-scheme: light dark`, with every
 colour declared once as `light-dark(<light>, <dark>)` and two toggle
 rules at the foot setting nothing but `color-scheme`, so an explicit
 `[data-theme]` choice wins in both directions without restating a
-colour. Each file carries its own measured WCAG 2.2 AA contrast table in
+colour. The switch that sets it ships with the shells: the
+`scheme-menu` partial posts Light, Dark or System to `/_theme`, every
+layout writes `data-theme` on `<html>` from the cookie
+(`Localized.Scheme`) so the first paint is right, and `rastrillo.js`
+applies a choice in place. No attribute is System, the OS deciding.
+The switch picks the scheme only; which theme an app wears is the
+app's choice. Each file carries its own measured WCAG 2.2 AA contrast table in
 its header comment, for both schemes; `ui`'s `contrast_test.go` splits
 the `light-dark()` calls back apart and recomputes every pair, so a
 theme that drifts fails the build rather than shipping.
