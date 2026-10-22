@@ -11,17 +11,23 @@ centre.
 
 The site is built with **Eleventy** (Nunjucks templates in `src/`,
 output in `_site/`). The build step exists for the author, not the
-visitor: the *served* output is static files with **zero client-side
-JavaScript**, no external fonts, no analytics. Keep it that way. Content
-that changes as the framework moves (the Built/Not-yet lists, the pillar
-cards, the try-it steps) lives in `src/_data/` so status updates are
-data edits, not template surgery.
+visitor: the *served* output is static files, with nothing fetched from
+another origin and no analytics. Keep it that way. The homepage
+(`src/index.njk`, `src/home.css`, `src/home.js`) is one hand-built page:
+its copy is the owner's, edited directly in the template.
+`src/SKILL.md` is the framework's SKILL.md at the docs' sha, published at
+`/SKILL.md` because the homepage tells agents to read it; refresh it
+whenever you re-sync the docs.
 
 ## The one rule: AI authorship is always marked (🤖 / 👨)
 
 This repo practices factor X on itself. Every piece of prose carries an
 authorship marker so a reader — human or agent — can tell who wrote what,
 and so a human can fence text off from AI rewriting.
+
+Exception (owner's decision, 2026-10-22): the homepage carries no 🤖
+marker. Its copy was written or rewritten line by line by the owner. The
+docs pages keep their markers.
 
 - **🤖 — written by an LLM.** Always **visible**, immediately before the
   heading, paragraph, or section it applies to. A 🤖 on a heading **cascades**:
@@ -42,10 +48,15 @@ person marker.**
 
 ## Conventions
 
-- **Static output, zero client dependencies.** No frameworks in the
-  browser, no fonts fetched from anywhere, no analytics, no JavaScript
-  shipped to the visitor. Eleventy and its node_modules never appear in
-  the shipped artifact — only `_site/` ships.
+- **Static output, no third parties.** No frameworks in the browser, no
+  request to any other origin, no analytics. Fonts are self-hosted under
+  `src/fonts/` (OFL, licences alongside). The homepage ships one script,
+  `/home.js`, which only adds motion and conveniences (the flags, the
+  raked furrows, the de-jank frame, copy buttons, pinned tabs): every
+  section must read completely with it off, and under
+  `prefers-reduced-motion` it shows final states. The docs ship none.
+  Eleventy and its node_modules never appear in the shipped artifact —
+  only `_site/` ships.
 - **Light and dark** via `prefers-color-scheme` — keep both working when
   touching styles.
 - **Family resemblance, own identity.** Rastrillo shares the
@@ -102,14 +113,15 @@ every theme, locale and page kind arrived in `_site`. Don't weaken it.
   the v0.6.0 subsystem packages (crypto, auth, webauthn, eventlog,
   blobs, mail, agents/tools — landed 2026-08-18) are real. Still not
   built: richer manifest kinds and derived fields, mergeable manifest
-  wiring and edge sync, step-up auth, invite derivation. The site says
-  so, in its own Built/Pending section — update that section when the
-  work actually lands, not before.
+  wiring and edge sync, step-up auth, invite derivation. The homepage's
+  feature list names only what is built; add to it when the work lands,
+  not before.
 - **Every technical claim traces to `rastrilloorg/rastrillo`** — its
   README, its code, its examples. If you change a claim, check it against
-  the repo rather than against the previous copy. The manifest showcase
-  on the page uses real code from `examples/tickets`; when the example
-  changes shape, the page follows the example, never the reverse.
+  the repo rather than against the previous copy. The homepage's
+  `actions/` tree is real files from `examples/blog`, and its markup
+  window is the design system's real markup rendered by the site's own
+  `/design-system/*.css`; when either changes shape, the page follows.
 - **The live-proof link must actually be live.** Before shipping a change
   that touches it, curl the URL.
 - **Rastrillo is the framework; CARLOS is the architecture and platform.**

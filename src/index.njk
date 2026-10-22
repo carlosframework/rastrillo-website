@@ -1,120 +1,776 @@
 ---
-layout: base.njk
-title: Rastrillo — the CARLOS web framework
-description: "🤖 Rastrillo is the CARLOS web framework: GORM models, chi routes, and sessions, CSRF, and owner scoping done right — a real multi-user app in ~270 lines of domain code. Clone it and have it running locally in a minute."
+permalink: /index.html
+eleventyExcludeFromCollections: true
 ---
-<p class="brandline"><a href="https://carlosframework.com"><b>CARLOS</b></a> <span aria-hidden="true">/</span> <span class="here">rastrillo</span> <span aria-hidden="true">/</span> <a href="/docs/">docs</a><span class="folio" aria-hidden="true">rastrillo.org</span></p>
+{% raw %}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Rastrillo: build and ship better apps</title>
+<meta name="description" content="Rastrillo is an uncompromising web framework designed for the agentic age: a full app in one Go binary, server-rendered HTML, a design system, and simple deployments.">
+<meta property="og:title" content="Rastrillo: build and ship better apps">
+<meta property="og:description" content="Rastrillo is an uncompromising web framework designed for the agentic age: a full app in one Go binary, server-rendered HTML, a design system, and simple deployments.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rastrillo.org/">
+<link rel="preload" href="/fonts/ibarra-real-nova.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/chivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cg fill='none' stroke-width='3.4' stroke-linecap='round'%3E%3Cpath stroke='%232F6F78' d='M16 9V16A2.5 2.5 0 0 0 18.5 18.5H30M10.5 9V16A8 8 0 0 0 18.5 24H30M5 9V16A13.5 13.5 0 0 0 18.5 29.5H30'/%3E%3Cpath stroke='%23A4442C' d='M5 9H16M10.5 9V2'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="/home.css">
+</head>
+<body>
 
-<header class="hero">
-  <h1>Fast, cost-efficient, good: pick <span class="x">all three</span> with rastrillo.</h1>
-  <p class="lede">The web framework companion to CARLOS: libraries you already know — GORM, chi, <code>html/template</code> — on a middle layer that gets sessions, CSRF, and owner scoping right, shipped to a platform that only bills you when someone shows up.</p>
+<div class="flagrow" id="flagrow" aria-hidden="true">
+<svg class="flags" id="flags" viewBox="0 0 2640 52" preserveAspectRatio="xMidYMin slice" focusable="false">
+  <defs>
+    <!-- One flag, origin at the middle of its top edge, where it hangs from
+         the string. The cut is v3's: three slits and a diamond. The canvas
+         paints its textures from this same shape. -->
+    <mask id="fcut" maskUnits="userSpaceOnUse" x="-20" y="-2" width="40" height="44">
+      <rect x="-20" y="-2" width="40" height="44" fill="#fff"/>
+      <path d="M-11 10H11M-11 16H11M-11 22H11" stroke="#000" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M0 26.5L3.5 30L0 33.5L-3.5 30Z" fill="#000"/>
+    </mask>
+    <path id="fbody" d="M-18 0H18V35A3 3 0 0 1 12 35A3 3 0 0 1 6 35A3 3 0 0 1 0 35A3 3 0 0 1 -6 35A3 3 0 0 1 -12 35A3 3 0 0 1 -18 35Z"/>
+    <g id="fl0"><use href="#fbody" class="f-0" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+    <g id="fl1"><use href="#fbody" class="f-1" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+    <g id="fl2"><use href="#fbody" class="f-2" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+    <g id="fl3"><use href="#fbody" class="f-3" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+    <g id="fl4"><use href="#fbody" class="f-4" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+    <g id="fl5"><use href="#fbody" class="f-5" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+    <g id="fl6"><use href="#fbody" class="f-6" mask="url(#fcut)"/><rect class="f-fold" x="-18" y="0" width="36" height="3"/></g>
+  </defs>
+  <path class="span" d="M0 4.5H30"/>
+  <path class="span" d="M30 4.5Q60 7.5 90 4.5"/>
+  <path class="span" d="M90 4.5Q120 7.5 150 4.5"/>
+  <path class="span" d="M150 4.5Q180 7.5 210 4.5"/>
+  <path class="span" d="M210 4.5Q240 7.5 270 4.5"/>
+  <path class="span" d="M270 4.5Q300 7.5 330 4.5"/>
+  <path class="span" d="M330 4.5Q360 7.5 390 4.5"/>
+  <path class="span" d="M390 4.5Q420 7.5 450 4.5"/>
+  <path class="span" d="M450 4.5Q480 7.5 510 4.5"/>
+  <path class="span" d="M510 4.5Q540 7.5 570 4.5"/>
+  <path class="span" d="M570 4.5Q600 7.5 630 4.5"/>
+  <path class="span" d="M630 4.5Q660 7.5 690 4.5"/>
+  <path class="span" d="M690 4.5Q720 7.5 750 4.5"/>
+  <path class="span" d="M750 4.5Q780 7.5 810 4.5"/>
+  <path class="span" d="M810 4.5Q840 7.5 870 4.5"/>
+  <path class="span" d="M870 4.5Q900 7.5 930 4.5"/>
+  <path class="span" d="M930 4.5Q960 7.5 990 4.5"/>
+  <path class="span" d="M990 4.5Q1020 7.5 1050 4.5"/>
+  <path class="span" d="M1050 4.5Q1080 7.5 1110 4.5"/>
+  <path class="span" d="M1110 4.5Q1140 7.5 1170 4.5"/>
+  <path class="span" d="M1170 4.5Q1200 7.5 1230 4.5"/>
+  <path class="span" d="M1230 4.5Q1260 7.5 1290 4.5"/>
+  <path class="span" d="M1290 4.5Q1320 7.5 1350 4.5"/>
+  <path class="span" d="M1350 4.5Q1380 7.5 1410 4.5"/>
+  <path class="span" d="M1410 4.5Q1440 7.5 1470 4.5"/>
+  <path class="span" d="M1470 4.5Q1500 7.5 1530 4.5"/>
+  <path class="span" d="M1530 4.5Q1560 7.5 1590 4.5"/>
+  <path class="span" d="M1590 4.5Q1620 7.5 1650 4.5"/>
+  <path class="span" d="M1650 4.5Q1680 7.5 1710 4.5"/>
+  <path class="span" d="M1710 4.5Q1740 7.5 1770 4.5"/>
+  <path class="span" d="M1770 4.5Q1800 7.5 1830 4.5"/>
+  <path class="span" d="M1830 4.5Q1860 7.5 1890 4.5"/>
+  <path class="span" d="M1890 4.5Q1920 7.5 1950 4.5"/>
+  <path class="span" d="M1950 4.5Q1980 7.5 2010 4.5"/>
+  <path class="span" d="M2010 4.5Q2040 7.5 2070 4.5"/>
+  <path class="span" d="M2070 4.5Q2100 7.5 2130 4.5"/>
+  <path class="span" d="M2130 4.5Q2160 7.5 2190 4.5"/>
+  <path class="span" d="M2190 4.5Q2220 7.5 2250 4.5"/>
+  <path class="span" d="M2250 4.5Q2280 7.5 2310 4.5"/>
+  <path class="span" d="M2310 4.5Q2340 7.5 2370 4.5"/>
+  <path class="span" d="M2370 4.5Q2400 7.5 2430 4.5"/>
+  <path class="span" d="M2430 4.5Q2460 7.5 2490 4.5"/>
+  <path class="span" d="M2490 4.5Q2520 7.5 2550 4.5"/>
+  <path class="span" d="M2550 4.5Q2580 7.5 2610 4.5"/>
+  <path class="span" d="M2610 4.5H2640"/>
+  <g class="fl" data-c="1" transform="translate(30 4.5) rotate(-2)"><use href="#fl1"/></g>
+  <g class="fl" data-c="0" transform="translate(90 4.5) rotate(1.5)"><use href="#fl0"/></g>
+  <g class="fl" data-c="2" transform="translate(150 4.5) rotate(-1)"><use href="#fl2"/></g>
+  <g class="fl" data-c="5" transform="translate(210 4.5) rotate(-2)"><use href="#fl5"/></g>
+  <g class="fl" data-c="6" transform="translate(270 4.5) rotate(1.5)"><use href="#fl6"/></g>
+  <g class="fl" data-c="4" transform="translate(330 4.5) rotate(-1)"><use href="#fl4"/></g>
+  <g class="fl" data-c="3" transform="translate(390 4.5) rotate(-2)"><use href="#fl3"/></g>
+  <g class="fl" data-c="2" transform="translate(450 4.5) rotate(1.5)"><use href="#fl2"/></g>
+  <g class="fl" data-c="5" transform="translate(510 4.5) rotate(-1)"><use href="#fl5"/></g>
+  <g class="fl" data-c="0" transform="translate(570 4.5) rotate(-2)"><use href="#fl0"/></g>
+  <g class="fl" data-c="6" transform="translate(630 4.5) rotate(1.5)"><use href="#fl6"/></g>
+  <g class="fl" data-c="3" transform="translate(690 4.5) rotate(-1)"><use href="#fl3"/></g>
+  <g class="fl" data-c="4" transform="translate(750 4.5) rotate(-2)"><use href="#fl4"/></g>
+  <g class="fl" data-c="1" transform="translate(810 4.5) rotate(1.5)"><use href="#fl1"/></g>
+  <g class="fl" data-c="3" transform="translate(870 4.5) rotate(-1)"><use href="#fl3"/></g>
+  <g class="fl" data-c="5" transform="translate(930 4.5) rotate(-2)"><use href="#fl5"/></g>
+  <g class="fl" data-c="6" transform="translate(990 4.5) rotate(1.5)"><use href="#fl6"/></g>
+  <g class="fl" data-c="4" transform="translate(1050 4.5) rotate(-1)"><use href="#fl4"/></g>
+  <g class="fl" data-c="0" transform="translate(1110 4.5) rotate(-2)"><use href="#fl0"/></g>
+  <g class="fl" data-c="1" transform="translate(1170 4.5) rotate(1.5)"><use href="#fl1"/></g>
+  <g class="fl" data-c="2" transform="translate(1230 4.5) rotate(-1)"><use href="#fl2"/></g>
+  <g class="fl" data-c="6" transform="translate(1290 4.5) rotate(-2)"><use href="#fl6"/></g>
+  <g class="fl" data-c="0" transform="translate(1350 4.5) rotate(1.5)"><use href="#fl0"/></g>
+  <g class="fl" data-c="2" transform="translate(1410 4.5) rotate(-1)"><use href="#fl2"/></g>
+  <g class="fl" data-c="1" transform="translate(1470 4.5) rotate(-2)"><use href="#fl1"/></g>
+  <g class="fl" data-c="4" transform="translate(1530 4.5) rotate(1.5)"><use href="#fl4"/></g>
+  <g class="fl" data-c="5" transform="translate(1590 4.5) rotate(-1)"><use href="#fl5"/></g>
+  <g class="fl" data-c="3" transform="translate(1650 4.5) rotate(-2)"><use href="#fl3"/></g>
+  <g class="fl" data-c="1" transform="translate(1710 4.5) rotate(1.5)"><use href="#fl1"/></g>
+  <g class="fl" data-c="2" transform="translate(1770 4.5) rotate(-1)"><use href="#fl2"/></g>
+  <g class="fl" data-c="3" transform="translate(1830 4.5) rotate(-2)"><use href="#fl3"/></g>
+  <g class="fl" data-c="5" transform="translate(1890 4.5) rotate(1.5)"><use href="#fl5"/></g>
+  <g class="fl" data-c="0" transform="translate(1950 4.5) rotate(-1)"><use href="#fl0"/></g>
+  <g class="fl" data-c="4" transform="translate(2010 4.5) rotate(-2)"><use href="#fl4"/></g>
+  <g class="fl" data-c="6" transform="translate(2070 4.5) rotate(1.5)"><use href="#fl6"/></g>
+  <g class="fl" data-c="5" transform="translate(2130 4.5) rotate(-1)"><use href="#fl5"/></g>
+  <g class="fl" data-c="2" transform="translate(2190 4.5) rotate(-2)"><use href="#fl2"/></g>
+  <g class="fl" data-c="6" transform="translate(2250 4.5) rotate(1.5)"><use href="#fl6"/></g>
+  <g class="fl" data-c="3" transform="translate(2310 4.5) rotate(-1)"><use href="#fl3"/></g>
+  <g class="fl" data-c="0" transform="translate(2370 4.5) rotate(-2)"><use href="#fl0"/></g>
+  <g class="fl" data-c="4" transform="translate(2430 4.5) rotate(1.5)"><use href="#fl4"/></g>
+  <g class="fl" data-c="1" transform="translate(2490 4.5) rotate(-1)"><use href="#fl1"/></g>
+  <g class="fl" data-c="0" transform="translate(2550 4.5) rotate(-2)"><use href="#fl0"/></g>
+  <g class="fl" data-c="3" transform="translate(2610 4.5) rotate(1.5)"><use href="#fl3"/></g>
+</svg>
+</div>
 
-  <table class="posting opening">
-    <caption class="visually-hidden">The opening statement: what a real multi-user app costs to write</caption>
-    <tbody>
-      <tr><th scope="row">written, in <code>examples/notes</code> — accounts, sessions, owner-scoped CRUD, a background export</th><td>270 lines</td></tr>
-      <tr><th scope="row">proving Bob can never read Alice's notes — or her bookmarks, or her export — the isolation suite, in CI</th><td>1,177 lines</td></tr>
-      <tr class="total"><th scope="row">client-side JavaScript required, new DSLs, config formats</th><td>0</td></tr>
-    </tbody>
-  </table>
-
-  <div class="cta">
-    <a class="btn primary" href="#start">Try it now</a>
-    <a class="btn ghost" href="/docs/">Read the docs</a>
-    <a class="btn ghost" href="https://github.com/rastrilloorg/rastrillo">Read the source</a>
-  </div>
-  <p class="robot-note">🤖 This page was written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly, like this — that's <a href="https://11factor.org/#x">factor X</a>.</p>
-</header>
+<div class="wrap">
+  <header class="top">
+    <!-- The mark: a three-tine rake whose tines bend into three channels. Same
+         drawing as the favicon; strokes sized to survive 16px. -->
+    <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" fill="none" stroke-width="3.4" stroke-linecap="round">
+      <path stroke="var(--chan)" d="M16 9V16A2.5 2.5 0 0 0 18.5 18.5H30M10.5 9V16A8 8 0 0 0 18.5 24H30M5 9V16A13.5 13.5 0 0 0 18.5 29.5H30"/>
+      <path stroke="var(--almagra)" d="M5 9H16M10.5 9V2"/>
+    </svg>
+    <nav class="brandline" aria-label="Site">
+      <a class="carlos" href="https://carlosframework.com">CARLOS</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a class="here" href="/" aria-current="page">rastrillo</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="/docs/">docs</a>
+    </nav>
+  </header>
+</div>
 
 <main>
-
-
-
-<section id="pillars">
-  <h2>Boring machinery, deliberately</h2>
-  <p class="epigraph">Libraries you already know, SQLite, and files you can read — nothing decided behind your back.</p>
-  <dl class="accounts">
-  {% for p in pillars %}
-    <div class="entry">
-      <dt>{{ p.title }}</dt>
-      <dd>{{ p.body | safe }}</dd>
+  <section class="hero" aria-labelledby="h-hero">
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <h1 id="h-hero">Build and ship better apps</h1>
+        <p class="sub"><strong class="name">Rastrillo</strong> is an uncompromising web framework<br class="wide"> designed for the agentic age.</p>
+        <p class="lede">Unlock your full team’s potential: Rapid iteration, blazing full-stack performance, a rich featureset, simple deployments, and compliance-ready security and accessibility.</p>
+        <div class="actions">
+          <a class="btn primary" href="#start">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg>
+            Get started</a>
+          <a class="btn" href="/docs/">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v16"/><path d="M20.001 19A2 2 0 0 0 22 17V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2z"/></svg>
+            Read the docs</a>
+          <a class="btn" href="/design-system/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+            Try the design system</a>
+        </div>
+      </div>
+      <!-- The full stack as a raked plot: one groove per layer, every groove
+           bending round the same stone. -->
+      <svg class="stack" viewBox="0 0 340 260" role="img" aria-label="A raked gravel plot. Seven grooves, labelled database, HTTP server, sessions and sign-in, HTML templates, CSS design system, progressive JS and background jobs, all bend around one stone labelled one binary.">
+        <defs><clipPath id="stack-clip"><rect x="1" y="1" width="338" height="258" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="338.5" height="258.5" rx="4"/>
+        <g clip-path="url(#stack-clip)">
+          <path class="gh" transform="translate(0 1.6)" d="M0 28H176A160 160 0 0 1 336 188V262M0 49H176A139 139 0 0 1 315 188V262M0 70H176A118 118 0 0 1 294 188V262M0 91H176A97 97 0 0 1 273 188V262M0 112H176A76 76 0 0 1 252 188V262M0 133H176A55 55 0 0 1 231 188V262M0 154H176A34 34 0 0 1 210 188V262"/>
+          <path class="gr" d="M0 28H176A160 160 0 0 1 336 188V262M0 49H176A139 139 0 0 1 315 188V262M0 70H176A118 118 0 0 1 294 188V262M0 91H176A97 97 0 0 1 273 188V262M0 112H176A76 76 0 0 1 252 188V262M0 133H176A55 55 0 0 1 231 188V262M0 154H176A34 34 0 0 1 210 188V262"/>
+        </g>
+        <text x="10" y="21">database</text>
+        <text x="10" y="42">HTTP server</text>
+        <text x="10" y="63">sessions and sign-in</text>
+        <text x="10" y="84">HTML templates</text>
+        <text x="10" y="105">CSS design system</text>
+        <text x="10" y="126">progressive JS</text>
+        <text x="10" y="147">background jobs</text>
+        <circle class="stone-sh" cx="178" cy="191" r="20"/>
+        <circle class="stone" cx="176" cy="188" r="20"/>
+        <text class="one" x="146" y="192" text-anchor="end">one binary</text>
+      </svg>
     </div>
-  {% endfor %}
-  </dl>
-</section>
+    <div class="waterline" aria-hidden="true"></div>
+  </section>
 
-<section id="manifest">
-  <h2>Or declare it: fifteen lines in, screens out</h2>
-  <p class="epigraph">Generated, not interpreted — the declarative path beside the code path: mix them per resource, move a resource between them freely, use either or both.</p>
+  <div class="wrap">
 
-  <div class="showcase">
-    <figure class="manifest-in">
-      <figcaption><span class="colhead">declared</span> manifest/ticket_types.toml — the whole file</figcaption>
-      {# One .ln block per logical line: wrapped continuations hang-indent, so the eye still counts 15. #}
-      <pre><code><span class="ln">name  = "ticket_types"</span><span class="ln">route = "/admin/ticket_types"</span><span class="ln">store = "exclusive"</span><span class="ln"></span><span class="ln">[list]</span><span class="ln">columns = [{ field = "Name" }, { field = "Price", kind = "money" }, { field = "Status" }]</span><span class="ln">search  = true</span><span class="ln"></span><span class="ln">[[list.filters]]</span><span class="ln">field  = "Status"</span><span class="ln">values = ["draft", "on_sale", "sold_out"]</span><span class="ln"></span><span class="ln">[form]</span><span class="ln">basics   = [{ name = "Name", required = true }, { name = "Price", kind = "money", required = true }, { name = "Status" }]</span><span class="ln">advanced = [{ name = "MaxPerOrder" }]</span></code></pre>
-    </figure>
-    <figure class="manifest-out">
-      <figcaption><span class="colhead">generated</span> what <code>rastrillo generate</code> wrote from it</figcaption>
-      <table class="posting">
-        <tbody>
-          <tr><th scope="row">files committed under <code>gen/</code>, diffable in review like any code</th><td>25</td></tr>
-          <tr><th scope="row">lines of plain Go, SQL, HTML, and locale keys — each action opens with one <code>form.Parse</code> call, the same documented helper a hand-written handler uses</th><td>1,202</td></tr>
-          <tr><th scope="row">actions, wired into the router — list, create, show, edit, and the delete flow</th><td>9</td></tr>
-          <tr><th scope="row">screens — a list with search, a working Status filter and paging; a two-tier form; a show page; a delete confirm</th><td>4</td></tr>
-          <tr><th scope="row">typed store — schema, additive migrations, sqlc queries</th><td>1</td></tr>
-          <tr class="total"><th scope="row">TOML parsed at request time</th><td>0</td></tr>
-        </tbody>
-      </table>
-      <p class="postscript"><code>required = true</code> is server-side: the generated actions 400 with the field's own message, re-rendered in the form. There is no <code>actions/</code> directory in this app at all — <a href="https://github.com/rastrilloorg/rastrillo/tree/main/examples/tickets">examples/tickets</a> is manifest-only, and it's the framework's own regression suite. Add <code>scope = "user"</code> and every generated query is owner-filtered by the signed-in subject — someone else's row answers 404, the same contract the hand-written path enforces; <a href="https://github.com/rastrilloorg/rastrillo/tree/main/examples/notes">examples/notes</a> runs a declared, scoped resource beside hand-written handlers under one two-user isolation suite. And when a generated screen stops being enough, eject it: the file becomes yours, and the generator leaves it alone.</p>
-    </figure>
+    <!-- 0. What better means: answers the hero's "better". Thirteen grooves
+         in the motif, one per item, parting round one stone. "Better means:"
+         is gone; the four group headings do its job. -->
+    <section class="sec g-tone sec-better" aria-labelledby="h-better">
+      <svg class="mo" viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-better"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-better)">
+          <path class="gh gh-fine" transform="translate(0 1.2)" d="M8 21.0L12 21.0L16 21.0L20 21.0L24 21.0L28 21.0L32 21.0L36 21.0L40 21.0L44 21.0L48 21.0L52 21.0L56 21.0L60 21.0L64 21.0L68 21.0L72 21.0L76 21.0L80 21.0L84 21.0L88 21.0L92 21.0L96 21.0L100 21.0L104 21.0L108 20.9L112 20.9L116 20.9L120 20.8L124 20.7L128 20.6L132 20.5L136 20.4L140 20.2L144 20.0L148 19.8L152 19.5L156 19.3L160 19.0L164 18.8L168 18.6L172 18.4L176 18.3L180 18.3L184 18.3L188 18.3L192 18.4L196 18.6L200 18.8L204 19.0L208 19.3L212 19.5L216 19.8L220 20.0L224 20.2L228 20.4L232 20.5M8 30.0L12 30.0L16 30.0L20 30.0L24 30.0L28 30.0L32 30.0L36 30.0L40 30.0L44 30.0L48 30.0L52 30.0L56 30.0L60 30.0L64 30.0L68 30.0L72 30.0L76 30.0L80 30.0L84 30.0L88 30.0L92 30.0L96 30.0L100 30.0L104 29.9L108 29.9L112 29.9L116 29.8L120 29.7L124 29.6L128 29.5L132 29.3L136 29.1L140 28.9L144 28.6L148 28.2L152 27.9L156 27.6L160 27.2L164 26.9L168 26.6L172 26.4L176 26.2L180 26.1L184 26.1L188 26.2L192 26.4L196 26.6L200 26.9L204 27.2L208 27.6L212 27.9L216 28.2L220 28.6L224 28.9L228 29.1L232 29.3M8 39.0L12 39.0L16 39.0L20 39.0L24 39.0L28 39.0L32 39.0L36 39.0L40 39.0L44 39.0L48 39.0L52 39.0L56 39.0L60 39.0L64 39.0L68 39.0L72 39.0L76 39.0L80 39.0L84 39.0L88 39.0L92 39.0L96 39.0L100 38.9L104 38.9L108 38.9L112 38.8L116 38.7L120 38.6L124 38.5L128 38.3L132 38.0L136 37.7L140 37.4L144 37.0L148 36.5L152 36.0L156 35.6L160 35.1L164 34.6L168 34.2L172 33.9L176 33.6L180 33.5L184 33.5L188 33.6L192 33.9L196 34.2L200 34.6L204 35.1L208 35.6L212 36.0L216 36.5L220 37.0L224 37.4L228 37.7L232 38.0M8 48.0L12 48.0L16 48.0L20 48.0L24 48.0L28 48.0L32 48.0L36 48.0L40 48.0L44 48.0L48 48.0L52 48.0L56 48.0L60 48.0L64 48.0L68 48.0L72 48.0L76 48.0L80 48.0L84 48.0L88 48.0L92 48.0L96 48.0L100 47.9L104 47.9L108 47.8L112 47.7L116 47.6L120 47.5L124 47.2L128 47.0L132 46.6L136 46.2L140 45.7L144 45.1L148 44.5L152 43.8L156 43.1L160 42.4L164 41.8L168 41.2L172 40.7L176 40.4L180 40.2L184 40.2L188 40.4L192 40.7L196 41.2L200 41.8L204 42.4L208 43.1L212 43.8L216 44.5L220 45.1L224 45.7L228 46.2L232 46.6M8 57.0L12 57.0L16 57.0L20 57.0L24 57.0L28 57.0L32 57.0L36 57.0L40 57.0L44 57.0L48 57.0L52 57.0L56 57.0L60 57.0L64 57.0L68 57.0L72 57.0L76 57.0L80 57.0L84 57.0L88 57.0L92 57.0L96 56.9L100 56.9L104 56.8L108 56.8L112 56.6L116 56.5L120 56.2L124 55.9L128 55.5L132 55.1L136 54.5L140 53.8L144 52.9L148 52.1L152 51.1L156 50.1L160 49.1L164 48.2L168 47.4L172 46.7L176 46.3L180 46.0L184 46.0L188 46.3L192 46.7L196 47.4L200 48.2L204 49.1L208 50.1L212 51.1L216 52.1L220 52.9L224 53.8L228 54.5L232 55.1M8 66.0L12 66.0L16 66.0L20 66.0L24 66.0L28 66.0L32 66.0L36 66.0L40 66.0L44 66.0L48 66.0L52 66.0L56 66.0L60 66.0L64 66.0L68 66.0L72 66.0L76 66.0L80 66.0L84 66.0L88 66.0L92 65.9L96 65.9L100 65.9L104 65.8L108 65.6L112 65.5L116 65.2L120 64.9L124 64.5L128 63.9L132 63.2L136 62.4L140 61.4L144 60.3L148 59.0L152 57.7L156 56.3L160 54.9L164 53.6L168 52.4L172 51.5L176 50.8L180 50.5L184 50.5L188 50.8L192 51.5L196 52.4L200 53.6L204 54.9L208 56.3L212 57.7L216 59.0L220 60.3L224 61.4L228 62.4L232 63.2M8 75H162M202 75H232M8 84.0L12 84.0L16 84.0L20 84.0L24 84.0L28 84.0L32 84.0L36 84.0L40 84.0L44 84.0L48 84.0L52 84.0L56 84.0L60 84.0L64 84.0L68 84.0L72 84.0L76 84.0L80 84.0L84 84.0L88 84.0L92 84.1L96 84.1L100 84.1L104 84.2L108 84.4L112 84.5L116 84.8L120 85.1L124 85.5L128 86.1L132 86.8L136 87.6L140 88.6L144 89.7L148 91.0L152 92.3L156 93.7L160 95.1L164 96.4L168 97.6L172 98.5L176 99.2L180 99.5L184 99.5L188 99.2L192 98.5L196 97.6L200 96.4L204 95.1L208 93.7L212 92.3L216 91.0L220 89.7L224 88.6L228 87.6L232 86.8M8 93.0L12 93.0L16 93.0L20 93.0L24 93.0L28 93.0L32 93.0L36 93.0L40 93.0L44 93.0L48 93.0L52 93.0L56 93.0L60 93.0L64 93.0L68 93.0L72 93.0L76 93.0L80 93.0L84 93.0L88 93.0L92 93.0L96 93.1L100 93.1L104 93.2L108 93.2L112 93.4L116 93.5L120 93.8L124 94.1L128 94.5L132 94.9L136 95.5L140 96.2L144 97.1L148 97.9L152 98.9L156 99.9L160 100.9L164 101.8L168 102.6L172 103.3L176 103.7L180 104.0L184 104.0L188 103.7L192 103.3L196 102.6L200 101.8L204 100.9L208 99.9L212 98.9L216 97.9L220 97.1L224 96.2L228 95.5L232 94.9M8 102.0L12 102.0L16 102.0L20 102.0L24 102.0L28 102.0L32 102.0L36 102.0L40 102.0L44 102.0L48 102.0L52 102.0L56 102.0L60 102.0L64 102.0L68 102.0L72 102.0L76 102.0L80 102.0L84 102.0L88 102.0L92 102.0L96 102.0L100 102.1L104 102.1L108 102.2L112 102.3L116 102.4L120 102.5L124 102.8L128 103.0L132 103.4L136 103.8L140 104.3L144 104.9L148 105.5L152 106.2L156 106.9L160 107.6L164 108.2L168 108.8L172 109.3L176 109.6L180 109.8L184 109.8L188 109.6L192 109.3L196 108.8L200 108.2L204 107.6L208 106.9L212 106.2L216 105.5L220 104.9L224 104.3L228 103.8L232 103.4M8 111.0L12 111.0L16 111.0L20 111.0L24 111.0L28 111.0L32 111.0L36 111.0L40 111.0L44 111.0L48 111.0L52 111.0L56 111.0L60 111.0L64 111.0L68 111.0L72 111.0L76 111.0L80 111.0L84 111.0L88 111.0L92 111.0L96 111.0L100 111.1L104 111.1L108 111.1L112 111.2L116 111.3L120 111.4L124 111.5L128 111.7L132 112.0L136 112.3L140 112.6L144 113.0L148 113.5L152 114.0L156 114.4L160 114.9L164 115.4L168 115.8L172 116.1L176 116.4L180 116.5L184 116.5L188 116.4L192 116.1L196 115.8L200 115.4L204 114.9L208 114.4L212 114.0L216 113.5L220 113.0L224 112.6L228 112.3L232 112.0M8 120.0L12 120.0L16 120.0L20 120.0L24 120.0L28 120.0L32 120.0L36 120.0L40 120.0L44 120.0L48 120.0L52 120.0L56 120.0L60 120.0L64 120.0L68 120.0L72 120.0L76 120.0L80 120.0L84 120.0L88 120.0L92 120.0L96 120.0L100 120.0L104 120.1L108 120.1L112 120.1L116 120.2L120 120.3L124 120.4L128 120.5L132 120.7L136 120.9L140 121.1L144 121.4L148 121.8L152 122.1L156 122.4L160 122.8L164 123.1L168 123.4L172 123.6L176 123.8L180 123.9L184 123.9L188 123.8L192 123.6L196 123.4L200 123.1L204 122.8L208 122.4L212 122.1L216 121.8L220 121.4L224 121.1L228 120.9L232 120.7M8 129.0L12 129.0L16 129.0L20 129.0L24 129.0L28 129.0L32 129.0L36 129.0L40 129.0L44 129.0L48 129.0L52 129.0L56 129.0L60 129.0L64 129.0L68 129.0L72 129.0L76 129.0L80 129.0L84 129.0L88 129.0L92 129.0L96 129.0L100 129.0L104 129.0L108 129.1L112 129.1L116 129.1L120 129.2L124 129.3L128 129.4L132 129.5L136 129.6L140 129.8L144 130.0L148 130.2L152 130.5L156 130.7L160 131.0L164 131.2L168 131.4L172 131.6L176 131.7L180 131.7L184 131.7L188 131.7L192 131.6L196 131.4L200 131.2L204 131.0L208 130.7L212 130.5L216 130.2L220 130.0L224 129.8L228 129.6L232 129.5"/><path class="gr gr-fine" d="M8 21.0L12 21.0L16 21.0L20 21.0L24 21.0L28 21.0L32 21.0L36 21.0L40 21.0L44 21.0L48 21.0L52 21.0L56 21.0L60 21.0L64 21.0L68 21.0L72 21.0L76 21.0L80 21.0L84 21.0L88 21.0L92 21.0L96 21.0L100 21.0L104 21.0L108 20.9L112 20.9L116 20.9L120 20.8L124 20.7L128 20.6L132 20.5L136 20.4L140 20.2L144 20.0L148 19.8L152 19.5L156 19.3L160 19.0L164 18.8L168 18.6L172 18.4L176 18.3L180 18.3L184 18.3L188 18.3L192 18.4L196 18.6L200 18.8L204 19.0L208 19.3L212 19.5L216 19.8L220 20.0L224 20.2L228 20.4L232 20.5M8 30.0L12 30.0L16 30.0L20 30.0L24 30.0L28 30.0L32 30.0L36 30.0L40 30.0L44 30.0L48 30.0L52 30.0L56 30.0L60 30.0L64 30.0L68 30.0L72 30.0L76 30.0L80 30.0L84 30.0L88 30.0L92 30.0L96 30.0L100 30.0L104 29.9L108 29.9L112 29.9L116 29.8L120 29.7L124 29.6L128 29.5L132 29.3L136 29.1L140 28.9L144 28.6L148 28.2L152 27.9L156 27.6L160 27.2L164 26.9L168 26.6L172 26.4L176 26.2L180 26.1L184 26.1L188 26.2L192 26.4L196 26.6L200 26.9L204 27.2L208 27.6L212 27.9L216 28.2L220 28.6L224 28.9L228 29.1L232 29.3M8 39.0L12 39.0L16 39.0L20 39.0L24 39.0L28 39.0L32 39.0L36 39.0L40 39.0L44 39.0L48 39.0L52 39.0L56 39.0L60 39.0L64 39.0L68 39.0L72 39.0L76 39.0L80 39.0L84 39.0L88 39.0L92 39.0L96 39.0L100 38.9L104 38.9L108 38.9L112 38.8L116 38.7L120 38.6L124 38.5L128 38.3L132 38.0L136 37.7L140 37.4L144 37.0L148 36.5L152 36.0L156 35.6L160 35.1L164 34.6L168 34.2L172 33.9L176 33.6L180 33.5L184 33.5L188 33.6L192 33.9L196 34.2L200 34.6L204 35.1L208 35.6L212 36.0L216 36.5L220 37.0L224 37.4L228 37.7L232 38.0M8 48.0L12 48.0L16 48.0L20 48.0L24 48.0L28 48.0L32 48.0L36 48.0L40 48.0L44 48.0L48 48.0L52 48.0L56 48.0L60 48.0L64 48.0L68 48.0L72 48.0L76 48.0L80 48.0L84 48.0L88 48.0L92 48.0L96 48.0L100 47.9L104 47.9L108 47.8L112 47.7L116 47.6L120 47.5L124 47.2L128 47.0L132 46.6L136 46.2L140 45.7L144 45.1L148 44.5L152 43.8L156 43.1L160 42.4L164 41.8L168 41.2L172 40.7L176 40.4L180 40.2L184 40.2L188 40.4L192 40.7L196 41.2L200 41.8L204 42.4L208 43.1L212 43.8L216 44.5L220 45.1L224 45.7L228 46.2L232 46.6M8 57.0L12 57.0L16 57.0L20 57.0L24 57.0L28 57.0L32 57.0L36 57.0L40 57.0L44 57.0L48 57.0L52 57.0L56 57.0L60 57.0L64 57.0L68 57.0L72 57.0L76 57.0L80 57.0L84 57.0L88 57.0L92 57.0L96 56.9L100 56.9L104 56.8L108 56.8L112 56.6L116 56.5L120 56.2L124 55.9L128 55.5L132 55.1L136 54.5L140 53.8L144 52.9L148 52.1L152 51.1L156 50.1L160 49.1L164 48.2L168 47.4L172 46.7L176 46.3L180 46.0L184 46.0L188 46.3L192 46.7L196 47.4L200 48.2L204 49.1L208 50.1L212 51.1L216 52.1L220 52.9L224 53.8L228 54.5L232 55.1M8 66.0L12 66.0L16 66.0L20 66.0L24 66.0L28 66.0L32 66.0L36 66.0L40 66.0L44 66.0L48 66.0L52 66.0L56 66.0L60 66.0L64 66.0L68 66.0L72 66.0L76 66.0L80 66.0L84 66.0L88 66.0L92 65.9L96 65.9L100 65.9L104 65.8L108 65.6L112 65.5L116 65.2L120 64.9L124 64.5L128 63.9L132 63.2L136 62.4L140 61.4L144 60.3L148 59.0L152 57.7L156 56.3L160 54.9L164 53.6L168 52.4L172 51.5L176 50.8L180 50.5L184 50.5L188 50.8L192 51.5L196 52.4L200 53.6L204 54.9L208 56.3L212 57.7L216 59.0L220 60.3L224 61.4L228 62.4L232 63.2M8 75H162M202 75H232M8 84.0L12 84.0L16 84.0L20 84.0L24 84.0L28 84.0L32 84.0L36 84.0L40 84.0L44 84.0L48 84.0L52 84.0L56 84.0L60 84.0L64 84.0L68 84.0L72 84.0L76 84.0L80 84.0L84 84.0L88 84.0L92 84.1L96 84.1L100 84.1L104 84.2L108 84.4L112 84.5L116 84.8L120 85.1L124 85.5L128 86.1L132 86.8L136 87.6L140 88.6L144 89.7L148 91.0L152 92.3L156 93.7L160 95.1L164 96.4L168 97.6L172 98.5L176 99.2L180 99.5L184 99.5L188 99.2L192 98.5L196 97.6L200 96.4L204 95.1L208 93.7L212 92.3L216 91.0L220 89.7L224 88.6L228 87.6L232 86.8M8 93.0L12 93.0L16 93.0L20 93.0L24 93.0L28 93.0L32 93.0L36 93.0L40 93.0L44 93.0L48 93.0L52 93.0L56 93.0L60 93.0L64 93.0L68 93.0L72 93.0L76 93.0L80 93.0L84 93.0L88 93.0L92 93.0L96 93.1L100 93.1L104 93.2L108 93.2L112 93.4L116 93.5L120 93.8L124 94.1L128 94.5L132 94.9L136 95.5L140 96.2L144 97.1L148 97.9L152 98.9L156 99.9L160 100.9L164 101.8L168 102.6L172 103.3L176 103.7L180 104.0L184 104.0L188 103.7L192 103.3L196 102.6L200 101.8L204 100.9L208 99.9L212 98.9L216 97.9L220 97.1L224 96.2L228 95.5L232 94.9M8 102.0L12 102.0L16 102.0L20 102.0L24 102.0L28 102.0L32 102.0L36 102.0L40 102.0L44 102.0L48 102.0L52 102.0L56 102.0L60 102.0L64 102.0L68 102.0L72 102.0L76 102.0L80 102.0L84 102.0L88 102.0L92 102.0L96 102.0L100 102.1L104 102.1L108 102.2L112 102.3L116 102.4L120 102.5L124 102.8L128 103.0L132 103.4L136 103.8L140 104.3L144 104.9L148 105.5L152 106.2L156 106.9L160 107.6L164 108.2L168 108.8L172 109.3L176 109.6L180 109.8L184 109.8L188 109.6L192 109.3L196 108.8L200 108.2L204 107.6L208 106.9L212 106.2L216 105.5L220 104.9L224 104.3L228 103.8L232 103.4M8 111.0L12 111.0L16 111.0L20 111.0L24 111.0L28 111.0L32 111.0L36 111.0L40 111.0L44 111.0L48 111.0L52 111.0L56 111.0L60 111.0L64 111.0L68 111.0L72 111.0L76 111.0L80 111.0L84 111.0L88 111.0L92 111.0L96 111.0L100 111.1L104 111.1L108 111.1L112 111.2L116 111.3L120 111.4L124 111.5L128 111.7L132 112.0L136 112.3L140 112.6L144 113.0L148 113.5L152 114.0L156 114.4L160 114.9L164 115.4L168 115.8L172 116.1L176 116.4L180 116.5L184 116.5L188 116.4L192 116.1L196 115.8L200 115.4L204 114.9L208 114.4L212 114.0L216 113.5L220 113.0L224 112.6L228 112.3L232 112.0M8 120.0L12 120.0L16 120.0L20 120.0L24 120.0L28 120.0L32 120.0L36 120.0L40 120.0L44 120.0L48 120.0L52 120.0L56 120.0L60 120.0L64 120.0L68 120.0L72 120.0L76 120.0L80 120.0L84 120.0L88 120.0L92 120.0L96 120.0L100 120.0L104 120.1L108 120.1L112 120.1L116 120.2L120 120.3L124 120.4L128 120.5L132 120.7L136 120.9L140 121.1L144 121.4L148 121.8L152 122.1L156 122.4L160 122.8L164 123.1L168 123.4L172 123.6L176 123.8L180 123.9L184 123.9L188 123.8L192 123.6L196 123.4L200 123.1L204 122.8L208 122.4L212 122.1L216 121.8L220 121.4L224 121.1L228 120.9L232 120.7M8 129.0L12 129.0L16 129.0L20 129.0L24 129.0L28 129.0L32 129.0L36 129.0L40 129.0L44 129.0L48 129.0L52 129.0L56 129.0L60 129.0L64 129.0L68 129.0L72 129.0L76 129.0L80 129.0L84 129.0L88 129.0L92 129.0L96 129.0L100 129.0L104 129.0L108 129.1L112 129.1L116 129.1L120 129.2L124 129.3L128 129.4L132 129.5L136 129.6L140 129.8L144 130.0L148 130.2L152 130.5L156 130.7L160 131.0L164 131.2L168 131.4L172 131.6L176 131.7L180 131.7L184 131.7L188 131.7L192 131.6L196 131.4L200 131.2L204 131.0L208 130.7L212 130.5L216 130.2L220 130.0L224 129.8L228 129.6L232 129.5"/><circle class="stone-sh" cx="183.5" cy="77.5" r="13"/><circle class="stone" cx="182" cy="75" r="13"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-better">What does better mean?</h2>
+        <!-- Icons are lucide-static 1.31.0, copied verbatim; decorative, the text carries the meaning. -->
+        <div class="better">
+          <div class="bgroup">
+            <h3>Value</h3>
+            <ul>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 17h3v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-3a3.16 3.16 0 0 0 2-2h1a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1h-1a5 5 0 0 0-2-4V3a4 4 0 0 0-3.2 1.6l-.3.4H11a6 6 0 0 0-6 6v1a5 5 0 0 0 2 4v3a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1z"/><path d="M16 10h.01"/><path d="M2 8v1a2 2 0 0 0 2 2h1"/></svg><span>More value for money</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m19 5 3-3"/><path d="m2 22 3-3"/><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z"/><path d="M7.5 13.5 10 11"/><path d="M10.5 16.5 13 14"/><path d="m12 6 6 6 2.3-2.3a2.4 2.4 0 0 0 0-3.4l-2.6-2.6a2.4 2.4 0 0 0-3.4 0Z"/></svg><span>Reducing reliance on big tech</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg><span>Self-hosting as first class</span></li>
+            </ul>
+          </div>
+          <div class="bgroup">
+            <h3>Control</h3>
+            <ul>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg><span>Control where data lives</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 12a9 3 0 0 0 5 2.69"/><path d="M21 9.3V5"/><path d="M3 5v14a9 3 0 0 0 6.47 2.88"/><path d="M12 12v4h4"/><path d="M13 20a5 5 0 0 0 9-3 4.5 4.5 0 0 0-4.5-4.5c-1.33 0-2.54.54-3.41 1.41L12 16"/></svg><span>Continuous backups</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><span>Robust deployments anywhere in the world</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 6a9 9 0 0 0-9 9V3"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg><span>Different versions for different users</span></li>
+            </ul>
+          </div>
+          <div class="bgroup">
+            <h3>Speed</h3>
+            <ul>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09"/><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05"/></svg><span>Ship faster than ever</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><span>Iterating on real apps rather than prototypes</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg><span>Massive runtime performance</span></li>
+            </ul>
+          </div>
+          <div class="bgroup">
+            <h3>Quality</h3>
+            <ul>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg><span>Uncompromising user experiences</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg><span>More secure by default</span></li>
+              <li><svg class="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/></svg><span>Accessibility compliance ready from day one</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. Go faster -->
+    <section class="sec" aria-labelledby="h-faster">
+      <svg class="mo mo-fast" viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-faster"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-faster)">
+          <g class="streak" style="--k:0"><path class="gh" d="M40 24.4H206"/><path class="gfill" d="M12 22L40 20.5H206L228 22L206 23.5H40Z"/></g>
+          <g class="streak" style="--k:1"><path class="gh" d="M63 39.4H189"/><path class="gfill" d="M35 37L63 35.5H189L211 37L189 38.5H63Z"/></g>
+          <g class="streak" style="--k:2"><path class="gh" d="M42 54.4H172"/><path class="gfill" d="M14 52L42 50.5H172L194 52L172 53.5H42Z"/></g>
+          <g class="streak" style="--k:3"><path class="gh" d="M65 69.4H193"/><path class="gfill" d="M37 67L65 65.5H193L215 67L193 68.5H65Z"/></g>
+          <g class="streak" style="--k:4"><path class="gh" d="M44 84.4H176"/><path class="gfill" d="M16 82L44 80.5H176L198 82L176 83.5H44Z"/></g>
+          <g class="streak" style="--k:5"><path class="gh" d="M67 99.4H197"/><path class="gfill" d="M39 97L67 95.5H197L219 97L197 98.5H67Z"/></g>
+          <g class="streak" style="--k:6"><path class="gh" d="M46 114.4H180"/><path class="gfill" d="M18 112L46 110.5H180L202 112L180 113.5H46Z"/></g>
+          <g class="streak" style="--k:7"><path class="gh" d="M69 129.4H201"/><path class="gfill" d="M41 127L69 125.5H201L223 127L201 128.5H69Z"/></g>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-faster">Go faster</h2>
+        <p class="claim">Go is the perfect blend of fast—both compile and runtime—and rich in features</p>
+        <ul class="list">
+          <li>The great runtime performance of Go</li>
+          <li>Full HTML pages rendered in milliseconds</li>
+          <li>Delightfully fast build, compile, build dev loops</li>
+          <li>A rich ecosystem of libraries across the full stack, from HTTP requests to HTML and JSON rendering</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. Agents and humans -->
+    <section class="sec g-raked" aria-labelledby="h-agents">
+      <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-agents"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-agents)">
+          <path class="gh" transform="translate(0 1.6)" d="M14 75H80M78 75C118 75 118 27 158 27H212M78 75C118 75 118 51 158 51H212M78 75C118 75 118 75 158 75H212M78 75C118 75 118 99 158 99H212M78 75C118 75 118 123 158 123H212"/><path class="gr" d="M14 75H80M78 75C118 75 118 27 158 27H212M78 75C118 75 118 51 158 51H212M78 75C118 75 118 75 158 75H212M78 75C118 75 118 99 158 99H212M78 75C118 75 118 123 158 123H212"/><circle class="stone-sh" cx="219.5" cy="29.5" r="4.5"/><circle class="stone" cx="218" cy="27" r="4.5"/><circle class="stone-sh" cx="219.5" cy="53.5" r="4.5"/><circle class="stone" cx="218" cy="51" r="4.5"/><circle class="stone-sh" cx="219.5" cy="77.5" r="4.5"/><circle class="stone" cx="218" cy="75" r="4.5"/><circle class="stone-sh" cx="219.5" cy="101.5" r="4.5"/><circle class="stone" cx="218" cy="99" r="4.5"/><circle class="stone-sh" cx="219.5" cy="125.5" r="4.5"/><circle class="stone" cx="218" cy="123" r="4.5"/>
+        </g>
+      </svg>
+      <div class="body agents">
+        <h2 id="h-agents">Built by agents for agents and humans</h2>
+        <p class="lead">Designed to be easy to use, whether assisted or not</p>
+
+        <!-- --d orders the pieces for the timed fallback; the scroll version
+             spells the same order out in animation-range. -->
+        <figure class="tree" data-moment style="margin-inline:0">
+          <div class="hd"><i class="src" aria-hidden="true"></i><i class="ch run" style="--d:0" aria-hidden="true"></i><code>actions/</code></div>
+          <ul aria-label="Files in actions/ and the route each one serves">
+            <li><i class="ch ra" style="--d:1" aria-hidden="true"></i><i class="ch rb" style="--d:4" aria-hidden="true"></i><i class="ch arm" style="--d:2" aria-hidden="true"></i><i class="ch out" style="--d:3" aria-hidden="true"></i>
+              <code class="file">index.GET.go</code><code class="route"><b class="get">GET</b> /</code></li>
+            <li><i class="ch ra" style="--d:5" aria-hidden="true"></i><i class="ch rb" style="--d:8" aria-hidden="true"></i><i class="ch arm" style="--d:6" aria-hidden="true"></i><i class="ch out" style="--d:7" aria-hidden="true"></i>
+              <code class="file">posts/[id]/index.GET.go</code><code class="route"><b class="get">GET</b> /posts/{id}</code></li>
+            <li><i class="ch ra" style="--d:9" aria-hidden="true"></i><i class="ch rb" style="--d:12" aria-hidden="true"></i><i class="ch arm" style="--d:10" aria-hidden="true"></i><i class="ch out" style="--d:11" aria-hidden="true"></i>
+              <code class="file">admin/posts/index.GET.go</code><code class="route"><b class="get">GET</b> /admin/posts</code></li>
+            <li><i class="ch ra" style="--d:13" aria-hidden="true"></i><i class="ch rb" style="--d:16" aria-hidden="true"></i><i class="ch arm" style="--d:14" aria-hidden="true"></i><i class="ch out" style="--d:15" aria-hidden="true"></i>
+              <code class="file">admin/posts/[id]/publish.POST.go</code><code class="route"><b class="post">POST</b> /admin/posts/{id}/publish</code></li>
+            <li><i class="ch ra" style="--d:17" aria-hidden="true"></i><i class="ch arm" style="--d:18" aria-hidden="true"></i><i class="ch out" style="--d:19" aria-hidden="true"></i>
+              <code class="file">admin/posts/[id]/delete.POST.go</code><code class="route"><b class="post">POST</b> /admin/posts/{id}/delete</code></li>
+          </ul>
+          <figcaption class="tree-cap">Real files from <code>examples/blog</code>, one per route.</figcaption>
+        </figure>
+
+        <ul class="attrs">
+          <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg></span>
+            <span><strong>Declarative manifests</strong>Describe a resource in TOML and generate its store, actions and screens.</span></li>
+          <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg></span>
+            <span><strong>A CLI for common tasks</strong><code>rastrillo new</code> starts an app, <code>rastrillo dev</code> rebuilds as you edit, and <code>rastrillo migration</code> writes schema changes.</span></li>
+          <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-2.5a1 1 0 0 1-.8-.4l-.9-1.2A1 1 0 0 0 15 3h-2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M20 21a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2.9a1 1 0 0 1-.88-.55l-.42-.85a1 1 0 0 0-.92-.6H13a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1Z"/><path d="M3 5a2 2 0 0 0 2 2h3"/><path d="M3 3v13a2 2 0 0 0 2 2h3"/></svg></span>
+            <span><strong>Filesystem-backed actions</strong>Each route is one file, named for its path and method.</span></li>
+          <li><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v16"/><path d="m16 12 2 2 4-4"/><path d="M22 6V5a2 2 0 0 0-1.999-2L16 3.002A5 5 0 0 0 12 5a5 5 0 0 0-4-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 1.999 2H8a5 5 0 0 1 4 2 5 5 0 0 1 4-2h4.001A2 2 0 0 0 22 17v-1.344"/></svg></span>
+            <span><strong>Readable Go</strong>Generated code is plain Go, committed and reviewed like your own.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2. Rails -->
+    <section class="sec" aria-labelledby="h-rails">
+      <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-rails"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-rails)">
+          <path class="gh" transform="translate(0 1.6)" d="M12 58H112"/><path class="gr" d="M12 58H112"/>
+          <path class="gh" transform="translate(0 1.6)" d="M120 58H133"/><path class="gr" d="M120 58H133"/>
+          <path class="gh" transform="translate(0 1.6)" d="M140 58H149"/><path class="gr" d="M140 58H149"/>
+          <path class="gh" transform="translate(0 1.6)" d="M157 58H162"/><path class="gr" d="M157 58H162"/>
+          <path class="gh" transform="translate(0 1.6)" d="M12 92H112"/><path class="gr" d="M12 92H112"/>
+          <path class="gh" transform="translate(0 1.6)" d="M120 92H133"/><path class="gr" d="M120 92H133"/>
+          <path class="gh" transform="translate(0 1.6)" d="M140 92H149"/><path class="gr" d="M140 92H149"/>
+          <path class="gh" transform="translate(0 1.6)" d="M157 92H162"/><path class="gr" d="M157 92H162"/>
+          <circle class="pebble" cx="168" cy="57" r="1.4"/><circle class="pebble" cx="175" cy="61" r="1.4"/><circle class="pebble" cx="171" cy="90" r="1.4"/><circle class="pebble" cx="178" cy="95" r="1.4"/><circle class="pebble" cx="184" cy="54" r="1.4"/><circle class="pebble" cx="186" cy="99" r="1.4"/><circle class="pebble" cx="165" cy="75" r="1.4"/><circle class="pebble" cx="176" cy="78" r="1.4"/>
+          <path class="gh" transform="translate(0 1.6)" d="M181 75a24 24 0 1 0 48 0a24 24 0 1 0 -48 0"/><path class="gr" d="M181 75a24 24 0 1 0 48 0a24 24 0 1 0 -48 0"/>
+          <circle class="stone-sh" cx="206.5" cy="77.5" r="14"/><circle class="stone" cx="205" cy="75" r="14"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-rails">Where we’re going, we don’t need rails</h2>
+        <p class="lead">Experience the pure joy of putting a file on a remote host and having a working web app. Rastrillo apps are full stack: database, HTTP server, HTML, CSS, JS all in a single binary that runs anywhere. What’s old is new again.</p>
+        <svg class="merge" viewBox="118 0 380 198" aria-hidden="true" focusable="false">
+          <g transform="translate(0 2)">
+            <path class="ch-edge" d="M130 50H200C250 50 255 106 305 106"/>
+            <path class="ch-edge" d="M130 106H305"/>
+            <path class="ch-edge" d="M130 162H200C250 162 255 106 305 106"/>
+            <path class="main ch-edge" d="M300 106H488"/>
+          </g>
+          <path class="ch-bed" d="M130 50H200C250 50 255 106 305 106"/>
+          <path class="ch-bed" d="M130 106H305"/>
+          <path class="ch-bed" d="M130 162H200C250 162 255 106 305 106"/>
+          <path class="main ch-bed" d="M300 106H488"/>
+          <path class="ch-water" pathLength="1" d="M130 50H200C250 50 255 106 305 106"/>
+          <path class="ch-water" pathLength="1" d="M130 106H305"/>
+          <path class="ch-water" pathLength="1" d="M130 162H200C250 162 255 106 305 106"/>
+          <path class="main ch-water" pathLength="1" d="M300 106H488"/>
+          <text x="130" y="34">database</text>
+          <text x="130" y="90">HTTP server</text>
+          <text x="130" y="190">HTML, CSS, JS</text>
+          <text class="one" x="488" y="80" text-anchor="end">a single binary</text>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 3. De-jank -->
+    <section class="sec g-tone" aria-labelledby="h-dejank">
+      <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-dejank"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-dejank)">
+          <path class="gh" transform="translate(0 1.6)" d="M14 60.0L22 88.9L30 62.1L38 86.8L46 64.3L54 84.6L62 66.4L70 82.5L78 68.6L86 80.4L94 70.7L102 78.2L110 72.9L118 76.1L126 75.0C140 75 150 75 160 75H226"/><path class="gr gr-wide" d="M14 60.0L22 88.9L30 62.1L38 86.8L46 64.3L54 84.6L62 66.4L70 82.5L78 68.6L86 80.4L94 70.7L102 78.2L110 72.9L118 76.1L126 75.0C140 75 150 75 160 75H226"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-dejank">Let’s de-jank the web, one app at a time</h2>
+        <p class="lead">The push toward SPAs was supposed to lead to faster apps and better experiences, but we got the opposite: computers are faster than ever but web apps feel slower. Rastrillo apps encourage instant page loads, server-rendered HTML, with uncompromising client-side experiences with progressively-enhanced JS.</p>
+        <!-- The claim, drawn: the same page loading two ways. Dashed outlines mark
+             where a block sat before the last shift. -->
+        <div class="dj" id="dejank" data-moment-dj>
+          <figure>
+            <figcaption>Single-page app</figcaption>
+            <svg viewBox="0 0 200 156" role="img" aria-label="Blank, then a spinner, then text with a spinner where the picture should be. The picture only arrives as you scroll away, and the page jumps.">
+              <defs><clipPath id="djA"><rect x="1.5" y="18" width="197" height="136.5"/></clipPath></defs>
+              <rect class="bf-frame" x=".75" y=".75" width="198.5" height="154.5" rx="6" style="stroke:none"/>
+              <path class="bf-bar" d="M.75 18V6.75A6 6 0 0 1 6.75 .75H193.25A6 6 0 0 1 199.25 6.75V18Z"/>
+              <rect class="bf-url" x="50" y="5.5" width="100" height="7" rx="3.5"/>
+              <path class="bf-rule" d="M.75 18H199.25"/>
+              <g clip-path="url(#djA)">
+                <g class="st s0"></g>
+                <g class="st s1"><g class="spin"><circle class="spin-track" cx="100" cy="87" r="11"/><path class="spin-arc" d="M100 76A11 11 0 0 1 111 87"/></g></g>
+                <g class="st s2"><rect class="pg-ink" x="10" y="28" width="26" height="7" rx="1"/><rect class="pg-line" x="130" y="30" width="18" height="3"/><rect class="pg-line" x="154" y="30" width="16" height="3"/><rect class="pg-line" x="176" y="30" width="14" height="3"/><rect class="pg-ink" x="10" y="46" width="120" height="8" rx="1"/><rect class="pg-line" x="10" y="64" width="172" height="4"/><rect class="pg-line" x="10" y="72" width="160" height="4"/><rect class="pg-line" x="10" y="80" width="120" height="4"/></g>
+                <g class="st s3"><rect class="pg-ink" x="10" y="28" width="26" height="7" rx="1"/><rect class="pg-line" x="130" y="30" width="18" height="3"/><rect class="pg-line" x="154" y="30" width="16" height="3"/><rect class="pg-line" x="176" y="30" width="14" height="3"/><rect class="pg-ink" x="10" y="46" width="120" height="8" rx="1"/><g class="spin"><circle class="spin-track" cx="100" cy="72" r="7"/><path class="spin-arc" d="M100 65A7 7 0 0 1 107 72"/></g><rect class="pg-line" x="10" y="90" width="172" height="4"/><rect class="pg-line" x="10" y="98" width="160" height="4"/><rect class="pg-line" x="10" y="106" width="120" height="4"/></g>
+                <g class="st s4"><rect class="pg-notice" x="6" y="21" width="188" height="13" rx="2"/><rect class="pg-ink" x="10" y="42" width="26" height="7" rx="1"/><rect class="pg-line" x="130" y="44" width="18" height="3"/><rect class="pg-line" x="154" y="44" width="16" height="3"/><rect class="pg-line" x="176" y="44" width="14" height="3"/><rect class="pg-ink" x="10" y="60" width="120" height="8" rx="1"/><rect class="pg-img" x="10" y="76" width="180" height="42" rx="2"/><rect class="pg-line" x="10" y="126" width="172" height="4"/><rect class="pg-line" x="10" y="134" width="160" height="4"/><rect class="pg-line" x="10" y="142" width="120" height="4"/><rect class="pg-btn" x="10" y="152" width="40" height="11" rx="2"/></g>
+              </g>
+              <rect class="bf-frame" x=".75" y=".75" width="198.5" height="154.5" rx="6" style="fill:none"/>
+            </svg>
+          </figure>
+          <figure>
+            <figcaption>Rastrillo</figcaption>
+            <svg viewBox="0 0 200 156" role="img" aria-label="The complete page, in one response.">
+              <defs><clipPath id="djB"><rect x="1.5" y="18" width="197" height="136.5"/></clipPath></defs>
+              <rect class="bf-frame" x=".75" y=".75" width="198.5" height="154.5" rx="6" style="stroke:none"/>
+              <path class="bf-bar" d="M.75 18V6.75A6 6 0 0 1 6.75 .75H193.25A6 6 0 0 1 199.25 6.75V18Z"/>
+              <rect class="bf-url" x="50" y="5.5" width="100" height="7" rx="3.5"/>
+              <path class="bf-rule" d="M.75 18H199.25"/>
+              <g clip-path="url(#djB)">
+                <g><rect class="pg-ink" x="10" y="28" width="26" height="7" rx="1"/><rect class="pg-line" x="130" y="30" width="18" height="3"/><rect class="pg-line" x="154" y="30" width="16" height="3"/><rect class="pg-line" x="176" y="30" width="14" height="3"/><rect class="pg-ink" x="10" y="46" width="120" height="8" rx="1"/><rect class="pg-img" x="10" y="62" width="180" height="42" rx="2"/><rect class="pg-line" x="10" y="112" width="172" height="4"/><rect class="pg-line" x="10" y="120" width="160" height="4"/><rect class="pg-line" x="10" y="128" width="120" height="4"/><rect class="pg-btn" x="10" y="138" width="40" height="11" rx="2"/></g>
+              </g>
+              <rect class="bf-frame" x=".75" y=".75" width="198.5" height="154.5" rx="6" style="fill:none"/>
+            </svg>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Design system -->
+    <section class="sec" aria-labelledby="h-ds">
+      <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-ds"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-ds)">
+          <path class="gh" transform="translate(0 1.6)" d="M25 23H55M25 31H55M25 39H55M25 47H55M68 20V50M76 20V50M84 20V50M92 20V50M105 23H135M105 31H135M105 39H135M105 47H135M148 20V50M156 20V50M164 20V50M172 20V50M185 23H215M185 31H215M185 39H215M185 47H215M28 60V90M36 60V90M44 60V90M52 60V90M65 63H95M65 71H95M65 79H95M65 87H95M108 60V90M116 60V90M124 60V90M132 60V90M145 63H175M145 71H175M145 79H175M145 87H175M188 60V90M196 60V90M204 60V90M212 60V90M25 103H55M25 111H55M25 119H55M25 127H55M68 100V130M76 100V130M84 100V130M92 100V130M105 103H135M105 111H135M105 119H135M105 127H135M148 100V130M156 100V130M164 100V130M172 100V130M185 103H215M185 111H215M185 119H215M185 127H215"/><path class="gr" d="M25 23H55M25 31H55M25 39H55M25 47H55M68 20V50M76 20V50M84 20V50M92 20V50M105 23H135M105 31H135M105 39H135M105 47H135M148 20V50M156 20V50M164 20V50M172 20V50M185 23H215M185 31H215M185 39H215M185 47H215M28 60V90M36 60V90M44 60V90M52 60V90M65 63H95M65 71H95M65 79H95M65 87H95M108 60V90M116 60V90M124 60V90M132 60V90M145 63H175M145 71H175M145 79H175M145 87H175M188 60V90M196 60V90M204 60V90M212 60V90M25 103H55M25 111H55M25 119H55M25 127H55M68 100V130M76 100V130M84 100V130M92 100V130M105 103H135M105 111H135M105 119H135M105 127H135M148 100V130M156 100V130M164 100V130M172 100V130M185 103H215M185 111H215M185 119H215M185 127H215"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-ds">A design system for everyone</h2>
+        <p class="lead">The Rastrillo design system is a robust design system using elegant, semantic markup to create usable baseline styles for your apps.</p>
+        <ul class="list">
+          <li>Get good-looking admin screens out of the box</li>
+          <li>A full set of configurable design tokens</li>
+          <li>A host of the most common components</li>
+          <li>Light: &lt;20KiB gzipped</li>
+          <li>WCAG AA 2.2 accessibility audit-ready</li>
+          <li>Proper hierarchy-based mobile navigation</li>
+        </ul>
+        <!-- Real design-system markup from the gallery's Requests screen,
+             trimmed, and the same markup rendered below by the design
+             system's own stylesheets (loaded from rastrillo.org). The CSS
+             filenames are content-hashed: a production build would point at
+             the site's own copy instead. -->
+        <figure class="mk">
+          <div class="mk-bar">
+            <span aria-hidden="true">requests.html</span>
+            <fieldset class="mk-theme">
+              <legend class="sr">Preview theme</legend>
+              <input type="radio" name="mk-theme" id="mk-light" value="light" checked><label for="mk-light">Light</label>
+              <input type="radio" name="mk-theme" id="mk-dark" value="dark"><label for="mk-dark">Dark</label>
+            </fieldset>
+          </div>
+          <div class="mk-panes">
+            <div class="mk-out">
+              <iframe class="mk-l" title="The markup, rendered by the design system, light theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
+  &lt;div rst-page-header-titles&gt;
+    &lt;h1&gt;Requests&lt;/h1&gt;
+    &lt;p rst-page-header-sub&gt;Newest first.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;a rst-btn=&quot;primary&quot; href=&quot;/requests/new&quot;&gt;New request&lt;/a&gt;
+&lt;/header&gt;
+&lt;nav rst-seg-tabs aria-label=&quot;Requests&quot;&gt;
+  &lt;a href=&quot;/requests&quot; aria-current=&quot;page&quot;&gt;All&lt;/a&gt;
+  &lt;a href=&quot;/requests?open&quot;&gt;Open&lt;/a&gt;
+  &lt;a href=&quot;/requests?resolved&quot;&gt;Resolved&lt;/a&gt;
+&lt;/nav&gt;
+&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
+  &lt;div rst-lrow&gt;
+    &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4471&quot;&gt;Invoice never arrived&lt;/a&gt;
+    &lt;span rst-status rst-tone=&quot;warning&quot;&gt;Waiting&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div rst-lrow&gt;
+    &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4468&quot;&gt;Card declined&lt;/a&gt;
+    &lt;span rst-status rst-tone=&quot;neutral&quot;&gt;Open&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){n.querySelectorAll(&quot;a&quot;).forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;)}});&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
+              <iframe class="mk-d" title="The markup, rendered by the design system, dark theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;dark&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
+  &lt;div rst-page-header-titles&gt;
+    &lt;h1&gt;Requests&lt;/h1&gt;
+    &lt;p rst-page-header-sub&gt;Newest first.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;a rst-btn=&quot;primary&quot; href=&quot;/requests/new&quot;&gt;New request&lt;/a&gt;
+&lt;/header&gt;
+&lt;nav rst-seg-tabs aria-label=&quot;Requests&quot;&gt;
+  &lt;a href=&quot;/requests&quot; aria-current=&quot;page&quot;&gt;All&lt;/a&gt;
+  &lt;a href=&quot;/requests?open&quot;&gt;Open&lt;/a&gt;
+  &lt;a href=&quot;/requests?resolved&quot;&gt;Resolved&lt;/a&gt;
+&lt;/nav&gt;
+&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
+  &lt;div rst-lrow&gt;
+    &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4471&quot;&gt;Invoice never arrived&lt;/a&gt;
+    &lt;span rst-status rst-tone=&quot;warning&quot;&gt;Waiting&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div rst-lrow&gt;
+    &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4468&quot;&gt;Card declined&lt;/a&gt;
+    &lt;span rst-status rst-tone=&quot;neutral&quot;&gt;Open&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){n.querySelectorAll(&quot;a&quot;).forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;)}});&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
+            </div>
+            <pre class="mk-code"><code><span class="tg">&lt;header</span> <span class="ra">rst-page-header</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;div</span> <span class="ra">rst-page-header-titles</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;h1</span><span class="tg">&gt;</span>Requests<span class="tg">&lt;/h1</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;p</span> <span class="ra">rst-page-header-sub</span><span class="tg">&gt;</span>Newest first.<span class="tg">&lt;/p</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;/div</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;a</span> <span class="ra">rst-btn</span>=<span class="av">&quot;primary&quot;</span> <span class="at">href</span>=<span class="av">&quot;/requests/new&quot;</span><span class="tg">&gt;</span>New request<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
+<span class="tg">&lt;/header</span><span class="tg">&gt;</span>
+<span class="tg">&lt;nav</span> <span class="ra">rst-seg-tabs</span> <span class="at">aria-label</span>=<span class="av">&quot;Requests&quot;</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;a</span> <span class="at">href</span>=<span class="av">&quot;/requests&quot;</span> <span class="at">aria-current</span>=<span class="av">&quot;page&quot;</span><span class="tg">&gt;</span>All<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;a</span> <span class="at">href</span>=<span class="av">&quot;/requests?open&quot;</span><span class="tg">&gt;</span>Open<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;a</span> <span class="at">href</span>=<span class="av">&quot;/requests?resolved&quot;</span><span class="tg">&gt;</span>Resolved<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
+<span class="tg">&lt;/nav</span><span class="tg">&gt;</span>
+<span class="tg">&lt;div</span> <span class="ra">rst-card</span> <span class="at">style</span>=<span class="av">&quot;--rst-cols: 1fr auto&quot;</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;div</span> <span class="ra">rst-lrow</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;a</span> <span class="at">class</span>=<span class="av">&quot;rst-nm&quot;</span> <span class="at">href</span>=<span class="av">&quot;/requests/4471&quot;</span><span class="tg">&gt;</span>Invoice never arrived<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;span</span> <span class="ra">rst-status</span> <span class="ra">rst-tone</span>=<span class="av">&quot;warning&quot;</span><span class="tg">&gt;</span>Waiting<span class="tg">&lt;/span</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;/div</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;div</span> <span class="ra">rst-lrow</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;a</span> <span class="at">class</span>=<span class="av">&quot;rst-nm&quot;</span> <span class="at">href</span>=<span class="av">&quot;/requests/4468&quot;</span><span class="tg">&gt;</span>Card declined<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
+    <span class="tg">&lt;span</span> <span class="ra">rst-status</span> <span class="ra">rst-tone</span>=<span class="av">&quot;neutral&quot;</span><span class="tg">&gt;</span>Open<span class="tg">&lt;/span</span><span class="tg">&gt;</span>
+  <span class="tg">&lt;/div</span><span class="tg">&gt;</span>
+<span class="tg">&lt;/div</span><span class="tg">&gt;</span></code></pre>
+          </div>
+          <figcaption>Plain HTML with <code>rst-</code> attributes. Custom elements, ids, and classes are left clear for your apps.</figcaption>
+        </figure>
+        <p class="weight" aria-hidden="true"><b>&lt;20KiB</b><span>gzipped</span></p>
+        <a class="btn" href="/design-system/">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+          Try it out</a>
+      </div>
+    </section>
+
+    <!-- 6. Get started -->
+    <section class="sec g-tone" id="start" aria-labelledby="h-start">
+      <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-start"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-start)">
+          <defs><mask id="m-start" maskUnits="userSpaceOnUse" x="0" y="0" width="240" height="150"><rect width="240" height="150" fill="#fff"/><circle cx="58" cy="104" r="29" fill="#000"/><circle cx="120" cy="75" r="29" fill="#000"/><circle cx="182" cy="46" r="29" fill="#000"/></mask></defs><g mask="url(#m-start)"><path class="gh" transform="translate(0 1.6)" d="M6 14H234M6 26H234M6 38H234M6 50H234M6 62H234M6 74H234M6 86H234M6 98H234M6 110H234M6 122H234M6 134H234"/><path class="gr" d="M6 14H234M6 26H234M6 38H234M6 50H234M6 62H234M6 74H234M6 86H234M6 98H234M6 110H234M6 122H234M6 134H234"/></g><path class="gh" transform="translate(0 1.6)" d="M41 104a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/><path class="gr" d="M41 104a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/><path class="gh" transform="translate(0 1.6)" d="M35 104a23 23 0 1 0 46 0a23 23 0 1 0 -46 0"/><path class="gr" d="M35 104a23 23 0 1 0 46 0a23 23 0 1 0 -46 0"/><circle class="stone-sh" cx="59.5" cy="106.5" r="11"/><circle class="stone" cx="58" cy="104" r="11"/><path class="gh" transform="translate(0 1.6)" d="M103 75a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/><path class="gr" d="M103 75a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/><path class="gh" transform="translate(0 1.6)" d="M97 75a23 23 0 1 0 46 0a23 23 0 1 0 -46 0"/><path class="gr" d="M97 75a23 23 0 1 0 46 0a23 23 0 1 0 -46 0"/><circle class="stone-sh" cx="121.5" cy="77.5" r="11"/><circle class="stone" cx="120" cy="75" r="11"/><path class="gh" transform="translate(0 1.6)" d="M165 46a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/><path class="gr" d="M165 46a17 17 0 1 0 34 0a17 17 0 1 0 -34 0"/><path class="gh" transform="translate(0 1.6)" d="M159 46a23 23 0 1 0 46 0a23 23 0 1 0 -46 0"/><path class="gr" d="M159 46a23 23 0 1 0 46 0a23 23 0 1 0 -46 0"/><circle class="stone-sh" cx="183.5" cy="48.5" r="11"/><circle class="stone" cx="182" cy="46" r="11"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-start">Get started</h2>
+        <fieldset class="paths">
+          <legend class="sr">Choose how to start</legend>
+          <input type="radio" name="path" id="path-agent" checked>
+          <label for="path-agent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            With an agent</label>
+          <input type="radio" name="path" id="path-hand">
+          <label for="path-hand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg>
+            By hand</label>
+
+          <div class="panel panel-agent">
+            <p>Paste this into your agent of choice</p>
+            <div class="prompt">
+              <pre id="agent-prompt">Build me a <span class="ph">[describe your app]</span> with Rastrillo. Read https://rastrillo.org/SKILL.md first. Then install the CLI with go install amadan.net/rastrillo/rastrillo/cmd/rastrillo@latest, run rastrillo new, and keep go test ./... passing as you go.</pre>
+              <!-- Hidden until the script can make it work. -->
+              <button class="copy" type="button" hidden aria-label="Copy prompt" title="Copy prompt" data-for="agent-prompt">
+                <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg class="i-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              </button>
+              <span class="sr" role="status" id="copy-status"></span>
+            </div>
+          </div>
+
+          <div class="panel panel-hand">
+            <ol class="steps">
+              <li>
+                <span class="basin-n" aria-hidden="true">1</span>
+                <div>
+                  <h3>Clone the repo</h3>
+                  <pre class="cmd"><code><span class="k">git</span> clone https://github.com/rastrilloorg/rastrillo &amp;&amp; cd rastrillo/examples/notes</code></pre>
+                </div>
+              </li>
+              <li>
+                <span class="basin-n" aria-hidden="true">2</span>
+                <div>
+                  <h3>Run it</h3>
+                  <pre class="cmd"><code>CGO_ENABLED=0 <span class="k">go</span> run ./cmd/notes -addr localhost:8080</code></pre>
+                  <p>Sign up, write a note. Open a private window, sign up as someone else, and try to reach the first note by URL: 404.</p>
+                </div>
+              </li>
+              <li>
+                <span class="basin-n" aria-hidden="true">3</span>
+                <div>
+                  <h3>Start your own</h3>
+                  <pre class="cmd"><code><span class="k">go</span> install amadan.net/rastrillo/rastrillo/cmd/rastrillo@latest
+<span class="k">rastrillo</span> new myapp &amp;&amp; cd myapp &amp;&amp; go mod tidy &amp;&amp; go test ./...</code></pre>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- 7. Deployment -->
+    <section class="sec" aria-labelledby="h-deploy">
+      <svg class="mo mo-deploy" viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-deploy"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-deploy)">
+          <g class="dg"><path class="gh" transform="translate(0 1.6)" d="M10 112C90 112 130 64 184 56M10 128C96 128 136 72 186 62" pathLength="1"/><path class="gr" d="M10 112C90 112 130 64 184 56M10 128C96 128 136 72 186 62" pathLength="1"/></g><g class="ripple" style="--k:0"><path class="gh" transform="translate(0 1.6)" d="M188 56a12 12 0 1 0 24 0a12 12 0 1 0 -24 0"/><path class="gr" d="M188 56a12 12 0 1 0 24 0a12 12 0 1 0 -24 0"/></g><g class="ripple" style="--k:1"><path class="gh" transform="translate(0 1.6)" d="M182 56a18 18 0 1 0 36 0a18 18 0 1 0 -36 0"/><path class="gr" d="M182 56a18 18 0 1 0 36 0a18 18 0 1 0 -36 0"/></g><g class="ripple" style="--k:2"><path class="gh" transform="translate(0 1.6)" d="M176 56a24 24 0 1 0 48 0a24 24 0 1 0 -48 0"/><path class="gr" d="M176 56a24 24 0 1 0 48 0a24 24 0 1 0 -48 0"/></g><circle class="stone-sh" cx="201.5" cy="58.5" r="7"/><circle class="stone" cx="200" cy="56" r="7"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-deploy">Deployment</h2>
+        <p class="lead">Rastrillo apps compile to a single binary, so they will run trivially on any deployment stack. For fast-simple CARLOS-native deployment, reach for <a href="https://carlosframework.com/platform/">CARLOS platform</a>, and to get started immediately, use <a href="https://carloku.com">Carloku</a>.</p>
+        <fieldset class="paths">
+          <legend class="sr">Choose how to deploy</legend>
+          <input type="radio" name="dep-path" id="dep-agent" checked>
+          <label for="dep-agent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+            With an agent</label>
+          <input type="radio" name="dep-path" id="dep-hand">
+          <label for="dep-hand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19h8"/><path d="m4 17 6-6-6-6"/></svg>
+            By hand</label>
+
+          <div class="panel panel-agent">
+            <p>Ask your agent:</p>
+            <div class="prompt">
+              <pre id="deploy-prompt">Deploy this app to Carloku</pre>
+              <button class="copy" type="button" hidden aria-label="Copy prompt" title="Copy prompt" data-for="deploy-prompt">
+                <svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                <svg class="i-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+              </button>
+              <span class="sr" role="status"></span>
+            </div>
+          </div>
+
+          <div class="panel panel-hand">
+              <ol class="steps">
+                <li>
+                  <span class="basin-n" aria-hidden="true">1</span>
+                  <div>
+                    <h3>Install the platform binary</h3>
+                    <pre class="cmd"><code><span class="k">brew</span> install carlosframework/tap/carlos</code></pre>
+                  </div>
+                </li>
+                <li>
+                  <span class="basin-n" aria-hidden="true">2</span>
+                  <div>
+                    <h3>Build your app for the target host</h3>
+                    <pre class="cmd"><code>GOOS=linux GOARCH=arm64 <span class="k">go</span> build -o myapp ./cmd/myapp</code></pre>
+                  </div>
+                </li>
+                <li>
+                  <span class="basin-n" aria-hidden="true">3</span>
+                  <div>
+                    <h3>Deploy it</h3>
+                    <pre class="cmd"><code><span class="k">carlos</span> deploy --app myapp ./myapp</code></pre>
+                    <p>Ships, promotes and watches your hosts until the new build is live.</p>
+                  </div>
+                </li>
+              </ol>
+          </div>
+        </fieldset>
+      </div>
+    </section>
+
+    <!-- 8. Features -->
+    <section class="sec g-raked" aria-labelledby="h-feat">
+      <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
+        <defs><clipPath id="clip-feat"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
+        <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
+        <g clip-path="url(#clip-feat)">
+          <path class="gh" transform="translate(0 1.6)" d="M29 46a13 13 0 1 0 26 0a13 13 0 1 0 -26 0"/><path class="gr" d="M29 46a13 13 0 1 0 26 0a13 13 0 1 0 -26 0"/><path class="gh" transform="translate(0 1.6)" d="M23 46a19 19 0 1 0 38 0a19 19 0 1 0 -38 0"/><path class="gr" d="M23 46a19 19 0 1 0 38 0a19 19 0 1 0 -38 0"/><circle class="stone-sh" cx="43.5" cy="48.5" r="7"/><circle class="stone" cx="42" cy="46" r="7"/><path class="gh" transform="translate(0 1.6)" d="M81 108a15 15 0 1 0 30 0a15 15 0 1 0 -30 0"/><path class="gr" d="M81 108a15 15 0 1 0 30 0a15 15 0 1 0 -30 0"/><path class="gh" transform="translate(0 1.6)" d="M75 108a21 21 0 1 0 42 0a21 21 0 1 0 -42 0"/><path class="gr" d="M75 108a21 21 0 1 0 42 0a21 21 0 1 0 -42 0"/><path class="gh" transform="translate(0 1.6)" d="M69 108a27 27 0 1 0 54 0a27 27 0 1 0 -54 0"/><path class="gr" d="M69 108a27 27 0 1 0 54 0a27 27 0 1 0 -54 0"/><circle class="stone-sh" cx="97.5" cy="110.5" r="9"/><circle class="stone" cx="96" cy="108" r="9"/><path class="gh" transform="translate(0 1.6)" d="M128 38a12 12 0 1 0 24 0a12 12 0 1 0 -24 0"/><path class="gr" d="M128 38a12 12 0 1 0 24 0a12 12 0 1 0 -24 0"/><circle class="stone-sh" cx="141.5" cy="40.5" r="6"/><circle class="stone" cx="140" cy="38" r="6"/><path class="gh" transform="translate(0 1.6)" d="M170 98a16 16 0 1 0 32 0a16 16 0 1 0 -32 0"/><path class="gr" d="M170 98a16 16 0 1 0 32 0a16 16 0 1 0 -32 0"/><path class="gh" transform="translate(0 1.6)" d="M164 98a22 22 0 1 0 44 0a22 22 0 1 0 -44 0"/><path class="gr" d="M164 98a22 22 0 1 0 44 0a22 22 0 1 0 -44 0"/><circle class="stone-sh" cx="187.5" cy="100.5" r="10"/><circle class="stone" cx="186" cy="98" r="10"/><path class="gh" transform="translate(0 1.6)" d="M203 34a11 11 0 1 0 22 0a11 11 0 1 0 -22 0"/><path class="gr" d="M203 34a11 11 0 1 0 22 0a11 11 0 1 0 -22 0"/><circle class="stone-sh" cx="215.5" cy="36.5" r="5"/><circle class="stone" cx="214" cy="34" r="5"/>
+        </g>
+      </svg>
+      <div class="body">
+        <h2 id="h-feat">A growing list of features for a whole variety of proven use-cases</h2>
+      </div>
+      <div class="features">
+        <article class="fgroup">
+          <h3>Data and storage</h3>
+          <dl>
+            <dt>Database</dt><dd>GORM on pure-Go SQLite, with split writer and reader pools.</dd>
+            <dt>Migrations</dt><dd>Additive migrations, applied at startup in a safe order.</dd>
+            <dt>Mergeable store</dt><dd>Append-only event streams with a deterministic merge.</dd>
+            <dt>Blobs</dt><dd>Content-addressed files on object storage, with presigned URLs.</dd>
+          </dl>
+        </article>
+        <article class="fgroup">
+          <h3>Sign-in and security</h3>
+          <dl>
+            <dt>Sessions</dt><dd>Revocable server-side sessions, with step-up re-auth for sensitive routes.</dd>
+            <dt>CSRF</dt><dd>An origin check on every mutating request. No tokens to forget.</dd>
+            <dt>Owner scoping</dt><dd>Someone else's row answers 404, proven by a two-user test suite.</dd>
+            <dt>Magic links</dt><dd>Email sign-in that upgrades to Keymail where it can.</dd>
+            <dt>Passwords</dt><dd>Email and password, rate-limited per account.</dd>
+            <dt>Passkeys</dt><dd>WebAuthn as a second factor, with recovery codes.</dd>
+            <dt>Encryption</dt><dd>P-256 sealing and signing, with a matching browser module.</dd>
+          </dl>
+        </article>
+        <article class="fgroup">
+          <h3>Screens and content</h3>
+          <dl>
+            <dt>Design system</dt><dd>27 components and design tokens, light and dark.</dd>
+            <dt>Manifests</dt><dd>Declare a resource and get its store, actions and screens.</dd>
+            <dt>Localization</dt><dd>Locale-aware routes, translations with fallback, and a catalog check before you ship.</dd>
+            <dt>Scaffolding</dt><dd><code>rastrillo new</code> gives you a working app with passing tests.</dd>
+          </dl>
+        </article>
+        <article class="fgroup">
+          <h3>Background work</h3>
+          <dl>
+            <dt>Jobs</dt><dd>Background tasks with a status page that works without JavaScript.</dd>
+            <dt>Live updates</dt><dd>Server-Sent Events where supported, plain polling where not.</dd>
+            <dt>Scheduling</dt><dd>Timers and recurring jobs that survive restarts and sleeping apps.</dd>
+          </dl>
+        </article>
+        <article class="fgroup">
+          <h3>Agents and platform</h3>
+          <dl>
+            <dt>SKILL.md</dt><dd>The whole framework in one file an agent can load.</dd>
+            <dt>Agent tools</dt><dd>Actions opt in as tools, with consent and attribution.</dd>
+            <dt>Hibernation</dt><dd>Apps sleep when idle and wake on the next request.</dd>
+            <dt>One binary</dt><dd><code>go build</code> produces the whole app. No bundler, no runtime.</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
   </div>
-</section>
-
-<section id="proof" class="status-strip">
-  <p class="stamp"><span>Deployed</span><span class="stamp-sub">live · real edge</span></p>
-  <h2>Not a mockup</h2>
-  <p>Rastrillo's example app is deployed on a real CARLOS platform right now: real S3-backed storage, a real edge, a real certificate, a hibernating instance that wakes when you knock. <a href="https://hello.bdf.oncarlos.com">hello.bdf.oncarlos.com</a> — the same framework you'll have running locally two minutes from now, actually shipped (<code>/api/version</code> names the exact commit). This site is served the same way.</p>
-</section>
-
-<section id="start">
-  <h2>Run it locally</h2>
-  <p class="epigraph">Nothing to install but Go: clone, run, and try to break the isolation yourself.</p>
-  {% for s in trysteps %}
-  <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
-  <pre><code>{{ s.cmd }}</code></pre>
-  {% if s.note %}<p>{{ s.note | safe }}</p>{% endif %}
-  {% endfor %}
-</section>
-
-<section id="deploy">
-  <h2>Deploy it for real</h2>
-  <p class="epigraph">CARLOS is self-hostable — one binary, a bucket, and DNS. No PaaS account to sign up for.</p>
-  {% for s in deploysteps %}
-  <div class="step"><span class="stepnum">{{ loop.index }}</span><h3>{{ s.title }}</h3></div>
-  <pre><code>{{ s.cmd }}</code></pre>
-  {% if s.note %}<p>{{ s.note | safe }}</p>{% endif %}
-  {% endfor %}
-</section>
-
-<section id="status">
-  <h2>What's real today</h2>
-  <p class="epigraph">A young framework that ships its status on its homepage — this list moves when the work lands, not before.</p>
-  <div class="yesno">
-    <div class="built">
-      <h3>Posted</h3>
-      <ul>{% for item in status.built %}<li><svg class="tick" viewBox="0 0 12 12" aria-hidden="true"><path d="M1.5 6.5l3 3 6-7.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>{{ item | safe }}</span></li>{% endfor %}</ul>
-    </div>
-    <div class="not-built">
-      <h3>Pending</h3>
-      <ul>{% for item in status.notyet %}<li><svg class="tick open" viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>{{ item | safe }}</span></li>{% endfor %}</ul>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <footer>
-  <p>🤖 Written by an LLM (Claude), on the ideas, instruction, and editing of humans. AI-written text here is always marked and always disclosed — see <a href="https://11factor.org/#x">factor X</a>.</p>
-  <p>Rastrillo builds apps that run on <a href="https://carlosframework.com/platform">the CARLOS platform</a>, keeping the promises set out in <a href="https://11factor.org">The Eleven Factors</a>.</p>
-  <p><a href="/docs/">The documentation</a> — everything the framework does, checked against the source by tests that fail when it drifts. <a href="https://github.com/rastrilloorg/rastrillo">Source for rastrillo on GitHub</a>. Open, of course.</p>
+  <div class="wrap">
+  <dl class="trust">
+    <div><dt>Open source:</dt><dd>MPL-2.0</dd></div>
+    <div><dt>Version:</dt><dd>0.28</dd></div>
+    <div><dt>Source:</dt><dd><a href="https://amadan.net/rastrillo/rastrillo">amadan.net/rastrillo/rastrillo</a> (mirrored on <a href="https://github.com/rastrilloorg/rastrillo">GitHub</a>)</dd></div>
+    <div><dt>Maintained by:</dt><dd><a href="https://github.com/paulca">paulca</a>, <a href="https://github.com/lazyatom">lazyatom</a></dd></div>
+  </dl>
+  <div class="foot-cols">
+    <div class="foot-brand">
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false" fill="none" stroke-width="3.4" stroke-linecap="round"><path stroke="var(--chan)" d="M16 9V16A2.5 2.5 0 0 0 18.5 18.5H30M10.5 9V16A8 8 0 0 0 18.5 24H30M5 9V16A13.5 13.5 0 0 0 18.5 29.5H30"/><path stroke="var(--almagra)" d="M5 9H16M10.5 9V2"/></svg>
+      <p><span class="foot-name">Rastrillo</span><br>The web framework of the CARLOS project.</p>
+    </div>
+    <nav aria-labelledby="fh-rastrillo">
+      <h2 id="fh-rastrillo">Rastrillo</h2>
+      <ul>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/design-system/">Design system</a></li>
+        <li><a href="https://amadan.net/rastrillo/rastrillo">Source</a></li>
+        <li><a href="https://github.com/rastrilloorg/rastrillo">GitHub mirror</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="fh-carlos">
+      <h2 id="fh-carlos">CARLOS</h2>
+      <ul>
+        <li><a href="https://carlosframework.com">CARLOS framework</a></li>
+        <li><a href="https://carlosframework.com/platform/">CARLOS platform</a></li>
+        <li><a href="https://carlosframework.com/start/">Get started with CARLOS</a></li>
+        <li><a href="https://carloku.com">Carloku</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="fh-ideas">
+      <h2 id="fh-ideas">Principles</h2>
+      <ul>
+        <li><a href="https://11factor.org">The Eleven Factors</a></li>
+        <li><a href="https://carlosframework.com/letters/">The six letters</a></li>
+        <li><a href="https://carlosframework.com/trust/">Trust</a></li>
+      </ul>
+    </nav>
+  </div>
+  </div>
+  <div class="foot-rule" aria-hidden="true"></div>
 </footer>
+
+
+<script src="/home.js"></script>
+</body>
+</html>{% endraw %}

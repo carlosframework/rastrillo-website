@@ -1,0 +1,658 @@
+/* Self-hosted fonts (SIL OFL 1.1, licences in /fonts/): nothing on this
+   page is fetched from another origin. Variable files, latin subset. */
+@font-face { font-family: "Ibarra Real Nova"; font-style: normal; font-weight: 400 700; font-display: swap; src: url(/fonts/ibarra-real-nova.woff2) format("woff2"); }
+@font-face { font-family: "Ibarra Real Nova"; font-style: italic; font-weight: 400 700; font-display: swap; src: url(/fonts/ibarra-real-nova-italic.woff2) format("woff2"); }
+@font-face { font-family: "Chivo"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/chivo.woff2) format("woff2"); }
+@font-face { font-family: "Chivo Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/chivo-mono.woff2) format("woff2"); }
+/* v9 (later): the furrows meander freely, behind content too at under half
+   strength, and the gravel is quieter still.
+
+   v9: no rake to see. The gravel is more clearly pebbles but quieter, and
+   the furrows themselves are the animation: five wide, textured furrows
+   that appear as if an unseen rake were drawing them through the gravel.
+
+   v8: the patio becomes a gravel garden. A pebble ground (a small static
+   tile in CSS, replaced by a larger painted one when the script runs), a
+   line of small kerb stones between sections, and a small rake that works
+   the gutters and the gaps between sections as you scroll. All of it kept
+   faint: the section vignettes stay the section markers.
+
+   Patio en fiesta, v3: the quiet one. v2 was judged too loud (big flags, a
+   wall of headline, the three prongs on every section), so this version
+   keeps the patio palette and the type, strings a slim row of small flags
+   along the top edge, names the three prongs once in a small hero drawing,
+   and lets the content lead. Rosa still appears only in the flags. */
+:root {
+  --plaster: #F2EADB;
+  --plaster-2: #E8DDC8;
+  --bed: #D6C7AA;          /* floor of a dry channel */
+  --edge: #FBF7EE;         /* sunlit lower lip of a carved groove */
+  --ink: #1E2629;
+  --muted: #4F5A5B;
+  --acequia: #2F6F78;
+  --chan: #2F6F78;
+  --almagra: #A4442C;
+  --cempa: #D9951A;
+  --f0: #C81D6A;       /* rosa mexicano */
+  --f1: #E09A16;       /* cempasúchil */
+  --f2: #1C9C9A;       /* turquesa */
+  --f3: #4C9A35;       /* hoja */
+  --f4: #7B4BB3;       /* violeta */
+  --f5: #C8452B;       /* almagra */
+  --f6: #2C50B4;       /* cobalto */
+  --string: #5A5A55;
+  --gravel: #ECE3D2;      /* a raked plot */
+  --groove: #B19C76;      /* the shadowed side of a raked groove */
+  --rock: #A8977A;
+  --tone: rgba(138, 106, 58, .05);   /* alternate section ground: a tint over the gravel */
+  --gravel-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23F1EADD'/%3E%3Cellipse cx='150.6' cy='39.6' rx='5.6' ry='4.4' fill='%23EFE8DA'/%3E%3Cellipse cx='150.2' cy='39.1' rx='5.3' ry='4.1' fill='%23F1EADE'/%3E%3Cellipse cx='148.6' cy='37.7' rx='2.1' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='32.8' cy='10.3' rx='5.6' ry='5.6' fill='%23EFE8DA'/%3E%3Cellipse cx='32.3' cy='9.7' rx='5.3' ry='5.2' fill='%23F1EADC'/%3E%3Cellipse cx='30.7' cy='7.9' rx='2.1' ry='1.7' fill='%23F4EFE4'/%3E%3Cellipse cx='133.5' cy='164.7' rx='5.4' ry='3.9' fill='%23EFE8DA'/%3E%3Cellipse cx='133.0' cy='164.1' rx='5.0' ry='3.5' fill='%23F1EADC'/%3E%3Cellipse cx='131.5' cy='162.9' rx='2.0' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='122.2' cy='70.8' rx='5.3' ry='5.1' fill='%23EFE8DA'/%3E%3Cellipse cx='121.7' cy='70.2' rx='5.0' ry='4.8' fill='%23F0E9DC'/%3E%3Cellipse cx='120.2' cy='68.5' rx='2.0' ry='1.5' fill='%23F4EFE4'/%3E%3Cellipse cx='138.2' cy='64.1' rx='5.3' ry='4.0' fill='%23EFE8DA'/%3E%3Cellipse cx='137.8' cy='63.5' rx='4.9' ry='3.7' fill='%23F1EADC'/%3E%3Cellipse cx='136.3' cy='62.3' rx='2.0' ry='1.2' fill='%23F4EFE4'/%3E%3Cellipse cx='164.2' cy='84.4' rx='5.2' ry='4.9' fill='%23EFE8DA'/%3E%3Cellipse cx='163.7' cy='83.8' rx='4.9' ry='4.6' fill='%23F2ECE0'/%3E%3Cellipse cx='162.2' cy='82.2' rx='2.0' ry='1.5' fill='%23F4EFE4'/%3E%3Cellipse cx='104.1' cy='106.4' rx='5.2' ry='3.8' fill='%23EFE8DA'/%3E%3Cellipse cx='103.6' cy='105.9' rx='4.9' ry='3.5' fill='%23F2ECE0'/%3E%3Cellipse cx='102.2' cy='104.7' rx='1.9' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='39.3' cy='139.7' rx='5.2' ry='4.6' fill='%23EFE8DA'/%3E%3Cellipse cx='38.9' cy='139.1' rx='4.8' ry='4.2' fill='%23F1EADE'/%3E%3Cellipse cx='37.5' cy='137.7' rx='1.9' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='72.0' cy='81.4' rx='5.2' ry='4.4' fill='%23EFE8DA'/%3E%3Cellipse cx='71.5' cy='80.9' rx='4.8' ry='4.0' fill='%23F1EADC'/%3E%3Cellipse cx='70.1' cy='79.4' rx='1.9' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='122.9' cy='46.8' rx='5.2' ry='4.2' fill='%23EFE8DA'/%3E%3Cellipse cx='122.4' cy='46.2' rx='4.8' ry='3.8' fill='%23F2ECE0'/%3E%3Cellipse cx='121.0' cy='44.9' rx='1.9' ry='1.2' fill='%23F4EFE4'/%3E%3Cellipse cx='18.7' cy='68.7' rx='5.1' ry='4.5' fill='%23EFE8DA'/%3E%3Cellipse cx='18.2' cy='68.1' rx='4.8' ry='4.1' fill='%23F1EADE'/%3E%3Cellipse cx='16.8' cy='66.7' rx='1.9' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='86.3' cy='159.4' rx='5.1' ry='4.7' fill='%23EFE8DA'/%3E%3Cellipse cx='85.9' cy='158.9' rx='4.8' ry='4.3' fill='%23F0E9DC'/%3E%3Cellipse cx='84.4' cy='157.4' rx='1.9' ry='1.4' fill='%23F4EFE4'/%3E%3Cellipse cx='93.6' cy='1.7' rx='5.1' ry='5.1' fill='%23EFE8DA'/%3E%3Cellipse cx='93.2' cy='1.1' rx='4.7' ry='4.7' fill='%23F2ECE0'/%3E%3Cellipse cx='91.8' cy='-0.5' rx='1.9' ry='1.5' fill='%23F4EFE4'/%3E%3Cellipse cx='93.6' cy='201.7' rx='5.1' ry='5.1' fill='%23EFE8DA'/%3E%3Cellipse cx='93.2' cy='201.1' rx='4.7' ry='4.7' fill='%23F2ECE0'/%3E%3Cellipse cx='91.8' cy='199.5' rx='1.9' ry='1.5' fill='%23F4EFE4'/%3E%3Cellipse cx='95.9' cy='138.8' rx='5.0' ry='4.6' fill='%23EFE8DA'/%3E%3Cellipse cx='95.4' cy='138.3' rx='4.7' ry='4.2' fill='%23F1EADC'/%3E%3Cellipse cx='94.0' cy='136.8' rx='1.9' ry='1.4' fill='%23F4EFE4'/%3E%3Cellipse cx='34.9' cy='173.9' rx='4.9' ry='4.0' fill='%23EFE8DA'/%3E%3Cellipse cx='34.5' cy='173.4' rx='4.6' ry='3.7' fill='%23F2ECE0'/%3E%3Cellipse cx='33.1' cy='172.1' rx='1.8' ry='1.2' fill='%23F4EFE4'/%3E%3Cellipse cx='28.1' cy='59.5' rx='4.8' ry='4.2' fill='%23EFE8DA'/%3E%3Cellipse cx='27.6' cy='58.9' rx='4.5' ry='3.8' fill='%23F2ECE0'/%3E%3Cellipse cx='26.3' cy='57.6' rx='1.8' ry='1.2' fill='%23F4EFE4'/%3E%3Cellipse cx='62.0' cy='90.4' rx='4.8' ry='4.6' fill='%23EFE8DA'/%3E%3Cellipse cx='61.5' cy='89.8' rx='4.5' ry='4.2' fill='%23F1EADE'/%3E%3Cellipse cx='60.2' cy='88.3' rx='1.8' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='141.8' cy='136.7' rx='4.8' ry='3.5' fill='%23EFE8DA'/%3E%3Cellipse cx='141.3' cy='136.1' rx='4.5' ry='3.2' fill='%23F2ECE0'/%3E%3Cellipse cx='140.0' cy='135.0' rx='1.8' ry='1.0' fill='%23F4EFE4'/%3E%3Cellipse cx='111.4' cy='124.7' rx='4.8' ry='3.7' fill='%23EFE8DA'/%3E%3Cellipse cx='111.0' cy='124.2' rx='4.5' ry='3.3' fill='%23F1EADE'/%3E%3Cellipse cx='109.6' cy='123.0' rx='1.8' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='123.2' cy='77.9' rx='4.8' ry='3.4' fill='%23EFE8DA'/%3E%3Cellipse cx='122.7' cy='77.3' rx='4.5' ry='3.1' fill='%23F2ECE0'/%3E%3Cellipse cx='121.4' cy='76.3' rx='1.8' ry='1.0' fill='%23F4EFE4'/%3E%3Cellipse cx='40.3' cy='160.0' rx='4.7' ry='3.7' fill='%23EFE8DA'/%3E%3Cellipse cx='39.9' cy='159.4' rx='4.4' ry='3.3' fill='%23F1EADC'/%3E%3Cellipse cx='38.6' cy='158.2' rx='1.7' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='93.5' cy='152.2' rx='4.7' ry='3.6' fill='%23EFE8DA'/%3E%3Cellipse cx='93.0' cy='151.6' rx='4.4' ry='3.3' fill='%23F0E9DC'/%3E%3Cellipse cx='91.7' cy='150.5' rx='1.7' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='33.9' cy='127.1' rx='4.7' ry='4.3' fill='%23EFE8DA'/%3E%3Cellipse cx='33.5' cy='126.6' rx='4.3' ry='4.0' fill='%23F1EADE'/%3E%3Cellipse cx='32.2' cy='125.2' rx='1.7' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='123.5' cy='160.1' rx='4.7' ry='4.4' fill='%23EFE8DA'/%3E%3Cellipse cx='123.1' cy='159.6' rx='4.3' ry='4.1' fill='%23F0E9DC'/%3E%3Cellipse cx='121.8' cy='158.1' rx='1.7' ry='1.3' fill='%23F4EFE4'/%3E%3Cellipse cx='22.6' cy='-5.9' rx='4.6' ry='3.9' fill='%23EFE8DA'/%3E%3Cellipse cx='22.2' cy='-6.4' rx='4.3' ry='3.5' fill='%23F0E9DC'/%3E%3Cellipse cx='20.9' cy='-7.6' rx='1.7' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='22.6' cy='194.1' rx='4.6' ry='3.9' fill='%23EFE8DA'/%3E%3Cellipse cx='22.2' cy='193.6' rx='4.3' ry='3.5' fill='%23F0E9DC'/%3E%3Cellipse cx='20.9' cy='192.4' rx='1.7' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='177.6' cy='14.9' rx='4.6' ry='4.2' fill='%23EFE8DA'/%3E%3Cellipse cx='177.1' cy='14.4' rx='4.2' ry='3.9' fill='%23F1EADC'/%3E%3Cellipse cx='175.8' cy='13.0' rx='1.7' ry='1.2' fill='%23F4EFE4'/%3E%3Cellipse cx='58.3' cy='192.8' rx='4.5' ry='3.8' fill='%23EFE8DA'/%3E%3Cellipse cx='57.9' cy='192.3' rx='4.1' ry='3.5' fill='%23F1EADE'/%3E%3Cellipse cx='56.6' cy='191.1' rx='1.7' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='91.1' cy='78.3' rx='4.4' ry='3.2' fill='%23EFE8DA'/%3E%3Cellipse cx='90.7' cy='77.8' rx='4.1' ry='2.8' fill='%23F0E9DC'/%3E%3Cellipse cx='89.5' cy='76.8' rx='1.6' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='125.1' cy='160.6' rx='4.4' ry='3.5' fill='%23EFE8DA'/%3E%3Cellipse cx='124.6' cy='160.1' rx='4.0' ry='3.2' fill='%23F0E9DC'/%3E%3Cellipse cx='123.4' cy='159.0' rx='1.6' ry='1.0' fill='%23F4EFE4'/%3E%3Cellipse cx='168.7' cy='95.7' rx='4.4' ry='3.9' fill='%23EFE8DA'/%3E%3Cellipse cx='168.2' cy='95.1' rx='4.0' ry='3.6' fill='%23F1EADE'/%3E%3Cellipse cx='167.0' cy='93.9' rx='1.6' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='173.7' cy='138.3' rx='4.3' ry='3.7' fill='%23EFE8DA'/%3E%3Cellipse cx='173.3' cy='137.8' rx='4.0' ry='3.4' fill='%23F0E9DC'/%3E%3Cellipse cx='172.1' cy='136.6' rx='1.6' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='155.6' cy='50.4' rx='4.2' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='155.2' cy='49.8' rx='3.9' ry='2.6' fill='%23F1EADE'/%3E%3Cellipse cx='154.0' cy='48.9' rx='1.5' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='26.6' cy='146.9' rx='4.2' ry='4.1' fill='%23EFE8DA'/%3E%3Cellipse cx='26.1' cy='146.3' rx='3.9' ry='3.8' fill='%23F1EADC'/%3E%3Cellipse cx='25.0' cy='145.0' rx='1.5' ry='1.2' fill='%23F4EFE4'/%3E%3Cellipse cx='53.4' cy='-3.3' rx='4.2' ry='3.8' fill='%23EFE8DA'/%3E%3Cellipse cx='53.0' cy='-3.8' rx='3.8' ry='3.4' fill='%23F2ECE0'/%3E%3Cellipse cx='51.8' cy='-5.0' rx='1.5' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='53.4' cy='196.7' rx='4.2' ry='3.8' fill='%23EFE8DA'/%3E%3Cellipse cx='53.0' cy='196.2' rx='3.8' ry='3.4' fill='%23F2ECE0'/%3E%3Cellipse cx='51.8' cy='195.0' rx='1.5' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='63.0' cy='26.5' rx='4.1' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='62.6' cy='26.0' rx='3.7' ry='2.5' fill='%23F1EADE'/%3E%3Cellipse cx='61.5' cy='25.1' rx='1.5' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='87.1' cy='170.9' rx='3.9' ry='3.3' fill='%23EFE8DA'/%3E%3Cellipse cx='86.7' cy='170.3' rx='3.6' ry='3.0' fill='%23F1EADE'/%3E%3Cellipse cx='85.6' cy='169.3' rx='1.4' ry='1.0' fill='%23F4EFE4'/%3E%3Cellipse cx='76.1' cy='145.1' rx='3.9' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='75.6' cy='144.5' rx='3.5' ry='2.7' fill='%23F2ECE0'/%3E%3Cellipse cx='74.6' cy='143.6' rx='1.4' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='65.3' cy='91.3' rx='3.8' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='64.9' cy='90.8' rx='3.5' ry='2.5' fill='%23F1EADE'/%3E%3Cellipse cx='63.8' cy='89.9' rx='1.4' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='187.7' cy='107.1' rx='3.7' ry='3.6' fill='%23EFE8DA'/%3E%3Cellipse cx='187.3' cy='106.5' rx='3.3' ry='3.3' fill='%23F0E9DC'/%3E%3Cellipse cx='186.3' cy='105.4' rx='1.3' ry='1.1' fill='%23F4EFE4'/%3E%3Cellipse cx='157.5' cy='73.9' rx='3.7' ry='3.4' fill='%23EFE8DA'/%3E%3Cellipse cx='157.0' cy='73.3' rx='3.3' ry='3.1' fill='%23F0E9DC'/%3E%3Cellipse cx='156.1' cy='72.3' rx='1.3' ry='1.0' fill='%23F4EFE4'/%3E%3Cellipse cx='111.7' cy='179.8' rx='3.6' ry='3.2' fill='%23EFE8DA'/%3E%3Cellipse cx='111.2' cy='179.2' rx='3.2' ry='2.8' fill='%23F1EADE'/%3E%3Cellipse cx='110.3' cy='178.2' rx='1.3' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='79.6' cy='19.9' rx='3.5' ry='2.4' fill='%23EFE8DA'/%3E%3Cellipse cx='79.1' cy='19.4' rx='3.1' ry='2.1' fill='%23F1EADE'/%3E%3Cellipse cx='78.2' cy='18.7' rx='1.3' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='5.8' cy='70.5' rx='3.4' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='5.3' cy='70.0' rx='3.1' ry='2.7' fill='%23F1EADE'/%3E%3Cellipse cx='4.4' cy='69.0' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='205.8' cy='70.5' rx='3.4' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='205.3' cy='70.0' rx='3.1' ry='2.7' fill='%23F1EADE'/%3E%3Cellipse cx='204.4' cy='69.0' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='12.7' cy='97.5' rx='3.4' ry='3.2' fill='%23EFE8DA'/%3E%3Cellipse cx='12.3' cy='96.9' rx='3.1' ry='2.9' fill='%23F0E9DC'/%3E%3Cellipse cx='11.4' cy='95.9' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='140.7' cy='54.1' rx='3.4' ry='3.2' fill='%23EFE8DA'/%3E%3Cellipse cx='140.2' cy='53.5' rx='3.1' ry='2.9' fill='%23F1EADC'/%3E%3Cellipse cx='139.3' cy='52.5' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='19.5' cy='106.6' rx='3.4' ry='2.5' fill='%23EFE8DA'/%3E%3Cellipse cx='19.1' cy='106.1' rx='3.1' ry='2.2' fill='%23F1EADE'/%3E%3Cellipse cx='18.1' cy='105.3' rx='1.2' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='-3.8' cy='0.2' rx='3.4' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='-4.3' cy='-0.3' rx='3.0' ry='2.7' fill='%23F0E9DC'/%3E%3Cellipse cx='-5.2' cy='-1.3' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='-3.8' cy='200.2' rx='3.4' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='-4.3' cy='199.7' rx='3.0' ry='2.7' fill='%23F0E9DC'/%3E%3Cellipse cx='-5.2' cy='198.7' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='196.2' cy='0.2' rx='3.4' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='195.7' cy='-0.3' rx='3.0' ry='2.7' fill='%23F0E9DC'/%3E%3Cellipse cx='194.8' cy='-1.3' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='196.2' cy='200.2' rx='3.4' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='195.7' cy='199.7' rx='3.0' ry='2.7' fill='%23F0E9DC'/%3E%3Cellipse cx='194.8' cy='198.7' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='57.6' cy='99.0' rx='3.4' ry='3.4' fill='%23EFE8DA'/%3E%3Cellipse cx='57.1' cy='98.5' rx='3.0' ry='3.0' fill='%23F0E9DC'/%3E%3Cellipse cx='56.2' cy='97.4' rx='1.2' ry='1.0' fill='%23F4EFE4'/%3E%3Cellipse cx='47.8' cy='161.2' rx='3.3' ry='2.4' fill='%23EFE8DA'/%3E%3Cellipse cx='47.4' cy='160.6' rx='3.0' ry='2.0' fill='%23F1EADC'/%3E%3Cellipse cx='46.5' cy='159.9' rx='1.2' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='185.3' cy='191.9' rx='3.3' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='184.8' cy='191.4' rx='3.0' ry='2.6' fill='%23F0E9DC'/%3E%3Cellipse cx='183.9' cy='190.5' rx='1.2' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='27.4' cy='59.0' rx='3.3' ry='3.2' fill='%23EFE8DA'/%3E%3Cellipse cx='26.9' cy='58.5' rx='3.0' ry='2.9' fill='%23F1EADE'/%3E%3Cellipse cx='26.0' cy='57.5' rx='1.2' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='160.2' cy='-5.9' rx='3.2' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='159.8' cy='-6.4' rx='2.9' ry='2.5' fill='%23F2ECE0'/%3E%3Cellipse cx='158.9' cy='-7.3' rx='1.1' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='160.2' cy='194.1' rx='3.2' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='159.8' cy='193.6' rx='2.9' ry='2.5' fill='%23F2ECE0'/%3E%3Cellipse cx='158.9' cy='192.7' rx='1.1' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='87.0' cy='57.8' rx='3.2' ry='3.0' fill='%23EFE8DA'/%3E%3Cellipse cx='86.6' cy='57.3' rx='2.9' ry='2.6' fill='%23F2ECE0'/%3E%3Cellipse cx='85.7' cy='56.4' rx='1.1' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='133.3' cy='152.5' rx='3.2' ry='2.6' fill='%23EFE8DA'/%3E%3Cellipse cx='132.8' cy='151.9' rx='2.9' ry='2.2' fill='%23F2ECE0'/%3E%3Cellipse cx='131.9' cy='151.2' rx='1.1' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='135.2' cy='94.9' rx='3.2' ry='3.1' fill='%23EFE8DA'/%3E%3Cellipse cx='134.8' cy='94.3' rx='2.8' ry='2.8' fill='%23F0E9DC'/%3E%3Cellipse cx='133.9' cy='93.4' rx='1.1' ry='0.9' fill='%23F4EFE4'/%3E%3Cellipse cx='168.1' cy='148.3' rx='3.2' ry='2.8' fill='%23EFE8DA'/%3E%3Cellipse cx='167.7' cy='147.7' rx='2.8' ry='2.4' fill='%23F1EADE'/%3E%3Cellipse cx='166.8' cy='146.9' rx='1.1' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='57.6' cy='13.3' rx='3.1' ry='2.9' fill='%23EFE8DA'/%3E%3Cellipse cx='57.1' cy='12.7' rx='2.7' ry='2.5' fill='%23F0E9DC'/%3E%3Cellipse cx='56.3' cy='11.8' rx='1.1' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='114.4' cy='125.8' rx='3.0' ry='2.6' fill='%23EFE8DA'/%3E%3Cellipse cx='114.0' cy='125.3' rx='2.6' ry='2.3' fill='%23F1EADC'/%3E%3Cellipse cx='113.2' cy='124.5' rx='1.1' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='17.5' cy='134.1' rx='3.0' ry='2.1' fill='%23EFE8DA'/%3E%3Cellipse cx='17.0' cy='133.6' rx='2.6' ry='1.8' fill='%23F0E9DC'/%3E%3Cellipse cx='16.3' cy='133.0' rx='1.0' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='116.6' cy='2.9' rx='2.9' ry='2.5' fill='%23EFE8DA'/%3E%3Cellipse cx='116.1' cy='2.3' rx='2.6' ry='2.2' fill='%23F2ECE0'/%3E%3Cellipse cx='115.4' cy='1.6' rx='1.0' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='116.6' cy='202.9' rx='2.9' ry='2.5' fill='%23EFE8DA'/%3E%3Cellipse cx='116.1' cy='202.3' rx='2.6' ry='2.2' fill='%23F2ECE0'/%3E%3Cellipse cx='115.4' cy='201.6' rx='1.0' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='8.8' cy='94.9' rx='2.8' ry='2.2' fill='%23EFE8DA'/%3E%3Cellipse cx='8.4' cy='94.3' rx='2.5' ry='1.8' fill='%23F0E9DC'/%3E%3Cellipse cx='7.6' cy='93.7' rx='1.0' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='178.7' cy='75.7' rx='2.8' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='178.3' cy='75.2' rx='2.5' ry='2.0' fill='%23F1EADE'/%3E%3Cellipse cx='177.5' cy='74.5' rx='1.0' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='100.3' cy='68.2' rx='2.8' ry='2.0' fill='%23EFE8DA'/%3E%3Cellipse cx='99.9' cy='67.7' rx='2.5' ry='1.7' fill='%23F2ECE0'/%3E%3Cellipse cx='99.1' cy='67.1' rx='1.0' ry='0.5' fill='%23F4EFE4'/%3E%3Cellipse cx='191.3' cy='24.4' rx='2.8' ry='2.2' fill='%23EFE8DA'/%3E%3Cellipse cx='190.9' cy='23.8' rx='2.5' ry='1.8' fill='%23F1EADC'/%3E%3Cellipse cx='190.1' cy='23.2' rx='1.0' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='148.8' cy='159.6' rx='2.8' ry='2.7' fill='%23EFE8DA'/%3E%3Cellipse cx='148.4' cy='159.0' rx='2.4' ry='2.4' fill='%23F0E9DC'/%3E%3Cellipse cx='147.6' cy='158.2' rx='1.0' ry='0.8' fill='%23F4EFE4'/%3E%3Cellipse cx='80.6' cy='29.2' rx='2.8' ry='2.6' fill='%23EFE8DA'/%3E%3Cellipse cx='80.2' cy='28.6' rx='2.4' ry='2.3' fill='%23F1EADC'/%3E%3Cellipse cx='79.4' cy='27.8' rx='1.0' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='171.8' cy='43.4' rx='2.7' ry='1.9' fill='%23EFE8DA'/%3E%3Cellipse cx='171.4' cy='42.9' rx='2.3' ry='1.5' fill='%23F2ECE0'/%3E%3Cellipse cx='170.7' cy='42.3' rx='0.9' ry='0.5' fill='%23F4EFE4'/%3E%3Cellipse cx='52.4' cy='-3.3' rx='2.7' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='52.0' cy='-3.8' rx='2.3' ry='1.9' fill='%23F1EADC'/%3E%3Cellipse cx='51.3' cy='-4.5' rx='0.9' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='52.4' cy='196.7' rx='2.7' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='52.0' cy='196.2' rx='2.3' ry='1.9' fill='%23F1EADC'/%3E%3Cellipse cx='51.3' cy='195.5' rx='0.9' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='156.6' cy='74.0' rx='2.6' ry='2.1' fill='%23EFE8DA'/%3E%3Cellipse cx='156.2' cy='73.5' rx='2.3' ry='1.7' fill='%23F1EADC'/%3E%3Cellipse cx='155.5' cy='72.9' rx='0.9' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='88.7' cy='65.1' rx='2.6' ry='2.4' fill='%23EFE8DA'/%3E%3Cellipse cx='88.2' cy='64.6' rx='2.2' ry='2.0' fill='%23F1EADE'/%3E%3Cellipse cx='87.6' cy='63.8' rx='0.9' ry='0.7' fill='%23F4EFE4'/%3E%3Cellipse cx='88.9' cy='163.9' rx='2.6' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='88.4' cy='163.4' rx='2.2' ry='1.9' fill='%23F0E9DC'/%3E%3Cellipse cx='87.8' cy='162.7' rx='0.9' ry='0.6' fill='%23F4EFE4'/%3E%3Cellipse cx='24.1' cy='80.3' rx='2.5' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='23.7' cy='79.7' rx='2.2' ry='1.9' fill='%23F0E9DC'/%3E%3Cellipse cx='64.7' cy='61.8' rx='2.5' ry='1.9' fill='%23EFE8DA'/%3E%3Cellipse cx='64.3' cy='61.3' rx='2.2' ry='1.5' fill='%23F1EADC'/%3E%3Cellipse cx='28.2' cy='97.2' rx='2.5' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='27.7' cy='96.6' rx='2.1' ry='2.0' fill='%23F2ECE0'/%3E%3Cellipse cx='60.7' cy='59.6' rx='2.4' ry='2.1' fill='%23EFE8DA'/%3E%3Cellipse cx='60.3' cy='59.1' rx='2.1' ry='1.7' fill='%23F2ECE0'/%3E%3Cellipse cx='138.6' cy='90.5' rx='2.4' ry='2.3' fill='%23EFE8DA'/%3E%3Cellipse cx='138.1' cy='89.9' rx='2.1' ry='1.9' fill='%23F0E9DC'/%3E%3Cellipse cx='85.6' cy='108.8' rx='2.4' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='85.1' cy='108.3' rx='2.0' ry='1.4' fill='%23F1EADE'/%3E%3Cellipse cx='160.2' cy='73.1' rx='2.4' ry='2.1' fill='%23EFE8DA'/%3E%3Cellipse cx='159.7' cy='72.6' rx='2.0' ry='1.8' fill='%23F1EADE'/%3E%3Cellipse cx='17.3' cy='63.3' rx='2.4' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='16.9' cy='62.8' rx='2.0' ry='1.4' fill='%23F1EADE'/%3E%3Cellipse cx='110.1' cy='101.1' rx='2.3' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='109.6' cy='100.6' rx='2.0' ry='1.3' fill='%23F2ECE0'/%3E%3Cellipse cx='91.2' cy='78.5' rx='2.3' ry='1.9' fill='%23EFE8DA'/%3E%3Cellipse cx='90.7' cy='78.0' rx='1.9' ry='1.6' fill='%23F2ECE0'/%3E%3Cellipse cx='96.4' cy='142.2' rx='2.2' ry='1.8' fill='%23EFE8DA'/%3E%3Cellipse cx='95.9' cy='141.7' rx='1.9' ry='1.5' fill='%23F1EADE'/%3E%3Cellipse cx='188.0' cy='143.0' rx='2.2' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='187.5' cy='142.5' rx='1.9' ry='1.2' fill='%23F1EADC'/%3E%3Cellipse cx='114.7' cy='75.9' rx='2.2' ry='2.0' fill='%23EFE8DA'/%3E%3Cellipse cx='114.3' cy='75.3' rx='1.8' ry='1.6' fill='%23F0E9DC'/%3E%3Cellipse cx='18.8' cy='24.8' rx='2.2' ry='1.8' fill='%23EFE8DA'/%3E%3Cellipse cx='18.4' cy='24.2' rx='1.8' ry='1.4' fill='%23F1EADC'/%3E%3Cellipse cx='6.9' cy='185.5' rx='2.2' ry='1.8' fill='%23EFE8DA'/%3E%3Cellipse cx='6.4' cy='184.9' rx='1.8' ry='1.4' fill='%23F0E9DC'/%3E%3Cellipse cx='206.9' cy='185.5' rx='2.2' ry='1.8' fill='%23EFE8DA'/%3E%3Cellipse cx='206.4' cy='184.9' rx='1.8' ry='1.4' fill='%23F0E9DC'/%3E%3Cellipse cx='141.4' cy='12.0' rx='2.2' ry='2.2' fill='%23EFE8DA'/%3E%3Cellipse cx='140.9' cy='11.4' rx='1.8' ry='1.8' fill='%23F0E9DC'/%3E%3Cellipse cx='24.8' cy='124.9' rx='2.2' ry='1.8' fill='%23EFE8DA'/%3E%3Cellipse cx='24.4' cy='124.3' rx='1.8' ry='1.5' fill='%23F2ECE0'/%3E%3Cellipse cx='31.8' cy='77.1' rx='2.1' ry='1.8' fill='%23EFE8DA'/%3E%3Cellipse cx='31.4' cy='76.5' rx='1.8' ry='1.5' fill='%23F1EADE'/%3E%3Cellipse cx='40.7' cy='164.9' rx='2.1' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='40.3' cy='164.3' rx='1.8' ry='1.3' fill='%23F2ECE0'/%3E%3Cellipse cx='136.6' cy='149.1' rx='2.1' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='136.1' cy='148.6' rx='1.7' ry='1.2' fill='%23F1EADC'/%3E%3Cellipse cx='188.2' cy='159.5' rx='2.1' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='187.7' cy='159.0' rx='1.7' ry='1.2' fill='%23F2ECE0'/%3E%3Cellipse cx='46.1' cy='119.8' rx='2.1' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='45.7' cy='119.2' rx='1.7' ry='1.2' fill='%23F0E9DC'/%3E%3Cellipse cx='65.7' cy='21.0' rx='2.0' ry='1.9' fill='%23EFE8DA'/%3E%3Cellipse cx='65.2' cy='20.5' rx='1.7' ry='1.5' fill='%23F2ECE0'/%3E%3Cellipse cx='63.4' cy='120.6' rx='2.0' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='62.9' cy='120.0' rx='1.7' ry='1.4' fill='%23F2ECE0'/%3E%3Cellipse cx='17.3' cy='178.4' rx='2.0' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='16.9' cy='177.9' rx='1.6' ry='1.2' fill='%23F1EADC'/%3E%3Cellipse cx='85.5' cy='106.3' rx='2.0' ry='1.9' fill='%23EFE8DA'/%3E%3Cellipse cx='85.1' cy='105.8' rx='1.6' ry='1.6' fill='%23F2ECE0'/%3E%3Cellipse cx='70.7' cy='133.1' rx='2.0' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='70.2' cy='132.5' rx='1.6' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='29.8' cy='76.0' rx='1.9' ry='1.9' fill='%23EFE8DA'/%3E%3Cellipse cx='29.3' cy='75.4' rx='1.6' ry='1.6' fill='%23F1EADE'/%3E%3Cellipse cx='1.0' cy='78.6' rx='1.9' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='0.6' cy='78.0' rx='1.5' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='201.0' cy='78.6' rx='1.9' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='200.6' cy='78.0' rx='1.5' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='65.7' cy='183.8' rx='1.9' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='65.2' cy='183.3' rx='1.5' ry='1.3' fill='%23F2ECE0'/%3E%3Cellipse cx='19.2' cy='79.9' rx='1.9' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='18.8' cy='79.4' rx='1.5' ry='1.4' fill='%23F2ECE0'/%3E%3Cellipse cx='77.6' cy='176.6' rx='1.8' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='77.1' cy='176.1' rx='1.5' ry='1.1' fill='%23F2ECE0'/%3E%3Cellipse cx='116.2' cy='2.4' rx='1.8' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='115.7' cy='1.8' rx='1.5' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='116.2' cy='202.4' rx='1.8' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='115.7' cy='201.8' rx='1.5' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='163.3' cy='39.6' rx='1.8' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='162.8' cy='39.1' rx='1.5' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='47.5' cy='67.2' rx='1.8' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='47.0' cy='66.7' rx='1.4' ry='1.3' fill='%23F2ECE0'/%3E%3Cellipse cx='129.3' cy='148.1' rx='1.8' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='128.8' cy='147.6' rx='1.4' ry='1.3' fill='%23F2ECE0'/%3E%3Cellipse cx='71.4' cy='105.5' rx='1.8' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='71.0' cy='104.9' rx='1.4' ry='1.3' fill='%23F0E9DC'/%3E%3Cellipse cx='185.3' cy='109.6' rx='1.8' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='184.8' cy='109.0' rx='1.4' ry='1.1' fill='%23F2ECE0'/%3E%3Cellipse cx='163.9' cy='117.8' rx='1.7' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='163.5' cy='117.2' rx='1.4' ry='1.2' fill='%23F2ECE0'/%3E%3Cellipse cx='55.2' cy='58.3' rx='1.7' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='54.7' cy='57.8' rx='1.4' ry='1.1' fill='%23F2ECE0'/%3E%3Cellipse cx='92.8' cy='38.9' rx='1.7' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='92.4' cy='38.3' rx='1.4' ry='1.2' fill='%23F0E9DC'/%3E%3Cellipse cx='170.5' cy='129.6' rx='1.7' ry='1.7' fill='%23EFE8DA'/%3E%3Cellipse cx='170.1' cy='129.0' rx='1.4' ry='1.3' fill='%23F1EADE'/%3E%3Cellipse cx='5.9' cy='63.0' rx='1.7' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='5.4' cy='62.4' rx='1.4' ry='1.1' fill='%23F1EADC'/%3E%3Cellipse cx='205.9' cy='63.0' rx='1.7' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='205.4' cy='62.4' rx='1.4' ry='1.1' fill='%23F1EADC'/%3E%3Cellipse cx='186.3' cy='55.5' rx='1.7' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='185.8' cy='54.9' rx='1.3' ry='1.2' fill='%23F0E9DC'/%3E%3Cellipse cx='160.2' cy='125.9' rx='1.7' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='159.8' cy='125.4' rx='1.3' ry='1.2' fill='%23F2ECE0'/%3E%3Cellipse cx='111.1' cy='174.0' rx='1.7' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='110.6' cy='173.4' rx='1.3' ry='1.0' fill='%23F0E9DC'/%3E%3Cellipse cx='72.7' cy='33.7' rx='1.7' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='72.2' cy='33.2' rx='1.3' ry='0.9' fill='%23F0E9DC'/%3E%3Cellipse cx='67.8' cy='170.2' rx='1.7' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='67.4' cy='169.6' rx='1.3' ry='1.1' fill='%23F0E9DC'/%3E%3Cellipse cx='100.2' cy='139.9' rx='1.7' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='99.8' cy='139.4' rx='1.3' ry='1.2' fill='%23F0E9DC'/%3E%3Cellipse cx='16.0' cy='18.0' rx='1.7' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='15.5' cy='17.5' rx='1.3' ry='1.0' fill='%23F1EADC'/%3E%3Cellipse cx='146.9' cy='144.1' rx='1.7' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='146.5' cy='143.6' rx='1.3' ry='0.9' fill='%23F1EADE'/%3E%3Cellipse cx='19.7' cy='96.1' rx='1.6' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='19.2' cy='95.5' rx='1.3' ry='1.3' fill='%23F1EADC'/%3E%3Cellipse cx='17.5' cy='13.1' rx='1.6' ry='1.6' fill='%23EFE8DA'/%3E%3Cellipse cx='17.0' cy='12.6' rx='1.3' ry='1.3' fill='%23F2ECE0'/%3E%3Cellipse cx='150.6' cy='103.9' rx='1.6' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='150.1' cy='103.4' rx='1.3' ry='0.9' fill='%23F1EADE'/%3E%3Cellipse cx='20.5' cy='59.3' rx='1.6' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='20.0' cy='58.8' rx='1.2' ry='1.2' fill='%23F0E9DC'/%3E%3Cellipse cx='95.3' cy='7.9' rx='1.6' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='94.9' cy='7.4' rx='1.2' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='181.1' cy='0.7' rx='1.6' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='180.6' cy='0.1' rx='1.2' ry='1.0' fill='%23F2ECE0'/%3E%3Cellipse cx='181.1' cy='200.7' rx='1.6' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='180.6' cy='200.1' rx='1.2' ry='1.0' fill='%23F2ECE0'/%3E%3Cellipse cx='-2.4' cy='54.8' rx='1.6' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='-2.8' cy='54.2' rx='1.2' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='197.6' cy='54.8' rx='1.6' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='197.2' cy='54.2' rx='1.2' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='72.1' cy='33.2' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='71.6' cy='32.7' rx='1.2' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='117.7' cy='125.4' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='117.3' cy='124.8' rx='1.2' ry='0.8' fill='%23F1EADE'/%3E%3Cellipse cx='98.5' cy='188.0' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='98.0' cy='187.4' rx='1.2' ry='1.0' fill='%23F2ECE0'/%3E%3Cellipse cx='31.8' cy='19.1' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='31.3' cy='18.6' rx='1.2' ry='0.8' fill='%23F0E9DC'/%3E%3Cellipse cx='37.5' cy='161.0' rx='1.5' ry='1.1' fill='%23EFE8DA'/%3E%3Cellipse cx='37.1' cy='160.4' rx='1.2' ry='0.8' fill='%23F1EADE'/%3E%3Cellipse cx='-5.8' cy='39.9' rx='1.5' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='-6.3' cy='39.4' rx='1.2' ry='1.2' fill='%23F1EADC'/%3E%3Cellipse cx='194.2' cy='39.9' rx='1.5' ry='1.5' fill='%23EFE8DA'/%3E%3Cellipse cx='193.7' cy='39.4' rx='1.2' ry='1.2' fill='%23F1EADC'/%3E%3Cellipse cx='42.2' cy='9.3' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='41.8' cy='8.8' rx='1.2' ry='1.0' fill='%23F2ECE0'/%3E%3Cellipse cx='156.5' cy='116.7' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='156.1' cy='116.2' rx='1.2' ry='1.0' fill='%23F1EADC'/%3E%3Cellipse cx='159.9' cy='28.3' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='159.4' cy='27.8' rx='1.2' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='-3.7' cy='128.2' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='-4.2' cy='127.7' rx='1.1' ry='1.1' fill='%23F2ECE0'/%3E%3Cellipse cx='196.3' cy='128.2' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='195.8' cy='127.7' rx='1.1' ry='1.1' fill='%23F2ECE0'/%3E%3Cellipse cx='96.1' cy='110.4' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='95.7' cy='109.8' rx='1.1' ry='0.9' fill='%23F2ECE0'/%3E%3Cellipse cx='184.9' cy='124.6' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='184.4' cy='124.1' rx='1.1' ry='0.8' fill='%23F1EADC'/%3E%3Cellipse cx='1.1' cy='76.8' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='0.7' cy='76.2' rx='1.1' ry='0.9' fill='%23F0E9DC'/%3E%3Cellipse cx='201.1' cy='76.8' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='200.7' cy='76.2' rx='1.1' ry='0.9' fill='%23F0E9DC'/%3E%3Cellipse cx='-5.1' cy='1.6' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='-5.5' cy='1.1' rx='1.1' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='-5.1' cy='201.6' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='-5.5' cy='201.1' rx='1.1' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='194.9' cy='1.6' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='194.5' cy='1.1' rx='1.1' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='194.9' cy='201.6' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='194.5' cy='201.1' rx='1.1' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='24.9' cy='123.5' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='24.5' cy='122.9' rx='1.1' ry='1.1' fill='%23F0E9DC'/%3E%3Cellipse cx='94.3' cy='49.9' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='93.8' cy='49.3' rx='1.1' ry='0.9' fill='%23F1EADE'/%3E%3Cellipse cx='164.1' cy='150.6' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='163.7' cy='150.1' rx='1.1' ry='1.0' fill='%23F0E9DC'/%3E%3Cellipse cx='106.6' cy='109.0' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='106.1' cy='108.4' rx='1.1' ry='0.9' fill='%23F1EADE'/%3E%3Cellipse cx='87.4' cy='30.4' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='86.9' cy='29.8' rx='1.1' ry='1.1' fill='%23F2ECE0'/%3E%3Cellipse cx='163.3' cy='84.4' rx='1.5' ry='1.1' fill='%23EFE8DA'/%3E%3Cellipse cx='162.9' cy='83.9' rx='1.1' ry='0.7' fill='%23F0E9DC'/%3E%3Cellipse cx='121.5' cy='124.7' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='121.1' cy='124.2' rx='1.1' ry='1.0' fill='%23F0E9DC'/%3E%3Cellipse cx='71.5' cy='61.8' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='71.1' cy='61.2' rx='1.1' ry='1.0' fill='%23F1EADE'/%3E%3Cellipse cx='140.6' cy='10.2' rx='1.5' ry='1.1' fill='%23EFE8DA'/%3E%3Cellipse cx='140.1' cy='9.6' rx='1.1' ry='0.8' fill='%23F2ECE0'/%3E%3Cellipse cx='49.1' cy='10.6' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='48.7' cy='10.1' rx='1.1' ry='0.9' fill='%23F0E9DC'/%3E%3Cellipse cx='167.1' cy='89.7' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='166.7' cy='89.2' rx='1.1' ry='1.0' fill='%23F0E9DC'/%3E%3Cellipse cx='22.1' cy='76.4' rx='1.5' ry='1.1' fill='%23EFE8DA'/%3E%3Cellipse cx='21.6' cy='75.8' rx='1.1' ry='0.7' fill='%23F0E9DC'/%3E%3Cellipse cx='27.7' cy='79.0' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='27.3' cy='78.5' rx='1.1' ry='0.9' fill='%23F2ECE0'/%3E%3Cellipse cx='18.1' cy='192.9' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='17.7' cy='192.4' rx='1.1' ry='0.8' fill='%23F2ECE0'/%3E%3Cellipse cx='50.9' cy='91.7' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='50.5' cy='91.1' rx='1.1' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='143.4' cy='115.5' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='143.0' cy='114.9' rx='1.1' ry='1.0' fill='%23F1EADC'/%3E%3Cellipse cx='167.6' cy='168.0' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='167.1' cy='167.5' rx='1.1' ry='0.9' fill='%23F0E9DC'/%3E%3Cellipse cx='115.8' cy='96.9' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='115.4' cy='96.4' rx='1.1' ry='1.1' fill='%23F1EADC'/%3E%3Cellipse cx='148.6' cy='69.3' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='148.1' cy='68.8' rx='1.1' ry='0.8' fill='%23F1EADC'/%3E%3Cellipse cx='23.6' cy='113.1' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='23.1' cy='112.5' rx='1.1' ry='0.9' fill='%23F1EADE'/%3E%3Cellipse cx='10.6' cy='26.6' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='10.1' cy='26.0' rx='1.1' ry='0.9' fill='%23F2ECE0'/%3E%3Cellipse cx='189.5' cy='62.0' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='189.0' cy='61.5' rx='1.1' ry='1.1' fill='%23F1EADE'/%3E%3Cellipse cx='25.7' cy='57.0' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='25.2' cy='56.5' rx='1.1' ry='1.0' fill='%23F2ECE0'/%3E%3Cellipse cx='156.1' cy='86.1' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='155.7' cy='85.5' rx='1.1' ry='0.9' fill='%23F1EADC'/%3E%3Cellipse cx='43.8' cy='56.4' rx='1.5' ry='1.4' fill='%23EFE8DA'/%3E%3Cellipse cx='43.3' cy='55.9' rx='1.1' ry='1.1' fill='%23F1EADC'/%3E%3Cellipse cx='12.6' cy='156.4' rx='1.5' ry='1.2' fill='%23EFE8DA'/%3E%3Cellipse cx='12.2' cy='155.9' rx='1.1' ry='0.9' fill='%23F0E9DC'/%3E%3Cellipse cx='94.5' cy='178.5' rx='1.5' ry='1.3' fill='%23EFE8DA'/%3E%3Cellipse cx='94.0' cy='178.0' rx='1.1' ry='1.0' fill='%23F1EADC'/%3E%3C/svg%3E");
+  --kerb: #E2D9C7;        /* the small stones between sections */
+  --rk-shadow: #D8CCB4;   /* the still crossings where the gutters are too narrow */
+  --rk-lit: #FBF8F2;
+  --rake-line: rgba(120, 92, 50, .05);   /* faint raked texture over the gravel */
+  --on-almagra: #FBF5EA;
+  --cobalt: #24448A;
+  --lip: #DACDB3;
+  --lip-hi: #EEE5D3;
+  --stone: #CFC1A4;
+  --shade: rgba(60, 44, 20, .22);
+  --screen: #FBF8F1;      /* a page inside a drawn browser frame */
+  --pg-line: #D6C7AA;     /* text lines on that page */
+
+  --wl: max(1.5rem, (100vw - 70rem) / 2);
+
+  --serif: "Ibarra Real Nova", "Iowan Old Style", Georgia, serif;
+  --sans: "Chivo", "Segoe UI", system-ui, sans-serif;
+  --mono: "Chivo Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --plaster: #0E191C;
+    --plaster-2: #152429;
+    --bed: #071012;
+    --edge: #22363A;
+    --ink: #ECE2D0;
+    --muted: #A6B0AC;
+    --acequia: #74B6BF;
+    --chan: #5DA3AC;
+    --almagra: #DB7A5A;
+    --cempa: #E3A332;
+    --f0: #C42C74;
+    --f1: #D89A2A;
+    --f2: #24A29D;
+    --f3: #4F9B3D;
+    --f4: #8A5CC4;
+    --f5: #CC5238;
+    --f6: #4067CC;
+    --string: #8E9A97;
+    --gravel: #15262A;
+    --groove: #968769;      /* pale gravel, 4.4:1 on the dark plot, so dark grooves read like light ones */
+    --rock: #4A6268;
+    --tone: rgba(255, 255, 255, .03);
+    --gravel-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='200' height='200' fill='%23121E21'/%3E%3Cellipse cx='32.6' cy='36.5' rx='5.6' ry='4.8' fill='%23101C1F'/%3E%3Cellipse cx='32.1' cy='35.9' rx='5.3' ry='4.4' fill='%23121F22'/%3E%3Cellipse cx='30.5' cy='34.4' rx='2.1' ry='1.4' fill='%23152427'/%3E%3Cellipse cx='116.1' cy='182.9' rx='5.6' ry='4.2' fill='%23101C1F'/%3E%3Cellipse cx='115.7' cy='182.4' rx='5.2' ry='3.8' fill='%23121F22'/%3E%3Cellipse cx='114.1' cy='181.0' rx='2.1' ry='1.2' fill='%23152427'/%3E%3Cellipse cx='86.3' cy='104.1' rx='5.5' ry='5.2' fill='%23101C1F'/%3E%3Cellipse cx='85.8' cy='103.5' rx='5.1' ry='4.8' fill='%23132124'/%3E%3Cellipse cx='84.3' cy='101.8' rx='2.0' ry='1.5' fill='%23152427'/%3E%3Cellipse cx='57.7' cy='188.5' rx='5.4' ry='3.8' fill='%23101C1F'/%3E%3Cellipse cx='57.2' cy='187.9' rx='5.1' ry='3.5' fill='%23132124'/%3E%3Cellipse cx='55.7' cy='186.7' rx='2.0' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='106.2' cy='184.2' rx='5.4' ry='4.8' fill='%23101C1F'/%3E%3Cellipse cx='105.7' cy='183.7' rx='5.1' ry='4.5' fill='%23111D20'/%3E%3Cellipse cx='104.2' cy='182.1' rx='2.0' ry='1.4' fill='%23152427'/%3E%3Cellipse cx='185.1' cy='75.8' rx='5.4' ry='4.7' fill='%23101C1F'/%3E%3Cellipse cx='184.6' cy='75.2' rx='5.0' ry='4.3' fill='%23132124'/%3E%3Cellipse cx='183.1' cy='73.7' rx='2.0' ry='1.4' fill='%23152427'/%3E%3Cellipse cx='139.6' cy='143.6' rx='5.1' ry='3.7' fill='%23101C1F'/%3E%3Cellipse cx='139.1' cy='143.0' rx='4.8' ry='3.3' fill='%23121F22'/%3E%3Cellipse cx='137.7' cy='141.9' rx='1.9' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='51.4' cy='82.7' rx='5.0' ry='4.8' fill='%23101C1F'/%3E%3Cellipse cx='51.0' cy='82.1' rx='4.6' ry='4.4' fill='%23121F22'/%3E%3Cellipse cx='49.6' cy='80.6' rx='1.8' ry='1.4' fill='%23152427'/%3E%3Cellipse cx='177.0' cy='66.3' rx='4.9' ry='4.4' fill='%23101C1F'/%3E%3Cellipse cx='176.6' cy='65.7' rx='4.5' ry='4.1' fill='%23121F22'/%3E%3Cellipse cx='175.2' cy='64.3' rx='1.8' ry='1.3' fill='%23152427'/%3E%3Cellipse cx='189.1' cy='128.4' rx='4.9' ry='4.5' fill='%23101C1F'/%3E%3Cellipse cx='188.7' cy='127.8' rx='4.5' ry='4.1' fill='%23111D20'/%3E%3Cellipse cx='187.3' cy='126.4' rx='1.8' ry='1.3' fill='%23152427'/%3E%3Cellipse cx='31.3' cy='54.4' rx='4.9' ry='3.3' fill='%23101C1F'/%3E%3Cellipse cx='30.9' cy='53.9' rx='4.5' ry='3.0' fill='%23121F22'/%3E%3Cellipse cx='29.5' cy='52.8' rx='1.8' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='108.3' cy='19.4' rx='4.8' ry='4.1' fill='%23101C1F'/%3E%3Cellipse cx='107.9' cy='18.8' rx='4.5' ry='3.8' fill='%23132124'/%3E%3Cellipse cx='106.5' cy='17.5' rx='1.8' ry='1.2' fill='%23152427'/%3E%3Cellipse cx='185.4' cy='115.9' rx='4.8' ry='3.9' fill='%23101C1F'/%3E%3Cellipse cx='184.9' cy='115.3' rx='4.4' ry='3.5' fill='%23111D20'/%3E%3Cellipse cx='183.6' cy='114.1' rx='1.8' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='179.1' cy='90.9' rx='4.8' ry='4.3' fill='%23101C1F'/%3E%3Cellipse cx='178.7' cy='90.4' rx='4.4' ry='4.0' fill='%23121F22'/%3E%3Cellipse cx='177.3' cy='89.0' rx='1.8' ry='1.3' fill='%23152427'/%3E%3Cellipse cx='73.2' cy='100.3' rx='4.7' ry='3.6' fill='%23101C1F'/%3E%3Cellipse cx='72.8' cy='99.8' rx='4.4' ry='3.2' fill='%23121F22'/%3E%3Cellipse cx='71.5' cy='98.7' rx='1.8' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='95.5' cy='115.2' rx='4.7' ry='3.9' fill='%23101C1F'/%3E%3Cellipse cx='95.1' cy='114.6' rx='4.4' ry='3.5' fill='%23121F22'/%3E%3Cellipse cx='93.8' cy='113.4' rx='1.7' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='32.9' cy='56.1' rx='4.7' ry='4.1' fill='%23101C1F'/%3E%3Cellipse cx='32.5' cy='55.5' rx='4.3' ry='3.8' fill='%23132124'/%3E%3Cellipse cx='31.2' cy='54.2' rx='1.7' ry='1.2' fill='%23152427'/%3E%3Cellipse cx='89.7' cy='161.7' rx='4.7' ry='4.0' fill='%23101C1F'/%3E%3Cellipse cx='89.3' cy='161.1' rx='4.3' ry='3.6' fill='%23121F22'/%3E%3Cellipse cx='88.0' cy='159.9' rx='1.7' ry='1.2' fill='%23152427'/%3E%3Cellipse cx='171.4' cy='68.1' rx='4.5' ry='3.4' fill='%23101C1F'/%3E%3Cellipse cx='171.0' cy='67.6' rx='4.1' ry='3.0' fill='%23121F22'/%3E%3Cellipse cx='169.8' cy='66.5' rx='1.6' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='54.3' cy='44.6' rx='4.4' ry='3.7' fill='%23101C1F'/%3E%3Cellipse cx='53.9' cy='44.1' rx='4.1' ry='3.3' fill='%23121F22'/%3E%3Cellipse cx='52.7' cy='42.9' rx='1.6' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='130.3' cy='160.1' rx='4.4' ry='3.1' fill='%23101C1F'/%3E%3Cellipse cx='129.9' cy='159.6' rx='4.1' ry='2.7' fill='%23121F22'/%3E%3Cellipse cx='128.7' cy='158.6' rx='1.6' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='106.6' cy='170.6' rx='4.3' ry='3.1' fill='%23101C1F'/%3E%3Cellipse cx='106.2' cy='170.0' rx='3.9' ry='2.7' fill='%23121F22'/%3E%3Cellipse cx='105.0' cy='169.1' rx='1.6' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='147.0' cy='114.0' rx='4.2' ry='3.2' fill='%23101C1F'/%3E%3Cellipse cx='146.6' cy='113.5' rx='3.9' ry='2.8' fill='%23132124'/%3E%3Cellipse cx='145.4' cy='112.5' rx='1.5' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='175.6' cy='105.0' rx='4.2' ry='3.1' fill='%23101C1F'/%3E%3Cellipse cx='175.2' cy='104.4' rx='3.8' ry='2.7' fill='%23121F22'/%3E%3Cellipse cx='174.1' cy='103.5' rx='1.5' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='77.7' cy='142.7' rx='4.2' ry='2.8' fill='%23101C1F'/%3E%3Cellipse cx='77.2' cy='142.1' rx='3.8' ry='2.5' fill='%23132124'/%3E%3Cellipse cx='76.1' cy='141.2' rx='1.5' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='122.1' cy='-5.4' rx='4.1' ry='3.9' fill='%23101C1F'/%3E%3Cellipse cx='121.7' cy='-6.0' rx='3.8' ry='3.5' fill='%23132124'/%3E%3Cellipse cx='120.6' cy='-7.2' rx='1.5' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='122.1' cy='194.6' rx='4.1' ry='3.9' fill='%23101C1F'/%3E%3Cellipse cx='121.7' cy='194.0' rx='3.8' ry='3.5' fill='%23132124'/%3E%3Cellipse cx='120.6' cy='192.8' rx='1.5' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='183.0' cy='97.9' rx='4.1' ry='3.9' fill='%23101C1F'/%3E%3Cellipse cx='182.5' cy='97.3' rx='3.8' ry='3.5' fill='%23121F22'/%3E%3Cellipse cx='181.4' cy='96.1' rx='1.5' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='38.2' cy='187.4' rx='4.0' ry='3.4' fill='%23101C1F'/%3E%3Cellipse cx='37.8' cy='186.8' rx='3.7' ry='3.0' fill='%23121F22'/%3E%3Cellipse cx='36.7' cy='185.8' rx='1.5' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='-3.2' cy='12.0' rx='4.0' ry='3.6' fill='%23101C1F'/%3E%3Cellipse cx='-3.7' cy='11.5' rx='3.7' ry='3.3' fill='%23111D20'/%3E%3Cellipse cx='-4.8' cy='10.3' rx='1.5' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='196.8' cy='12.0' rx='4.0' ry='3.6' fill='%23101C1F'/%3E%3Cellipse cx='196.3' cy='11.5' rx='3.7' ry='3.3' fill='%23111D20'/%3E%3Cellipse cx='195.2' cy='10.3' rx='1.5' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='115.7' cy='190.2' rx='4.0' ry='3.7' fill='%23101C1F'/%3E%3Cellipse cx='115.2' cy='189.6' rx='3.6' ry='3.4' fill='%23121F22'/%3E%3Cellipse cx='114.1' cy='188.4' rx='1.4' ry='1.1' fill='%23152427'/%3E%3Cellipse cx='155.5' cy='59.4' rx='3.9' ry='3.5' fill='%23101C1F'/%3E%3Cellipse cx='155.1' cy='58.9' rx='3.6' ry='3.2' fill='%23132124'/%3E%3Cellipse cx='154.0' cy='57.7' rx='1.4' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='-1.7' cy='172.9' rx='3.9' ry='3.2' fill='%23101C1F'/%3E%3Cellipse cx='-2.2' cy='172.3' rx='3.5' ry='2.8' fill='%23132124'/%3E%3Cellipse cx='-3.2' cy='171.4' rx='1.4' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='198.3' cy='172.9' rx='3.9' ry='3.2' fill='%23101C1F'/%3E%3Cellipse cx='197.8' cy='172.3' rx='3.5' ry='2.8' fill='%23132124'/%3E%3Cellipse cx='196.8' cy='171.4' rx='1.4' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='172.7' cy='54.4' rx='3.9' ry='3.0' fill='%23101C1F'/%3E%3Cellipse cx='172.3' cy='53.8' rx='3.5' ry='2.7' fill='%23132124'/%3E%3Cellipse cx='171.2' cy='52.9' rx='1.4' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='164.8' cy='97.6' rx='3.9' ry='3.0' fill='%23101C1F'/%3E%3Cellipse cx='164.4' cy='97.0' rx='3.5' ry='2.6' fill='%23111D20'/%3E%3Cellipse cx='163.3' cy='96.1' rx='1.4' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='121.5' cy='131.2' rx='3.8' ry='2.9' fill='%23101C1F'/%3E%3Cellipse cx='121.0' cy='130.6' rx='3.4' ry='2.5' fill='%23121F22'/%3E%3Cellipse cx='120.0' cy='129.7' rx='1.4' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='153.5' cy='-5.9' rx='3.8' ry='2.7' fill='%23101C1F'/%3E%3Cellipse cx='153.1' cy='-6.5' rx='3.4' ry='2.3' fill='%23111D20'/%3E%3Cellipse cx='152.1' cy='-7.3' rx='1.4' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='153.5' cy='194.1' rx='3.8' ry='2.7' fill='%23101C1F'/%3E%3Cellipse cx='153.1' cy='193.5' rx='3.4' ry='2.3' fill='%23111D20'/%3E%3Cellipse cx='152.1' cy='192.7' rx='1.4' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='1.6' cy='128.2' rx='3.8' ry='3.6' fill='%23101C1F'/%3E%3Cellipse cx='1.1' cy='127.7' rx='3.4' ry='3.2' fill='%23111D20'/%3E%3Cellipse cx='0.1' cy='126.5' rx='1.4' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='201.6' cy='128.2' rx='3.8' ry='3.6' fill='%23101C1F'/%3E%3Cellipse cx='201.1' cy='127.7' rx='3.4' ry='3.2' fill='%23111D20'/%3E%3Cellipse cx='200.1' cy='126.5' rx='1.4' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='19.2' cy='119.6' rx='3.7' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='18.7' cy='119.1' rx='3.4' ry='2.2' fill='%23132124'/%3E%3Cellipse cx='17.7' cy='118.3' rx='1.4' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='55.0' cy='160.9' rx='3.7' ry='3.4' fill='%23101C1F'/%3E%3Cellipse cx='54.5' cy='160.4' rx='3.3' ry='3.0' fill='%23121F22'/%3E%3Cellipse cx='53.5' cy='159.3' rx='1.3' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='-0.9' cy='112.8' rx='3.6' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='-1.3' cy='112.2' rx='3.3' ry='2.1' fill='%23121F22'/%3E%3Cellipse cx='-2.3' cy='111.5' rx='1.3' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='199.1' cy='112.8' rx='3.6' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='198.7' cy='112.2' rx='3.3' ry='2.1' fill='%23121F22'/%3E%3Cellipse cx='197.7' cy='111.5' rx='1.3' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='135.6' cy='146.4' rx='3.6' ry='3.2' fill='%23101C1F'/%3E%3Cellipse cx='135.2' cy='145.9' rx='3.2' ry='2.8' fill='%23132124'/%3E%3Cellipse cx='134.2' cy='144.9' rx='1.3' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='181.0' cy='11.6' rx='3.5' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='180.6' cy='11.1' rx='3.2' ry='2.3' fill='%23121F22'/%3E%3Cellipse cx='179.6' cy='10.3' rx='1.3' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='57.0' cy='99.7' rx='3.5' ry='3.2' fill='%23101C1F'/%3E%3Cellipse cx='56.6' cy='99.1' rx='3.1' ry='2.8' fill='%23132124'/%3E%3Cellipse cx='55.6' cy='98.1' rx='1.3' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='67.7' cy='6.9' rx='3.5' ry='3.4' fill='%23101C1F'/%3E%3Cellipse cx='67.3' cy='6.4' rx='3.1' ry='3.1' fill='%23121F22'/%3E%3Cellipse cx='66.3' cy='5.3' rx='1.3' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='67.7' cy='206.9' rx='3.5' ry='3.4' fill='%23101C1F'/%3E%3Cellipse cx='67.3' cy='206.4' rx='3.1' ry='3.1' fill='%23121F22'/%3E%3Cellipse cx='66.3' cy='205.3' rx='1.3' ry='1.0' fill='%23152427'/%3E%3Cellipse cx='50.4' cy='121.5' rx='3.3' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='49.9' cy='120.9' rx='3.0' ry='2.2' fill='%23111D20'/%3E%3Cellipse cx='49.0' cy='120.2' rx='1.2' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='176.9' cy='44.1' rx='3.2' ry='3.0' fill='%23101C1F'/%3E%3Cellipse cx='176.4' cy='43.5' rx='2.9' ry='2.6' fill='%23111D20'/%3E%3Cellipse cx='175.5' cy='42.6' rx='1.2' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='25.9' cy='167.1' rx='3.2' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='25.4' cy='166.5' rx='2.9' ry='2.0' fill='%23132124'/%3E%3Cellipse cx='24.5' cy='165.8' rx='1.2' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='159.7' cy='20.1' rx='3.2' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='159.3' cy='19.5' rx='2.9' ry='1.9' fill='%23121F22'/%3E%3Cellipse cx='158.4' cy='18.8' rx='1.2' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='69.1' cy='16.1' rx='3.2' ry='3.0' fill='%23101C1F'/%3E%3Cellipse cx='68.7' cy='15.5' rx='2.9' ry='2.6' fill='%23111D20'/%3E%3Cellipse cx='67.8' cy='14.6' rx='1.2' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='132.2' cy='-5.7' rx='3.2' ry='2.4' fill='%23101C1F'/%3E%3Cellipse cx='131.8' cy='-6.2' rx='2.9' ry='2.1' fill='%23132124'/%3E%3Cellipse cx='130.9' cy='-6.9' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='132.2' cy='194.3' rx='3.2' ry='2.4' fill='%23101C1F'/%3E%3Cellipse cx='131.8' cy='193.8' rx='2.9' ry='2.1' fill='%23132124'/%3E%3Cellipse cx='130.9' cy='193.1' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='45.7' cy='153.1' rx='3.2' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='45.3' cy='152.6' rx='2.8' ry='2.2' fill='%23132124'/%3E%3Cellipse cx='44.4' cy='151.8' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='74.6' cy='-2.9' rx='3.1' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='74.2' cy='-3.5' rx='2.8' ry='2.3' fill='%23111D20'/%3E%3Cellipse cx='73.3' cy='-4.3' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='74.6' cy='197.1' rx='3.1' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='74.2' cy='196.5' rx='2.8' ry='2.3' fill='%23111D20'/%3E%3Cellipse cx='73.3' cy='195.7' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='96.5' cy='14.6' rx='3.1' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='96.0' cy='14.1' rx='2.8' ry='1.9' fill='%23121F22'/%3E%3Cellipse cx='95.2' cy='13.4' rx='1.1' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='94.2' cy='66.1' rx='3.1' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='93.7' cy='65.5' rx='2.7' ry='2.2' fill='%23121F22'/%3E%3Cellipse cx='92.9' cy='64.8' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='134.0' cy='39.2' rx='3.1' ry='3.1' fill='%23101C1F'/%3E%3Cellipse cx='133.5' cy='38.6' rx='2.7' ry='2.7' fill='%23111D20'/%3E%3Cellipse cx='132.7' cy='37.7' rx='1.1' ry='0.9' fill='%23152427'/%3E%3Cellipse cx='40.3' cy='140.9' rx='3.1' ry='2.4' fill='%23101C1F'/%3E%3Cellipse cx='39.9' cy='140.3' rx='2.7' ry='2.0' fill='%23132124'/%3E%3Cellipse cx='39.1' cy='139.6' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='122.5' cy='18.2' rx='3.0' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='122.0' cy='17.6' rx='2.7' ry='2.1' fill='%23111D20'/%3E%3Cellipse cx='121.2' cy='16.9' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='101.2' cy='106.0' rx='3.0' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='100.7' cy='105.4' rx='2.7' ry='2.2' fill='%23132124'/%3E%3Cellipse cx='99.9' cy='104.7' rx='1.1' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='124.9' cy='1.2' rx='3.0' ry='2.9' fill='%23101C1F'/%3E%3Cellipse cx='124.4' cy='0.7' rx='2.7' ry='2.5' fill='%23121F22'/%3E%3Cellipse cx='123.6' cy='-0.2' rx='1.1' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='124.9' cy='201.2' rx='3.0' ry='2.9' fill='%23101C1F'/%3E%3Cellipse cx='124.4' cy='200.7' rx='2.7' ry='2.5' fill='%23121F22'/%3E%3Cellipse cx='123.6' cy='199.8' rx='1.1' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='-4.5' cy='146.4' rx='2.9' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='-5.0' cy='145.9' rx='2.6' ry='1.8' fill='%23132124'/%3E%3Cellipse cx='-5.8' cy='145.2' rx='1.0' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='195.5' cy='146.4' rx='2.9' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='195.0' cy='145.9' rx='2.6' ry='1.8' fill='%23132124'/%3E%3Cellipse cx='194.2' cy='145.2' rx='1.0' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='161.5' cy='75.0' rx='2.9' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='161.1' cy='74.4' rx='2.6' ry='2.3' fill='%23121F22'/%3E%3Cellipse cx='160.3' cy='73.7' rx='1.0' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='112.9' cy='97.2' rx='2.9' ry='2.9' fill='%23101C1F'/%3E%3Cellipse cx='112.4' cy='96.7' rx='2.6' ry='2.5' fill='%23121F22'/%3E%3Cellipse cx='111.7' cy='95.8' rx='1.0' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='166.5' cy='-4.1' rx='2.9' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='166.1' cy='-4.7' rx='2.5' ry='2.1' fill='%23132124'/%3E%3Cellipse cx='165.3' cy='-5.4' rx='1.0' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='166.5' cy='195.9' rx='2.9' ry='2.5' fill='%23101C1F'/%3E%3Cellipse cx='166.1' cy='195.3' rx='2.5' ry='2.1' fill='%23132124'/%3E%3Cellipse cx='165.3' cy='194.6' rx='1.0' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='49.4' cy='86.5' rx='2.9' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='49.0' cy='85.9' rx='2.5' ry='1.9' fill='%23111D20'/%3E%3Cellipse cx='48.2' cy='85.3' rx='1.0' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='145.7' cy='27.9' rx='2.8' ry='2.8' fill='%23101C1F'/%3E%3Cellipse cx='145.3' cy='27.3' rx='2.4' ry='2.4' fill='%23121F22'/%3E%3Cellipse cx='144.6' cy='26.5' rx='1.0' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='100.7' cy='126.4' rx='2.7' ry='1.9' fill='%23101C1F'/%3E%3Cellipse cx='100.3' cy='125.9' rx='2.4' ry='1.6' fill='%23111D20'/%3E%3Cellipse cx='99.6' cy='125.3' rx='1.0' ry='0.5' fill='%23152427'/%3E%3Cellipse cx='54.3' cy='128.2' rx='2.7' ry='2.7' fill='%23101C1F'/%3E%3Cellipse cx='53.8' cy='127.6' rx='2.4' ry='2.4' fill='%23121F22'/%3E%3Cellipse cx='53.1' cy='126.8' rx='1.0' ry='0.8' fill='%23152427'/%3E%3Cellipse cx='29.3' cy='126.2' rx='2.7' ry='2.0' fill='%23101C1F'/%3E%3Cellipse cx='28.9' cy='125.6' rx='2.4' ry='1.6' fill='%23111D20'/%3E%3Cellipse cx='28.1' cy='125.0' rx='0.9' ry='0.5' fill='%23152427'/%3E%3Cellipse cx='12.4' cy='45.5' rx='2.7' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='12.0' cy='45.0' rx='2.3' ry='1.8' fill='%23132124'/%3E%3Cellipse cx='11.3' cy='44.3' rx='0.9' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='119.7' cy='39.1' rx='2.6' ry='2.6' fill='%23101C1F'/%3E%3Cellipse cx='119.2' cy='38.5' rx='2.3' ry='2.2' fill='%23111D20'/%3E%3Cellipse cx='118.5' cy='37.7' rx='0.9' ry='0.7' fill='%23152427'/%3E%3Cellipse cx='23.4' cy='69.9' rx='2.6' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='23.0' cy='69.4' rx='2.3' ry='2.0' fill='%23132124'/%3E%3Cellipse cx='22.3' cy='68.7' rx='0.9' ry='0.6' fill='%23152427'/%3E%3Cellipse cx='147.2' cy='-5.2' rx='2.5' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='146.8' cy='-5.8' rx='2.2' ry='1.9' fill='%23111D20'/%3E%3Cellipse cx='147.2' cy='194.8' rx='2.5' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='146.8' cy='194.2' rx='2.2' ry='1.9' fill='%23111D20'/%3E%3Cellipse cx='38.6' cy='56.2' rx='2.5' ry='2.0' fill='%23101C1F'/%3E%3Cellipse cx='38.1' cy='55.6' rx='2.2' ry='1.6' fill='%23132124'/%3E%3Cellipse cx='125.2' cy='193.5' rx='2.5' ry='1.9' fill='%23101C1F'/%3E%3Cellipse cx='124.8' cy='192.9' rx='2.1' ry='1.5' fill='%23111D20'/%3E%3Cellipse cx='109.1' cy='150.8' rx='2.5' ry='2.4' fill='%23101C1F'/%3E%3Cellipse cx='108.6' cy='150.3' rx='2.1' ry='2.1' fill='%23111D20'/%3E%3Cellipse cx='51.4' cy='169.4' rx='2.5' ry='2.0' fill='%23101C1F'/%3E%3Cellipse cx='51.0' cy='168.8' rx='2.1' ry='1.6' fill='%23121F22'/%3E%3Cellipse cx='41.4' cy='155.5' rx='2.4' ry='2.3' fill='%23101C1F'/%3E%3Cellipse cx='40.9' cy='155.0' rx='2.1' ry='1.9' fill='%23121F22'/%3E%3Cellipse cx='191.3' cy='104.6' rx='2.3' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='190.8' cy='104.1' rx='2.0' ry='1.8' fill='%23121F22'/%3E%3Cellipse cx='114.3' cy='-4.8' rx='2.3' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='113.8' cy='-5.3' rx='2.0' ry='1.9' fill='%23121F22'/%3E%3Cellipse cx='114.3' cy='195.2' rx='2.3' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='113.8' cy='194.7' rx='2.0' ry='1.9' fill='%23121F22'/%3E%3Cellipse cx='48.2' cy='186.0' rx='2.3' ry='2.0' fill='%23101C1F'/%3E%3Cellipse cx='47.7' cy='185.4' rx='2.0' ry='1.7' fill='%23132124'/%3E%3Cellipse cx='129.4' cy='140.1' rx='2.3' ry='2.2' fill='%23101C1F'/%3E%3Cellipse cx='128.9' cy='139.6' rx='2.0' ry='1.8' fill='%23111D20'/%3E%3Cellipse cx='127.3' cy='94.0' rx='2.2' ry='1.8' fill='%23101C1F'/%3E%3Cellipse cx='126.9' cy='93.5' rx='1.9' ry='1.5' fill='%23121F22'/%3E%3Cellipse cx='128.3' cy='95.7' rx='2.2' ry='2.1' fill='%23101C1F'/%3E%3Cellipse cx='127.9' cy='95.1' rx='1.8' ry='1.7' fill='%23132124'/%3E%3Cellipse cx='12.3' cy='130.7' rx='2.1' ry='1.9' fill='%23101C1F'/%3E%3Cellipse cx='11.8' cy='130.2' rx='1.8' ry='1.5' fill='%23132124'/%3E%3Cellipse cx='136.9' cy='43.8' rx='2.1' ry='1.8' fill='%23101C1F'/%3E%3Cellipse cx='136.5' cy='43.2' rx='1.8' ry='1.5' fill='%23132124'/%3E%3Cellipse cx='-3.3' cy='144.2' rx='2.1' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='-3.8' cy='143.7' rx='1.7' ry='1.2' fill='%23121F22'/%3E%3Cellipse cx='196.7' cy='144.2' rx='2.1' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='196.2' cy='143.7' rx='1.7' ry='1.2' fill='%23121F22'/%3E%3Cellipse cx='145.0' cy='-6.4' rx='2.1' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='144.5' cy='-7.0' rx='1.7' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='145.0' cy='193.6' rx='2.1' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='144.5' cy='193.0' rx='1.7' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='166.7' cy='159.8' rx='2.1' ry='1.8' fill='%23101C1F'/%3E%3Cellipse cx='166.3' cy='159.2' rx='1.7' ry='1.4' fill='%23121F22'/%3E%3Cellipse cx='55.7' cy='143.0' rx='2.1' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='55.3' cy='142.5' rx='1.7' ry='1.1' fill='%23132124'/%3E%3Cellipse cx='153.9' cy='154.7' rx='2.0' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='153.4' cy='154.1' rx='1.7' ry='1.1' fill='%23132124'/%3E%3Cellipse cx='107.2' cy='35.9' rx='2.0' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='106.7' cy='35.3' rx='1.7' ry='1.2' fill='%23111D20'/%3E%3Cellipse cx='166.9' cy='10.9' rx='2.0' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='166.5' cy='10.4' rx='1.7' ry='1.2' fill='%23111D20'/%3E%3Cellipse cx='174.3' cy='173.2' rx='2.0' ry='2.0' fill='%23101C1F'/%3E%3Cellipse cx='173.9' cy='172.7' rx='1.7' ry='1.6' fill='%23121F22'/%3E%3Cellipse cx='35.5' cy='170.1' rx='2.0' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='35.0' cy='169.6' rx='1.6' ry='1.3' fill='%23111D20'/%3E%3Cellipse cx='118.3' cy='61.5' rx='1.9' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='117.8' cy='61.0' rx='1.6' ry='1.4' fill='%23121F22'/%3E%3Cellipse cx='79.8' cy='116.0' rx='1.9' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='79.3' cy='115.4' rx='1.6' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='27.6' cy='149.2' rx='1.9' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='27.1' cy='148.6' rx='1.6' ry='1.4' fill='%23121F22'/%3E%3Cellipse cx='57.0' cy='89.0' rx='1.9' ry='1.8' fill='%23101C1F'/%3E%3Cellipse cx='56.6' cy='88.5' rx='1.5' ry='1.4' fill='%23111D20'/%3E%3Cellipse cx='118.0' cy='93.7' rx='1.9' ry='1.8' fill='%23101C1F'/%3E%3Cellipse cx='117.5' cy='93.1' rx='1.5' ry='1.4' fill='%23132124'/%3E%3Cellipse cx='72.6' cy='143.1' rx='1.9' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='72.1' cy='142.5' rx='1.5' ry='1.2' fill='%23111D20'/%3E%3Cellipse cx='105.9' cy='58.4' rx='1.8' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='105.5' cy='57.8' rx='1.5' ry='1.3' fill='%23121F22'/%3E%3Cellipse cx='151.6' cy='128.1' rx='1.8' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='151.1' cy='127.6' rx='1.5' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='152.8' cy='149.3' rx='1.8' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='152.4' cy='148.8' rx='1.5' ry='1.4' fill='%23121F22'/%3E%3Cellipse cx='71.9' cy='86.8' rx='1.8' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='71.5' cy='86.3' rx='1.5' ry='1.2' fill='%23132124'/%3E%3Cellipse cx='82.4' cy='50.6' rx='1.8' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='82.0' cy='50.1' rx='1.5' ry='1.3' fill='%23121F22'/%3E%3Cellipse cx='27.9' cy='58.6' rx='1.8' ry='1.8' fill='%23101C1F'/%3E%3Cellipse cx='27.4' cy='58.0' rx='1.4' ry='1.4' fill='%23132124'/%3E%3Cellipse cx='97.4' cy='93.3' rx='1.8' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='97.0' cy='92.7' rx='1.4' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='140.7' cy='43.9' rx='1.7' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='140.3' cy='43.3' rx='1.4' ry='1.3' fill='%23121F22'/%3E%3Cellipse cx='2.7' cy='179.0' rx='1.7' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='2.3' cy='178.5' rx='1.4' ry='0.9' fill='%23132124'/%3E%3Cellipse cx='202.7' cy='179.0' rx='1.7' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='202.3' cy='178.5' rx='1.4' ry='0.9' fill='%23132124'/%3E%3Cellipse cx='39.7' cy='97.3' rx='1.7' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='39.2' cy='96.7' rx='1.4' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='163.8' cy='188.7' rx='1.7' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='163.3' cy='188.1' rx='1.3' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='85.7' cy='74.7' rx='1.7' ry='1.7' fill='%23101C1F'/%3E%3Cellipse cx='85.2' cy='74.2' rx='1.3' ry='1.3' fill='%23121F22'/%3E%3Cellipse cx='51.7' cy='121.9' rx='1.7' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='51.3' cy='121.3' rx='1.3' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='118.1' cy='136.3' rx='1.7' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='117.7' cy='135.7' rx='1.3' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='-6.3' cy='86.7' rx='1.6' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='-6.8' cy='86.1' rx='1.3' ry='1.3' fill='%23111D20'/%3E%3Cellipse cx='193.7' cy='86.7' rx='1.6' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='193.2' cy='86.1' rx='1.3' ry='1.3' fill='%23111D20'/%3E%3Cellipse cx='3.1' cy='106.0' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='2.6' cy='105.4' rx='1.3' ry='1.2' fill='%23132124'/%3E%3Cellipse cx='203.1' cy='106.0' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='202.6' cy='105.4' rx='1.3' ry='1.2' fill='%23132124'/%3E%3Cellipse cx='0.8' cy='177.0' rx='1.6' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='0.3' cy='176.5' rx='1.3' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='200.8' cy='177.0' rx='1.6' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='200.3' cy='176.5' rx='1.3' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='95.4' cy='96.3' rx='1.6' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='94.9' cy='95.7' rx='1.3' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='43.0' cy='146.2' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='42.5' cy='145.7' rx='1.3' ry='1.2' fill='%23121F22'/%3E%3Cellipse cx='46.8' cy='163.7' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='46.4' cy='163.2' rx='1.3' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='60.3' cy='7.1' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='59.8' cy='6.6' rx='1.3' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='60.3' cy='207.1' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='59.8' cy='206.6' rx='1.3' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='160.8' cy='38.1' rx='1.6' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='160.4' cy='37.5' rx='1.3' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='-3.7' cy='179.0' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='-4.1' cy='178.5' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='196.3' cy='179.0' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='195.9' cy='178.5' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='29.5' cy='76.2' rx='1.6' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='29.1' cy='75.7' rx='1.2' ry='1.2' fill='%23121F22'/%3E%3Cellipse cx='92.6' cy='115.8' rx='1.6' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='92.2' cy='115.2' rx='1.2' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='3.5' cy='10.7' rx='1.6' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='3.0' cy='10.2' rx='1.2' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='203.5' cy='10.7' rx='1.6' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='203.0' cy='10.2' rx='1.2' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='86.7' cy='151.7' rx='1.6' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='86.2' cy='151.1' rx='1.2' ry='1.1' fill='%23132124'/%3E%3Cellipse cx='25.6' cy='109.7' rx='1.6' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='25.2' cy='109.2' rx='1.2' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='51.5' cy='121.4' rx='1.6' ry='1.6' fill='%23101C1F'/%3E%3Cellipse cx='51.0' cy='120.8' rx='1.2' ry='1.2' fill='%23132124'/%3E%3Cellipse cx='68.1' cy='-4.7' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='67.7' cy='-5.3' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='68.1' cy='195.3' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='67.7' cy='194.7' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='129.3' cy='78.2' rx='1.6' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='128.8' cy='77.7' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='113.9' cy='30.6' rx='1.6' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='113.5' cy='30.0' rx='1.2' ry='0.8' fill='%23132124'/%3E%3Cellipse cx='86.6' cy='180.4' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='86.1' cy='179.9' rx='1.2' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='75.3' cy='29.3' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='74.9' cy='28.8' rx='1.2' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='32.4' cy='3.5' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='31.9' cy='3.0' rx='1.2' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='32.4' cy='203.5' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='31.9' cy='203.0' rx='1.2' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='82.8' cy='151.2' rx='1.5' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='82.4' cy='150.6' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='35.9' cy='23.1' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='35.5' cy='22.6' rx='1.2' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='65.5' cy='76.8' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='65.1' cy='76.2' rx='1.2' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='148.2' cy='102.0' rx='1.5' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='147.8' cy='101.5' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='82.0' cy='124.6' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='81.5' cy='124.1' rx='1.2' ry='0.9' fill='%23111D20'/%3E%3Cellipse cx='37.3' cy='126.3' rx='1.5' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='36.8' cy='125.8' rx='1.2' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='125.5' cy='77.5' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='125.1' cy='76.9' rx='1.2' ry='0.8' fill='%23111D20'/%3E%3Cellipse cx='25.7' cy='160.2' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='25.2' cy='159.6' rx='1.2' ry='0.9' fill='%23111D20'/%3E%3Cellipse cx='171.3' cy='159.2' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='170.9' cy='158.6' rx='1.1' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='157.2' cy='128.8' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='156.8' cy='128.2' rx='1.1' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='117.7' cy='-6.3' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='117.3' cy='-6.9' rx='1.1' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='117.7' cy='193.7' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='117.3' cy='193.1' rx='1.1' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='147.1' cy='-5.2' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='146.7' cy='-5.8' rx='1.1' ry='0.8' fill='%23121F22'/%3E%3Cellipse cx='147.1' cy='194.8' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='146.7' cy='194.2' rx='1.1' ry='0.8' fill='%23121F22'/%3E%3Cellipse cx='22.9' cy='-2.8' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='22.4' cy='-3.4' rx='1.1' ry='0.8' fill='%23111D20'/%3E%3Cellipse cx='22.9' cy='197.2' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='22.4' cy='196.6' rx='1.1' ry='0.8' fill='%23111D20'/%3E%3Cellipse cx='119.0' cy='95.3' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='118.5' cy='94.7' rx='1.1' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='159.2' cy='27.6' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='158.7' cy='27.1' rx='1.1' ry='0.8' fill='%23121F22'/%3E%3Cellipse cx='102.8' cy='67.0' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='102.3' cy='66.4' rx='1.1' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='102.8' cy='43.6' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='102.4' cy='43.0' rx='1.1' ry='0.8' fill='%23121F22'/%3E%3Cellipse cx='89.6' cy='3.0' rx='1.5' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='89.2' cy='2.5' rx='1.1' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='89.6' cy='203.0' rx='1.5' ry='1.5' fill='%23101C1F'/%3E%3Cellipse cx='89.2' cy='202.5' rx='1.1' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='167.6' cy='75.2' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='167.1' cy='74.6' rx='1.1' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='15.0' cy='179.7' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='14.5' cy='179.2' rx='1.1' ry='0.8' fill='%23121F22'/%3E%3Cellipse cx='15.9' cy='115.2' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='15.5' cy='114.7' rx='1.1' ry='0.7' fill='%23121F22'/%3E%3Cellipse cx='175.5' cy='72.0' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='175.0' cy='71.5' rx='1.1' ry='0.8' fill='%23121F22'/%3E%3Cellipse cx='176.5' cy='105.6' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='176.0' cy='105.1' rx='1.1' ry='0.8' fill='%23132124'/%3E%3Cellipse cx='111.3' cy='72.2' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='110.9' cy='71.6' rx='1.1' ry='0.9' fill='%23132124'/%3E%3Cellipse cx='46.9' cy='74.7' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='46.4' cy='74.2' rx='1.1' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='104.5' cy='6.6' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='104.1' cy='6.1' rx='1.1' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='104.5' cy='206.6' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='104.1' cy='206.1' rx='1.1' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='143.4' cy='69.7' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='143.0' cy='69.2' rx='1.1' ry='0.9' fill='%23111D20'/%3E%3Cellipse cx='131.5' cy='171.1' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='131.1' cy='170.5' rx='1.1' ry='1.0' fill='%23121F22'/%3E%3Cellipse cx='173.4' cy='112.9' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='173.0' cy='112.4' rx='1.1' ry='0.9' fill='%23111D20'/%3E%3Cellipse cx='85.0' cy='149.8' rx='1.5' ry='1.2' fill='%23101C1F'/%3E%3Cellipse cx='84.6' cy='149.3' rx='1.1' ry='0.9' fill='%23121F22'/%3E%3Cellipse cx='146.9' cy='173.2' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='146.4' cy='172.7' rx='1.1' ry='1.1' fill='%23121F22'/%3E%3Cellipse cx='96.0' cy='145.4' rx='1.5' ry='1.1' fill='%23101C1F'/%3E%3Cellipse cx='95.6' cy='144.8' rx='1.1' ry='0.7' fill='%23111D20'/%3E%3Cellipse cx='118.2' cy='122.8' rx='1.5' ry='1.4' fill='%23101C1F'/%3E%3Cellipse cx='117.8' cy='122.3' rx='1.1' ry='1.1' fill='%23111D20'/%3E%3Cellipse cx='67.0' cy='181.4' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='66.6' cy='180.9' rx='1.1' ry='1.0' fill='%23132124'/%3E%3Cellipse cx='177.5' cy='122.0' rx='1.5' ry='1.3' fill='%23101C1F'/%3E%3Cellipse cx='177.0' cy='121.4' rx='1.1' ry='0.9' fill='%23111D20'/%3E%3C/svg%3E");
+    --kerb: #1E2E32;
+    --rk-shadow: #060D0F;
+    --rk-lit: #1F3136;
+    --rake-line: rgba(255, 255, 255, .025);
+    --on-almagra: #1A0E09;
+    --cobalt: #9DB2EA;
+    --lip: #22353A;
+    --lip-hi: #2D454B;
+    --stone: #2A3F44;
+    --shade: rgba(0, 0, 0, .4);
+    --screen: #1B2B2F;
+    --pg-line: #52676B;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--plaster) var(--gravel-img, var(--gravel-tile)) 0 0 / var(--gravel-size, 200px) repeat;
+  color: var(--ink);
+  font: 400 1.125rem/1.62 var(--sans);
+  font-kerning: normal;
+}
+a { color: var(--acequia); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--almagra); outline-offset: 3px; border-radius: 2px; }
+code, pre {
+  font-family: var(--mono);
+  font-variant-ligatures: none;
+  font-variant-numeric: tabular-nums;
+}
+code, pre { font-size: .84em; }
+p code, li code, dd code { background: var(--plaster-2); padding: .1em .35em; border-radius: 2px; }
+pre code { background: none; padding: 0; font-size: 1em; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.wrap { width: min(100% - 3rem, 70rem); margin-inline: auto; }
+
+/* Header */
+/* The flags. 44 flags in seven colours, wide enough for a 2640px screen,
+   cropped from the middle by preserveAspectRatio slice, so at 1:1 the row is
+   centred at any width. The SVG is the still row: what shows without JS and
+   under reduced motion. With motion allowed, the script draws the same row
+   on a canvas as hanging tissue paper and hides the SVG. Neither takes the
+   pointer, so a billowing flag never covers the brand line. */
+.flagrow { position: relative; height: 52px; z-index: 2; pointer-events: none; }
+.flags { display: block; width: 100%; height: 52px; overflow: visible; }
+.flagrow canvas { position: absolute; left: 0; top: 0; width: 100%; height: 76px; }
+.flagrow.live .flags { visibility: hidden; }
+.f-0 { fill: var(--f0); }
+.f-1 { fill: var(--f1); }
+.f-2 { fill: var(--f2); }
+.f-3 { fill: var(--f3); }
+.f-4 { fill: var(--f4); }
+.f-5 { fill: var(--f5); }
+.f-6 { fill: var(--f6); }
+.f-fold { fill: #000; opacity: .15; }
+.span { fill: none; stroke: var(--string); stroke-width: 1.2; }
+.top { display: flex; align-items: center; gap: .7rem; padding-block: 1rem .4rem; }
+.top svg { width: 28px; height: 28px; flex: none; }
+.brandline { display: flex; gap: .5rem; align-items: baseline; font-size: 1rem; }
+.brandline a { color: var(--ink); text-decoration: none; }
+.brandline a:hover { text-decoration: underline; }
+.brandline .carlos { font-weight: 600; letter-spacing: .06em; font-size: .9rem; }
+.brandline .here { font: 600 1.35rem/1 var(--serif); letter-spacing: -.01em; }
+.brandline .sep { color: var(--muted); }
+
+/* Type: Ibarra for display, Chivo for reading, Chivo Mono for code and routes. */
+h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
+h1 { font-size: clamp(2.3rem, 1.6rem + 2.2vw, 3.4rem); line-height: 1.08; margin: 0 0 1.1rem; max-width: 14em; }
+h2 { font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.3rem); line-height: 1.12; margin: 0 0 1.1rem; }
+h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 .6rem; }
+
+/* ---------- Hero: copy on the left; on the right, a raked plot whose seven
+   grooves are the layers of the stack, all bending round one stone. Drawn
+   1 unit = 1px at 340 wide (so the 12px labels stay 12px on a phone) and
+   scaled up a little on wide screens. ---------- */
+.hero-in { display: grid; grid-template-columns: minmax(0, 38rem) minmax(0, 1fr); column-gap: 3rem; align-items: end; padding-top: 3rem; }
+.hero-copy { padding-bottom: 3rem; }
+.hero .sub { font: 400 1.6rem/1.55 var(--serif); letter-spacing: -.01em; max-width: 24em; margin: 0 0 1rem; text-wrap: balance; }
+@media (max-width: 600px) { .hero .sub br.wide { display: none; } }
+.hero .sub .name { font-weight: 600; color: var(--acequia); padding-bottom: .3em; background: linear-gradient(var(--acequia), var(--acequia)) 0 100% / 100% 1.5px no-repeat, linear-gradient(var(--acequia), var(--acequia)) 0 calc(100% - 3.5px) / 100% 1.5px no-repeat, linear-gradient(var(--acequia), var(--acequia)) 0 calc(100% - 7px) / 100% 1.5px no-repeat; background-clip: border-box; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.hero .lede { font-size: 1.0625rem; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 34rem; margin: 0 0 1.8rem; }
+.stack { display: block; justify-self: end; width: 391px; height: auto; margin-bottom: 2rem; }
+.stack text { font: 400 12px var(--mono); fill: var(--muted); font-variant-ligatures: none; }
+.stack .one { font-weight: 600; fill: var(--ink); }
+/* Shared by the hero plot and the section vignettes: a plot of gravel, and
+   grooves drawn as a shadowed furrow over a sunlit ridge. */
+.plot { fill: var(--gravel); stroke: var(--bed); stroke-width: 1.5; }
+.gr { fill: none; stroke: var(--groove); stroke-width: 2.4; stroke-linecap: round; }
+.gh { fill: none; stroke: var(--edge); stroke-width: 1.1; stroke-linecap: round; }
+.stone { fill: var(--rock); }
+.stone-sh { fill: var(--shade); }
+.ch-bed { fill: none; stroke: var(--bed); stroke-width: 10; }
+.ch-edge { fill: none; stroke: var(--edge); stroke-width: 10; }
+.ch-water { fill: none; stroke: var(--chan); stroke-width: 5.5; }
+/* v2's pool was 196px of water with the headline reflected in it; now it is
+   a line the channels run into, and nothing more. */
+.waterline { height: 10px; background: var(--chan); box-shadow: 0 -3px 0 var(--lip); }
+
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: .55rem;
+  min-height: 3rem; padding: .65rem 1.2rem;
+  border-radius: 3px; border: 1.5px solid var(--ink);
+  font: 600 1rem/1 var(--sans); text-decoration: none; color: var(--ink);
+  background: var(--plaster);
+}
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn.primary { background: var(--almagra); border-color: var(--almagra); color: var(--on-almagra); }
+.btn:hover { background: var(--plaster-2); }
+.btn.primary:hover { background: var(--ink); border-color: var(--ink); color: var(--plaster); }
+
+/* ---------- Sections ---------- */
+.sec { padding-block: 3.5rem; }
+.body { max-width: 44rem; min-width: 0; }
+.body > p { margin: 0 0 1.1rem; }
+.lead { font-size: 1.25rem; line-height: 1.55; }
+.aside { color: var(--muted); }
+.list { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+.list li { padding: .45rem 0 .45rem 2.2rem; position: relative; }
+.list li::before {
+  /* a short wet channel instead of a bullet */
+  content: ""; position: absolute; left: 0; top: 1.02rem;
+  width: 1.3rem; height: 6px; border-radius: 0 3px 3px 0; background: var(--chan);
+  box-shadow: 0 0 0 2px var(--bed);
+}
+
+/* Go faster's claim: above body text, well below the heading. */
+.body > .claim { font: 400 1.75rem/1.25 var(--serif); letter-spacing: -.01em; margin: 0 0 1rem; max-width: 26em; }
+
+/* ---------- Section vignettes: one raked plot per section, each raked in
+   a pattern that says something about the section. Beside the heading on
+   wide screens, above it otherwise. ---------- */
+.sec { position: relative; }
+.mo { display: block; width: 176px; height: auto; margin: 0 0 1.2rem; }
+/* The vignettes no longer animate: half-drawn, they read as unfinished, and
+   the scroll furrows are the page's raking now.
+   On the gravel the vignettes lose their framed tile: the plot is not
+   painted and the drawing fades out at its edges into the ground. */
+.mo .plot { fill: none; stroke: none; }
+.mo { -webkit-mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 76%, transparent 100%); mask-image: radial-gradient(ellipse 62% 62% at 50% 50%, #000 76%, transparent 100%); }
+.mo .gfill { fill: var(--groove); }
+.mo .gr-wide { stroke-width: 3.2; }
+.mo .gr-fine { stroke-width: 1.6; }
+.mo .gh-fine { stroke-width: .9; }
+
+/* What better means: thirteen items in four groups, one column per group at
+   desktop, two by two on tablets, one column on phones. The groups use the
+   full width, so the vignette moves above the heading here at every size:
+   beside the heading it would sit on top of the fourth group. Headings and
+   rules match the features list's groups; each item has one teal Lucide
+   icon, decorative. */
+.sec-better .body { max-width: none; }
+.sec-better .mo { position: static; width: 240px; margin: 0 0 1.4rem; }
+.better { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem 2.5rem; margin-top: 1.6rem; }
+.bgroup { border-top: 1.5px solid var(--bed); padding-top: 1rem; }
+.bgroup h3 { font: 600 1.3rem/1.2 var(--serif); letter-spacing: -.01em; margin: 0 0 .7rem; }
+.bgroup ul { list-style: none; padding: 0; margin: 0; }
+.bgroup li { display: grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: .7rem; padding: .35rem 0; line-height: 1.45; }
+.bgroup .bi { width: 20px; height: 20px; margin-top: .1rem; color: var(--acequia); }
+@media (max-width: 1060px) { .better { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .better { grid-template-columns: minmax(0, 1fr); } .sec-better .mo { width: 176px; } }
+.mo .pebble { fill: var(--groove); }
+/* Desktop: each section fills the screen and its content sits centred in
+   that frame, so the page reads one section at a time. Sections taller than
+   the screen simply grow. The vignette moves into a grid column beside the
+   text so it stays level with the heading wherever the content lands. */
+@media (min-width: 1180px) and (min-height: 640px) {
+  .hero { min-height: calc(100dvh - 102px); display: flex; flex-direction: column; }
+  .hero-in { margin-block: auto; padding-top: 0; }
+  main .sec { min-height: 100dvh; box-sizing: border-box; padding-block: clamp(4rem, 9vh, 6.5rem);
+    display: grid; grid-template-columns: minmax(0, 1fr) 240px; column-gap: 3rem; align-content: center; }
+  main .sec > .mo { position: static; grid-column: 2; grid-row: 1; align-self: start; margin: .4rem 0 0; }
+  main .sec > .body { grid-column: 1; grid-row: 1; }
+  main .sec > .features { grid-column: 1 / -1; grid-row: 2; }
+  main .sec-better { grid-template-columns: minmax(0, 1fr); }
+  main .sec-better > .mo { grid-column: 1; grid-row: 1; margin: 0 0 1.4rem; }
+  main .sec-better > .body { grid-row: 2; }
+}
+@media (min-width: 1180px) {
+  .mo { position: absolute; right: 0; top: 3.5rem; width: 240px; margin: 0; }
+}
+.ripple, .streak { transform-box: fill-box; }
+.streak { transform-origin: 0 50%; }
+.ripple { transform-origin: 50% 50%; }
+
+/* Grounds: two sections sit on a slightly darker plaster and two on a
+   faint raked texture, so neighbours separate without colour. border-image
+   with fill and a 100vmax outset carries the ground to both window edges
+   from inside .wrap without changing the layout. */
+.g-tone { border-image: linear-gradient(var(--tone) 0 0) fill 0 / 0 / 0 100vmax; }
+
+/* Between sections: a line of small kerb stones across the text column,
+   always there, so you can see where one part of the garden ends before the
+   rake reaches it. Where there are no gutters for the rake (and the script
+   is running), each gap also gets its three raked grooves, drawn still. */
+main .sec + .sec::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -4px; height: 8px; pointer-events: none;
+  background:
+    radial-gradient(circle, var(--kerb) 0 2.1px, transparent 2.7px) 0 50% / 13px 8px repeat-x,
+    radial-gradient(circle, var(--kerb) 0 1.5px, transparent 2.1px) 6px 30% / 17px 8px repeat-x;
+}
+.js:not(.raking) main .sec + .sec::after {
+  /* Five still furrows, matching the count the scroll furrows use. */
+  content: ""; opacity: .6; position: absolute; left: -100vmax; right: -100vmax; top: 9px; height: 26px; pointer-events: none;
+  background: repeating-linear-gradient(var(--rk-shadow) 0 1.5px, #0000 1.5px 3.5px, var(--rk-lit) 3.5px 5px, #0000 5px 6px) 0 0 / 100% 30px no-repeat;
+}
+
+/* The raked furrows, behind everything (z-index -1 paints over the page's
+   ground and under its content): one small canvas per piece of the path,
+   painted once, revealed by a mask while that piece is being raked. */
+.garden { position: absolute; left: 0; top: 0; width: 100%; z-index: -1; pointer-events: none; }
+.garden canvas, .garden .stone { position: absolute; display: block; }
+.garden .todo { visibility: hidden; }
+/* Above the furrow canvases, or the rings' ridge pebbles paint over it. */
+.garden .stone { z-index: 1; border-radius: 50%; background: radial-gradient(circle at 35% 32%, var(--edge), var(--rock) 60%); box-shadow: 1px 2px 0 var(--shade); }
+.g-raked { border-image: repeating-linear-gradient(transparent 0 12px, var(--rake-line) 12px 13.5px) fill 0 / 0 / 0 100vmax; }
+/* With the furrows on, the grounds move to a layer below them (z-index -2,
+   the furrows are -1), or a tinted section paints over its turn's stone and
+   rings. ::after is free here: it only carries the still crossings when the
+   furrows are off. */
+.raking .g-tone, .raking .g-raked { border-image: none; }
+.raking .g-tone::after, .raking .g-raked::after { content: ""; position: absolute; inset: 0 -100vmax; z-index: -2; pointer-events: none; }
+.raking .g-tone::after { background: var(--tone); }
+.raking .g-raked::after { background: repeating-linear-gradient(transparent 0 12px, var(--rake-line) 12px 13.5px); }
+
+/* Three channels become one: a still drawing now. */
+.merge { display: block; width: 100%; max-width: 26rem; height: auto; margin-top: 1.6rem; }
+.merge .ch-bed, .merge .ch-edge { stroke-width: 16; }
+.merge .ch-water { stroke-width: 8; }
+.merge .main.ch-bed, .merge .main.ch-edge { stroke-width: 26; }
+.merge .main.ch-water { stroke-width: 16; }
+.merge text { font: 600 16px var(--sans); fill: var(--ink); }
+.merge text.one { font: 600 21px var(--serif); fill: var(--acequia); }
+
+/* Moment 2: de-jank. Two drawn browser frames load the same page. The SPA
+   steps through blank, spinner and two layout shifts; Rastrillo is complete
+   at the first step. Resting style is the last step, so with no timeline the
+   picture still reads: a shifted page beside a settled one. */
+.dj { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin: 2.4rem 0 0; max-width: 36rem; view-timeline: --dj block; }
+.dj figure { margin: 0; }
+.dj figcaption { font: 600 1rem/1.3 var(--sans); margin: 0 0 .6rem; }
+.dj svg { display: block; width: 100%; height: auto; overflow: visible; }
+.bf-frame { fill: var(--screen); stroke: var(--ink); stroke-width: 1.5; }
+.bf-bar { fill: var(--plaster-2); }
+.bf-rule { stroke: var(--ink); stroke-width: 1.5; }
+.bf-url { fill: var(--bed); }
+.pg-ink { fill: var(--ink); opacity: .82; }
+.pg-line { fill: var(--pg-line); }
+.pg-img { fill: var(--chan); }
+.pg-btn { fill: var(--almagra); }
+.pg-notice { fill: var(--cempa); opacity: .55; }
+.pg-ghost { fill: none; stroke: var(--almagra); stroke-width: 1.2; stroke-dasharray: 3 2.5; }
+.spin-track { fill: none; stroke: var(--bed); stroke-width: 4; }
+.spin-arc { fill: none; stroke: var(--chan); stroke-width: 4; stroke-linecap: round; }
+/* The SPA frame's spinners keep turning: the joke is that its last piece
+   only arrives as you scroll away, so you watch it load and never see it. */
+.dj .spin { transform-box: fill-box; transform-origin: center; animation: dj-spin .9s linear infinite; }
+@keyframes dj-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .dj .spin { animation: none; } }
+.dj .st { opacity: 0; }
+.dj .st.s4 { opacity: 1; }
+.dj[data-step] .st { opacity: 0; }
+.dj[data-step="0"] .s0, .dj[data-step="1"] .s1, .dj[data-step="2"] .s2,
+.dj[data-step="3"] .s3, .dj[data-step="4"] .s4 { opacity: 1; }
+
+/* Moment 3: the actions/ folder as a branching acequia. Every channel piece is
+   a dry bed with its water drawn full; the scroll timeline only says where the
+   water starts, so without it the tree is simply wet. */
+.agents { max-width: 47rem; }
+.tree { --x: .85rem; --cw: 14px; --arm: 2.3rem; margin: 2.4rem 0 1rem; view-timeline: --tree block; }
+.tree .hd { position: relative; display: flex; align-items: center; gap: .95rem; min-height: 3.2rem; }
+.tree .hd code { font-size: 1rem; font-weight: 600; }
+.src {
+  position: relative; z-index: 1; flex: none;
+  width: 42px; height: 42px; margin-left: calc(var(--x) + var(--cw) / 2 - 21px);
+  border-radius: 50%; background: var(--stone);
+  box-shadow: inset 0 0 0 4px var(--bed), 2px 3px 0 var(--shade);
+}
+.src::after { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: var(--chan); }
+.tree ul { list-style: none; margin: 0; padding: 0; }
+.tree li {
+  position: relative;
+  display: grid; grid-template-columns: 19.5rem minmax(0, 1fr); align-items: center; column-gap: 1.5rem;
+  min-height: 3.3rem; padding-left: calc(var(--x) + var(--cw) + var(--arm) + 2.1rem);
+}
+.ch { position: absolute; background: var(--bed); }
+.ch::after { content: ""; position: absolute; background: var(--chan); }
+.ch.run, .ch.ra, .ch.rb { left: var(--x); width: var(--cw); box-shadow: 1.5px 0 0 var(--edge); }
+.ch.run::after, .ch.ra::after, .ch.rb::after { inset: 0 3.5px; transform-origin: 50% 0; }
+.hd .ch.run { top: calc(50% + 14px); bottom: 0; }
+.ch.ra { top: 0; height: calc(50% + var(--cw) / 2); }
+.ch.rb { top: 50%; bottom: 0; }
+.tree li:last-child .ch.ra { border-radius: 0 0 7px 7px; }
+.tree li:last-child .ch.ra::after { bottom: 3.5px; border-radius: 0 0 4px 4px; }
+.ch.arm {
+  left: calc(var(--x) + var(--cw) - 1px); width: var(--arm); top: calc(50% - 5px); height: 10px;
+  box-shadow: 0 1.5px 0 var(--edge);
+}
+.ch.arm::after { inset: 3px 0; transform-origin: 0 50%; }
+.ch.out {
+  left: calc(var(--x) + var(--cw) + var(--arm) - 6px); top: calc(50% - 11px); width: 22px; height: 22px;
+  border-radius: 50%; box-shadow: 0 1.5px 0 var(--edge);
+}
+.ch.out::after { inset: 4px; border-radius: 50%; }
+.tree li code { background: none; padding: 0; }
+.file { font-size: .9rem; overflow-wrap: anywhere; }
+.route { font-size: .9rem; color: var(--ink); white-space: nowrap; }
+.route b { font-weight: 600; display: inline-block; min-width: 4.6ch; }
+.route .get { color: var(--acequia); }
+.route .post { color: var(--almagra); }
+.tree-cap { margin: .6rem 0 0; font-size: .95rem; color: var(--muted); padding-left: calc(var(--x) + var(--cw) + var(--arm) + 2.1rem); }
+.attrs { list-style: none; padding: 0; margin: 2.8rem 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.8rem 2.5rem; }
+.attrs li { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); column-gap: .9rem; align-items: start; line-height: 1.5; }
+.attrs .ic {
+  width: 2.6rem; height: 2.6rem; display: grid; place-items: center; border-radius: 50%;
+  background: var(--plaster-2); box-shadow: inset 0 0 0 2px var(--bed); color: var(--acequia);
+}
+.attrs .ic svg { width: 20px; height: 20px; }
+.attrs strong { display: block; font-weight: 600; margin-bottom: .2rem; }
+
+/* Real screenshots of the gallery's demo app, captured from the live site:
+   light (English) in front, dark (Spanish) behind and offset up and right,
+   so its header and primary button still show. Margins are percentages of
+   the figure's width, so the overlap holds at every size. */
+.shots { display: grid; margin: 2rem 0 0; max-width: 40rem; }
+.bw { grid-area: 1 / 1; border-radius: 6px; overflow: hidden; border: 1.5px solid var(--ink); box-shadow: 0 10px 24px -12px var(--shade), 0 2px 0 var(--shade); }
+.bw.back { margin: 0 0 14% 15%; border-color: #3A3F45; background: #1A1C1F; }
+.bw.front { margin: 11% 14% 0 0; background: #F4F4F2; position: relative; }
+.bw .bar { height: 1.4rem; display: flex; align-items: center; padding-inline: .6rem; }
+.bw .bar i { display: block; height: .5rem; width: 38%; margin-inline: auto; border-radius: 1rem; }
+.bw.front .bar { background: #E6E5E1; } .bw.front .bar i { background: #FBFBFA; }
+.bw.back .bar { background: #24272B; } .bw.back .bar i { background: #34383D; }
+.bw img { display: block; width: 100%; height: auto; }
+/* The markup window: the design system's real markup, rst- attributes
+   picked out, beside the same markup rendered by the real CSS. The preview
+   has its own Light/Dark switch: two frames, each pinned with the design
+   system's data-theme, shown by the checked radio, so it works without JS
+   (JS only starts it on the page's own scheme). Side by side on desktop,
+   where it spans the vignette column too; stacked below that. */
+.mk { margin: 2.4rem 0 0; max-width: 40rem; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; background: var(--screen); box-shadow: 0 10px 24px -12px var(--shade), 0 2px 0 var(--shade); }
+.mk-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.2rem; padding: .25rem .5rem .25rem .9rem; background: var(--plaster-2); border-bottom: 1.5px solid var(--ink); font: 500 .74rem var(--mono); color: var(--muted); }
+.mk-theme { display: inline-flex; border: 1.5px solid var(--bed); border-radius: 6px; padding: 2px; margin: 0; background: var(--plaster); }
+.mk-theme input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.mk-theme label { font: 600 .74rem/1 var(--sans); color: var(--muted); padding: .4rem .7rem; border-radius: 4px; cursor: pointer; }
+.mk-theme input:checked + label { background: var(--screen); color: var(--ink); box-shadow: 0 1px 0 var(--shade); }
+.mk-theme input:focus-visible + label { outline: 3px solid var(--almagra); outline-offset: 1px; }
+.mk-code { margin: 0; padding: 1rem 1.1rem; overflow-x: auto; font-size: .74rem; line-height: 1.6; background: var(--screen); color: var(--ink); }
+.mk-code .tg { color: var(--muted); }
+.mk-code .ra { color: var(--acequia); font-weight: 600; }
+.mk-code .at { color: var(--ink); }
+.mk-code .av { color: var(--almagra); }
+.mk-out { background: #fff; }
+.mk-code { border-top: 1.5px dashed var(--bed); }
+.mk-out iframe { display: block; width: 100%; height: 330px; border: 0; align-self: stretch; }
+@media (max-width: 600px) { .mk-out iframe { height: 400px; } }
+.mk-out .mk-d { display: none; }
+.mk:has(#mk-dark:checked) .mk-out { background: #16181b; }
+.mk:has(#mk-dark:checked) .mk-l { display: none; }
+.mk:has(#mk-dark:checked) .mk-d { display: block; }
+.mk figcaption { padding: .7rem 1.1rem .8rem; border-top: 1.5px solid var(--bed); font-size: .9rem; color: var(--muted); }
+.mk figcaption code { background: var(--plaster-2); padding: .1em .35em; border-radius: 2px; }
+@media (min-width: 1180px) {
+  .body > .mk { width: calc(100% + 240px + 3rem); max-width: none; }
+  .mk-panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); }
+  .mk-out { border-top: 0; display: flex; }
+  .mk-code { border-left: 1.5px dashed var(--bed); }
+  .mk-out iframe { height: auto; min-height: 330px; }
+  .mk-code { display: flex; align-items: center; }
+}
+.body > .weight { display: flex; align-items: baseline; gap: .6rem; line-height: 1; margin: 2rem 0 1.6rem; }
+.weight b { font: 600 2.3rem/1 var(--serif); letter-spacing: -.02em; }
+.weight span { font: italic 500 1.1rem var(--serif); color: var(--muted); }
+
+/* Steps: a real sequence, so numbered basins */
+.steps { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: 1.8rem; }
+.steps li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.1rem; }
+.basin-n {
+  width: 2.7rem; height: 2.7rem; border-radius: 50%; display: grid; place-items: center;
+  background: var(--plaster-2); box-shadow: inset 0 0 0 3px var(--bed), 0 2px 0 var(--edge);
+  font: 600 1.05rem var(--mono); color: var(--acequia);
+}
+.steps h3 { margin-top: .45rem; }
+.steps p { margin: .7rem 0 0; }
+pre.cmd {
+  margin: 0; padding: .8rem 1rem;
+  background: var(--plaster-2); border-radius: 3px;
+  font-size: .82rem; line-height: 1.65;
+  white-space: pre-wrap; word-break: break-word;
+}
+pre .k { color: var(--cobalt); font-weight: 500; }
+
+/* Get started: two paths. Radio inputs, so the choice works with no script
+   and arrow keys move between the two; each label carries a channel that
+   holds water when its path is chosen. */
+.paths { border: 0; padding: 0; margin: 2rem 0 0; min-width: 0; display: flex; flex-wrap: wrap; column-gap: .4rem; }
+.paths > input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.paths > label {
+  display: inline-flex; align-items: center; gap: .55rem; cursor: pointer;
+  padding: .6rem 1rem 1.1rem .2rem; margin-right: 1.4rem; position: relative;
+  font: 600 1.1rem/1.2 var(--sans); color: var(--muted);
+}
+.paths > label svg { width: 20px; height: 20px; flex: none; }
+.paths > label::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: .2rem; height: 10px; border-radius: 5px;
+  background: var(--bed); box-shadow: 0 1.5px 0 var(--edge);
+}
+.paths > label::before {
+  content: ""; position: absolute; left: 3px; right: 3px; bottom: calc(.2rem + 3px); height: 4px; border-radius: 2px;
+  background: var(--chan); z-index: 1; transform: scaleX(0); transform-origin: 0 50%;
+}
+.paths > input:checked + label { color: var(--ink); }
+.paths > input:checked + label::before { transform: none; }
+.paths > input:focus-visible + label { outline: 3px solid var(--almagra); outline-offset: 2px; border-radius: 3px; }
+.paths > .panel { flex: 0 0 100%; display: none; padding-top: 1.6rem; }
+#path-agent:checked ~ .panel-agent, #path-hand:checked ~ .panel-hand,
+#dep-agent:checked ~ .panel-agent, #dep-hand:checked ~ .panel-hand { display: block; }
+.panel-agent > p { margin: 0 0 .8rem; }
+.prompt { position: relative; }
+.prompt pre {
+  margin: 0; padding: 1rem 3.6rem 1rem 1.1rem;
+  background: var(--plaster-2); border-radius: 3px; border-left: 4px solid var(--chan);
+  font-size: .9rem; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.prompt .ph { color: var(--almagra); font-weight: 600; }
+.copy {
+  position: absolute; top: .55rem; right: .55rem;
+  width: 2.5rem; height: 2.5rem; display: grid; place-items: center;
+  border: 1.5px solid var(--ink); border-radius: 3px; background: var(--plaster); color: var(--ink); cursor: pointer;
+}
+.copy[hidden] { display: none; }
+.copy:hover { background: var(--edge); }
+.copy svg { width: 18px; height: 18px; }
+.copy .i-done { display: none; color: var(--acequia); }
+.copy.done .i-copy { display: none; }
+.copy.done .i-done { display: block; }
+.panel-hand .steps { margin-top: 0; }
+
+/* Features: five even groups, each a short two-column list under a rule. */
+.features { margin-top: 2rem; max-width: 52rem; display: grid; gap: 2rem; }
+.fgroup { border-top: 1.5px solid var(--bed); padding-top: 1rem; }
+.fgroup h3 { font: 600 1.3rem/1.2 var(--serif); letter-spacing: -.01em; margin: 0 0 .6rem; }
+.fgroup dl { display: grid; grid-template-columns: 10.5rem minmax(0, 1fr); column-gap: 1.5rem; margin: 0; font-size: 1.02rem; line-height: 1.5; }
+.fgroup dt { font-weight: 600; padding: .25rem 0; }
+.fgroup dd { margin: 0; padding: .25rem 0; }
+
+/* Footer: the trust strip, the closing copy, and a slim three-line rule
+   as the page's last line, the only echo of the channels below the hero. */
+footer { font-size: 1rem; color: var(--muted); padding-top: 2.5rem; }
+.trust {
+  display: flex; flex-wrap: wrap; gap: .7rem 2.2rem; margin: 0 0 2rem; padding: 1rem 0;
+  border-block: 1.5px solid var(--bed);
+  font: 400 .84rem/1.5 var(--mono); font-variant-ligatures: none;
+}
+.trust dt { display: inline; color: var(--muted); }
+.trust dd { display: inline; margin: 0 0 0 .5ch; color: var(--ink); }
+.trust a { color: var(--acequia); }
+.trust .tbd { color: var(--muted); border: 1px dashed var(--muted); border-radius: 2px; padding-inline: .35em; }
+footer p { max-width: 44rem; margin: 0 0 .9rem; }
+footer .links { font-weight: 600; color: var(--ink); }
+/* The footer proper: the mark, then three short columns of links out to
+   Rastrillo's own pages, the CARLOS family and the principles behind it. */
+.foot-cols { display: grid; grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr)); gap: 2rem 2.5rem; margin-top: 2.4rem; }
+.foot-brand svg { width: 34px; height: 34px; display: block; margin-bottom: .8rem; }
+.foot-brand p { margin: 0; color: var(--muted); font-size: .95rem; line-height: 1.5; }
+.foot-name { font: 600 1.35rem/1.2 var(--serif); color: var(--ink); letter-spacing: -.01em; }
+.foot-cols h2 { font: 600 .78rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: .4rem 0 .9rem; }
+.foot-cols ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .55rem; }
+.foot-cols a { color: var(--ink); text-decoration: none; }
+.foot-cols a:hover { color: var(--acequia); text-decoration: underline; }
+@media (max-width: 900px) { .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } .foot-brand { grid-column: 1 / -1; } }
+@media (max-width: 480px) { .foot-cols { grid-template-columns: minmax(0, 1fr); } }
+.foot-rule { height: 12px; margin-top: 2.5rem; background: linear-gradient(var(--chan) 0 2px, transparent 2px 5px, var(--chan) 5px 7px, transparent 7px 10px, var(--chan) 10px 12px); }
+
+
+/* ---------- Motion. Every resting style above is the final state; keyframes
+   only say where things start. ---------- */
+@keyframes fy { from { transform: scaleY(0); } }
+@keyframes fx { from { transform: scaleX(0); } }
+@keyframes fo { from { transform: scale(0); } }
+/* Five near-instant switches: the jank is the point, so no easing between states. */
+@keyframes dj0 { 0%, 19.9% { opacity: 1; } 20%, 100% { opacity: 0; } }
+@keyframes dj1 { 0%, 19.9% { opacity: 0; } 20%, 39.9% { opacity: 1; } 40%, 100% { opacity: 0; } }
+@keyframes dj2 { 0%, 39.9% { opacity: 0; } 40%, 59.9% { opacity: 1; } 60%, 100% { opacity: 0; } }
+@keyframes dj3 { 0%, 59.9% { opacity: 0; } 60%, 79.9% { opacity: 1; } 80%, 100% { opacity: 0; } }
+@keyframes dj4 { 0%, 79.9% { opacity: 0; } 80%, 100% { opacity: 1; } }
+@keyframes rake-in { from { transform: scaleX(0); } }
+@keyframes ripple-in { from { transform: scale(.2); opacity: 0; } }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: no-preference) {
+  .paths > label::before { transition: transform .45s cubic-bezier(.3, .7, .3, 1); }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* 3. The actions/ tree: down the main channel, out along each branch, in turn. */
+    .tree .ch::after { animation: fy linear both; animation-timeline: --tree; }
+    .tree .ch.arm::after { animation-name: fx; }
+    .tree .ch.out::after { animation-name: fo; }
+    .tree .hd .run::after { animation-range: contain 4% contain 7%; }
+    .tree li:nth-child(1) .ra::after { animation-range: contain 7% contain 10%; }
+    .tree li:nth-child(1) .arm::after { animation-range: contain 10% contain 14%; }
+    .tree li:nth-child(1) .out::after { animation-range: contain 14% contain 16%; }
+    .tree li:nth-child(1) .rb::after { animation-range: contain 16% contain 19%; }
+    .tree li:nth-child(2) .ra::after { animation-range: contain 19% contain 22%; }
+    .tree li:nth-child(2) .arm::after { animation-range: contain 22% contain 26%; }
+    .tree li:nth-child(2) .out::after { animation-range: contain 26% contain 28%; }
+    .tree li:nth-child(2) .rb::after { animation-range: contain 28% contain 31%; }
+    .tree li:nth-child(3) .ra::after { animation-range: contain 31% contain 34%; }
+    .tree li:nth-child(3) .arm::after { animation-range: contain 34% contain 38%; }
+    .tree li:nth-child(3) .out::after { animation-range: contain 38% contain 40%; }
+    .tree li:nth-child(3) .rb::after { animation-range: contain 40% contain 43%; }
+    .tree li:nth-child(4) .ra::after { animation-range: contain 43% contain 46%; }
+    .tree li:nth-child(4) .arm::after { animation-range: contain 46% contain 50%; }
+    .tree li:nth-child(4) .out::after { animation-range: contain 50% contain 52%; }
+    .tree li:nth-child(4) .rb::after { animation-range: contain 52% contain 55%; }
+    .tree li:nth-child(5) .ra::after { animation-range: contain 55% contain 58%; }
+    .tree li:nth-child(5) .arm::after { animation-range: contain 58% contain 62%; }
+    .tree li:nth-child(5) .out::after { animation-range: contain 62% contain 64%; }
+
+    /* 2. De-jank: the SPA frame steps through five states as the pair crosses
+       the middle of the screen; the Rastrillo frame never changes. */
+  }
+}
+
+/* Fallback for browsers without scroll timelines: the script adds .pre, then
+   removes it when the moment is in view, and these transitions play once. */
+.pre.tree .run::after, .pre.tree .ra::after, .pre.tree .rb::after { transform: scaleY(0); }
+.pre.tree .arm::after { transform: scaleX(0); }
+.pre.tree .out::after { transform: scale(0); }
+.js-fb .tree .ch::after { transition: transform .28s linear; transition-delay: calc(var(--d) * .26s); }
+
+/* ---------- Narrower screens ---------- */
+@media (max-width: 900px) {
+  .hero-in { grid-template-columns: minmax(0, 1fr); padding-top: 2rem; }
+  .hero-copy { padding-bottom: 1.5rem; }
+  /* 1:1 on a phone, so the 12px labels stay 12px. */
+  .stack { justify-self: start; width: 100%; max-width: 340px; }
+}
+@media (max-width: 760px) {
+  body { font-size: 1.0625rem; }
+  .flagrow, .flags { height: 44px; }
+  .flagrow canvas { height: 64px; }
+  .sec { padding-block: 2.75rem; }
+  .lead { font-size: 1.15rem; }
+  .hero .lede { font-size: 1rem; }
+  .hero .sub { font-size: 1.35rem; }
+  .actions { gap: .6rem; }
+  .actions .btn { flex: 1 1 100%; justify-content: center; }
+  .dj { gap: .9rem; }
+  .dj figcaption { font-size: .9rem; }
+  .prompt pre { font-size: .84rem; padding-right: 3.3rem; }
+  .fgroup dl { grid-template-columns: minmax(0, 1fr); }
+  .fgroup dt { padding-bottom: 0; }
+  .fgroup dd { padding-top: .1rem; padding-bottom: .5rem; }
+  .steps li { grid-template-columns: 2.6rem minmax(0, 1fr); gap: .8rem; }
+  .basin-n { width: 2.4rem; height: 2.4rem; font-size: .95rem; }
+  .tree { --x: .55rem; --arm: 1.3rem; }
+  .tree li { grid-template-columns: minmax(0, 1fr); padding-left: calc(var(--x) + var(--cw) + var(--arm) + 1.4rem); min-height: 4.1rem; padding-block: .35rem; }
+  .tree-cap { padding-left: 0; }
+  .file, .route { font-size: .84rem; }
+  .attrs { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+}
