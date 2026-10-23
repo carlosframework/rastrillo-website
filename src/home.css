@@ -660,9 +660,14 @@ footer .links { font-weight: 600; color: var(--ink); }
 /* ---------- Narrower screens ---------- */
 @media (max-width: 900px) {
   .hero-in { grid-template-columns: minmax(0, 1fr); padding-top: 2rem; }
-  .hero-copy { padding-bottom: 1.5rem; }
+  /* One column: the drawing comes after the lede and before the buttons.
+     The copy's box steps aside so the drawing can sit between its parts. */
+  .hero-copy { display: contents; }
+  .hero-in > .stack-cell { order: 1; }
+  .hero-copy > .actions { order: 2; margin-bottom: 2rem; }
   /* 1:1 on a phone, so the 12px labels stay 12px. */
-  .stack-cell { container-type: normal; display: block; padding: 0 0 2rem; }
+  /* Twice the lede's 1.8rem gap above and below, so the drawing has room. */
+  .stack-cell { container-type: normal; display: block; padding: 1.8rem 0 3.6rem; }
   .stack { width: 100%; max-width: 340px; }
 }
 @media (max-width: 760px) {
