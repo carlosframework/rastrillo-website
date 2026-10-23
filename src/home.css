@@ -420,13 +420,24 @@ main .sec + .sec::before {
 .hd .ch.run { top: calc(50% + 14px); bottom: 0; }
 .ch.ra { top: 0; height: calc(50% + var(--cw) / 2); }
 .ch.rb { top: 50%; bottom: 0; }
-.tree li:last-child .ch.ra { border-radius: 0 0 7px 7px; }
-.tree li:last-child .ch.ra::after { bottom: 3.5px; border-radius: 0 0 4px 4px; }
+/* A branch is the main channel turned through a right angle: the same bed,
+   the same 7px of water. The water down to a branch stops at the top of the
+   bend (.5px overlaps hide seams); the bend itself is the arm's ::before, a
+   quarter turn drawn with two 7px borders, so the water genuinely turns.
+   Where the main channel carries on, its water picks up from the top of the
+   bend. The last branch's bed is rounded concentric with the bend. */
+.ch.ra::after { bottom: calc(var(--cw) - .5px); }
+.ch.rb::after { top: calc(var(--cw) / -2); }
+.tree li:last-child .ch.ra { border-radius: 0 0 0 var(--cw); }
 .ch.arm {
-  left: calc(var(--x) + var(--cw) - 1px); width: var(--arm); top: calc(50% - 5px); height: 10px;
+  left: calc(var(--x) + var(--cw) - 1px); width: var(--arm); top: calc(50% - var(--cw) / 2); height: var(--cw);
   box-shadow: 0 1.5px 0 var(--edge);
 }
-.ch.arm::after { inset: 3px 0; transform-origin: 0 50%; }
+.ch.arm::before {
+  content: ""; position: absolute; left: calc(4.5px - var(--cw)); top: 0; width: 10.5px; height: 10.5px;
+  border: 0 solid var(--chan); border-width: 0 0 7px 7px; border-bottom-left-radius: 10.5px;
+}
+.ch.arm::after { inset: 3.5px 0 3.5px .5px; transform-origin: 0 50%; }
 .ch.out {
   left: calc(var(--x) + var(--cw) + var(--arm) - 6px); top: calc(50% - 11px); width: 22px; height: 22px;
   border-radius: 50%; box-shadow: 0 1.5px 0 var(--edge);
@@ -605,7 +616,9 @@ footer .links { font-weight: 600; color: var(--ink); }
 /* ---------- Motion. Every resting style above is the final state; keyframes
    only say where things start. ---------- */
 @keyframes fy { from { transform: scaleY(0); } }
-@keyframes fx { from { transform: scaleX(0); } }
+/* The arm's range: the bend fills in its first quarter, the arm after. */
+@keyframes fc { from { clip-path: inset(0 0 100% 0); } 25%, to { clip-path: inset(0); } }
+@keyframes fx { 0%, 25% { transform: scaleX(0); } }
 @keyframes fo { from { transform: scale(0); } }
 /* Five near-instant switches: the jank is the point, so no easing between states. */
 @keyframes dj0 { 0%, 19.9% { opacity: 1; } 20%, 100% { opacity: 0; } }
@@ -625,26 +638,27 @@ footer .links { font-weight: 600; color: var(--ink); }
     /* 3. The actions/ tree: down the main channel, out along each branch, in turn. */
     .tree .ch::after { animation: fy linear both; animation-timeline: --tree; }
     .tree .ch.arm::after { animation-name: fx; }
+    .tree .ch.arm::before { animation: fc linear both; animation-timeline: --tree; }
     .tree .ch.out::after { animation-name: fo; }
     .tree .hd .run::after { animation-range: contain 4% contain 7%; }
     .tree li:nth-child(1) .ra::after { animation-range: contain 7% contain 10%; }
-    .tree li:nth-child(1) .arm::after { animation-range: contain 10% contain 14%; }
+    .tree li:nth-child(1) .arm::after, .tree li:nth-child(1) .arm::before { animation-range: contain 10% contain 14%; }
     .tree li:nth-child(1) .out::after { animation-range: contain 14% contain 16%; }
     .tree li:nth-child(1) .rb::after { animation-range: contain 16% contain 19%; }
     .tree li:nth-child(2) .ra::after { animation-range: contain 19% contain 22%; }
-    .tree li:nth-child(2) .arm::after { animation-range: contain 22% contain 26%; }
+    .tree li:nth-child(2) .arm::after, .tree li:nth-child(2) .arm::before { animation-range: contain 22% contain 26%; }
     .tree li:nth-child(2) .out::after { animation-range: contain 26% contain 28%; }
     .tree li:nth-child(2) .rb::after { animation-range: contain 28% contain 31%; }
     .tree li:nth-child(3) .ra::after { animation-range: contain 31% contain 34%; }
-    .tree li:nth-child(3) .arm::after { animation-range: contain 34% contain 38%; }
+    .tree li:nth-child(3) .arm::after, .tree li:nth-child(3) .arm::before { animation-range: contain 34% contain 38%; }
     .tree li:nth-child(3) .out::after { animation-range: contain 38% contain 40%; }
     .tree li:nth-child(3) .rb::after { animation-range: contain 40% contain 43%; }
     .tree li:nth-child(4) .ra::after { animation-range: contain 43% contain 46%; }
-    .tree li:nth-child(4) .arm::after { animation-range: contain 46% contain 50%; }
+    .tree li:nth-child(4) .arm::after, .tree li:nth-child(4) .arm::before { animation-range: contain 46% contain 50%; }
     .tree li:nth-child(4) .out::after { animation-range: contain 50% contain 52%; }
     .tree li:nth-child(4) .rb::after { animation-range: contain 52% contain 55%; }
     .tree li:nth-child(5) .ra::after { animation-range: contain 55% contain 58%; }
-    .tree li:nth-child(5) .arm::after { animation-range: contain 58% contain 62%; }
+    .tree li:nth-child(5) .arm::after, .tree li:nth-child(5) .arm::before { animation-range: contain 58% contain 62%; }
     .tree li:nth-child(5) .out::after { animation-range: contain 62% contain 64%; }
 
     /* 2. De-jank: the SPA frame steps through five states as the pair crosses
@@ -656,8 +670,11 @@ footer .links { font-weight: 600; color: var(--ink); }
    removes it when the moment is in view, and these transitions play once. */
 .pre.tree .run::after, .pre.tree .ra::after, .pre.tree .rb::after { transform: scaleY(0); }
 .pre.tree .arm::after { transform: scaleX(0); }
+.pre.tree .arm::before { clip-path: inset(0 0 100% 0); }
 .pre.tree .out::after { transform: scale(0); }
 .js-fb .tree .ch::after { transition: transform .28s linear; transition-delay: calc(var(--d) * .26s); }
+.js-fb .tree .arm::before { transition: clip-path .08s linear; transition-delay: calc(var(--d) * .26s); }
+.js-fb .tree .arm::after { transition-delay: calc(var(--d) * .26s + .08s); }
 
 /* ---------- Narrower screens ---------- */
 @media (max-width: 900px) {
