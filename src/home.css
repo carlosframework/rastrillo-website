@@ -478,7 +478,7 @@ main .sec + .sec::before {
    system's data-theme, shown by the checked radio, so it works without JS
    (JS only starts it on the page's own scheme). Side by side on desktop,
    where it spans the vignette column too; stacked below that. */
-.mk { margin: 2.4rem 0 0; max-width: 40rem; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; background: var(--screen); box-shadow: 0 10px 24px -12px var(--shade), 0 2px 0 var(--shade); }
+.mk { margin: 1.8rem 0 2rem; max-width: 40rem; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; background: var(--screen); box-shadow: 0 10px 24px -12px var(--shade), 0 2px 0 var(--shade); }
 .mk-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.2rem; padding: .25rem .5rem .25rem .9rem; background: var(--plaster-2); border-bottom: 1.5px solid var(--ink); font: 500 .74rem var(--mono); color: var(--muted); }
 .mk-theme { display: inline-flex; border: 1.5px solid var(--bed); border-radius: 6px; padding: 2px; margin: 0; background: var(--plaster); }
 .mk-theme input { position: absolute; opacity: 0; width: 1px; height: 1px; }
@@ -500,17 +500,24 @@ main .sec + .sec::before {
 .mk:has(#mk-dark:checked) .mk-d { display: block; }
 .mk figcaption { padding: .7rem 1.1rem .8rem; border-top: 1.5px solid var(--bed); font-size: .9rem; color: var(--muted); }
 .mk figcaption code { background: var(--plaster-2); padding: .1em .35em; border-radius: 2px; }
+/* On wide screens the example sits under the lead but runs the full width,
+   below the vignette rather than beside it: the section's body joins the
+   section's grid so the example and the list can span both columns. */
 @media (min-width: 1180px) {
-  .body > .mk { width: calc(100% + 240px + 3rem); max-width: none; }
+  main .sec-split { display: grid; grid-template-columns: minmax(0, 1fr) 240px; column-gap: 3rem; }
+  main .sec-split > .body { display: contents; }
+  main .sec-split > .mo { position: static; grid-column: 2; grid-row: 1 / 3; align-self: start; margin: .4rem 0 0; }
+  main .sec-split > .body > * { grid-column: 1; }
+  main .sec-split > .body > :is(.mk, .list) { grid-column: 1 / -1; max-width: none; }
+  main .sec-split > .body > .btn { justify-self: start; }
   .mk-panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); }
   .mk-out { border-top: 0; display: flex; }
   .mk-code { border-left: 1.5px dashed var(--bed); }
   .mk-out iframe { height: auto; min-height: 330px; }
   .mk-code { display: flex; align-items: center; }
 }
-.body > .weight { display: flex; align-items: baseline; gap: .6rem; line-height: 1; margin: 2rem 0 1.6rem; }
-.weight b { font: 600 2.3rem/1 var(--serif); letter-spacing: -.02em; }
-.weight span { font: italic 500 1.1rem var(--serif); color: var(--muted); }
+/* On wide screens the design system's list runs in two columns. */
+@media (min-width: 900px) { .list.cols { columns: 2; column-gap: 2.5rem; } .list.cols li { break-inside: avoid; } }
 
 /* Steps: a real sequence, so numbered basins */
 .steps { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: 1.8rem; }

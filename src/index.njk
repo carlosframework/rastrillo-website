@@ -435,7 +435,7 @@ eleventyExcludeFromCollections: true
     </section>
 
     <!-- 5. Design system -->
-    <section class="sec" aria-labelledby="h-ds">
+    <section class="sec sec-split" aria-labelledby="h-ds">
       <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
         <defs><clipPath id="clip-ds"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
         <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
@@ -446,14 +446,6 @@ eleventyExcludeFromCollections: true
       <div class="body">
         <h2 id="h-ds">A design system for everyone</h2>
         <p class="lead">The Rastrillo design system is a robust design system using elegant, semantic markup to create usable baseline styles for your apps.</p>
-        <ul class="list">
-          <li>Get good-looking admin screens out of the box</li>
-          <li>A full set of configurable design tokens</li>
-          <li>A host of the most common components</li>
-          <li>Light: &lt;20KiB gzipped</li>
-          <li>WCAG AA 2.2 accessibility audit-ready</li>
-          <li>Proper hierarchy-based mobile navigation</li>
-        </ul>
         <!-- Real design-system markup from the gallery's Requests screen,
              trimmed, and the same markup rendered below by the design
              system's own stylesheets (loaded from rastrillo.org). The CSS
@@ -540,7 +532,14 @@ eleventyExcludeFromCollections: true
           </div>
           <figcaption>Plain HTML with <code>rst-</code> attributes. Custom elements, ids, and classes are left clear for your apps.</figcaption>
         </figure>
-        <p class="weight" aria-hidden="true"><b>&lt;20KiB</b><span>gzipped</span></p>
+        <ul class="list cols">
+          <li>Get good-looking admin screens out of the box</li>
+          <li>A full set of configurable design tokens</li>
+          <li>A host of the most common components</li>
+          <li>Light: <b>&lt;20KiB</b> gzipped</li>
+          <li>WCAG AA 2.2 accessibility audit-ready</li>
+          <li>Proper hierarchy-based mobile navigation</li>
+        </ul>
         <a class="btn" href="/design-system/">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>
           Try it out</a>
