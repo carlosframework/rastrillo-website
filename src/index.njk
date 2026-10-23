@@ -156,7 +156,7 @@ eleventyExcludeFromCollections: true
     <div class="wrap hero-in">
       <div class="hero-copy">
         <h1 id="h-hero">Build and ship better apps</h1>
-        <p class="sub"><strong class="name">Rastrillo</strong> is an uncompromising web framework<br class="wide"> designed for the agentic age.</p>
+        <p class="sub"><strong class="name">Rastrillo</strong> is an uncompromising web framework<span class="narrow">,</span><br class="wide"> designed for the agentic age.</p>
         <p class="lede">Unlock your full team’s potential: Rapid iteration, blazing full-stack performance, a rich featureset, simple deployments, and compliance-ready security and accessibility.</p>
         <div class="actions">
           <a class="btn primary" href="#start">
@@ -170,26 +170,43 @@ eleventyExcludeFromCollections: true
             Try the design system</a>
         </div>
       </div>
-      <!-- The full stack as a raked plot: one groove per layer, every groove
-           bending round the same stone. -->
-      <svg class="stack" viewBox="0 0 340 260" role="img" aria-label="A raked gravel plot. Seven grooves, labelled database, HTTP server, sessions and sign-in, HTML templates, CSS design system, progressive JS and background jobs, all bend around one stone labelled one binary.">
-        <defs><clipPath id="stack-clip"><rect x="1" y="1" width="338" height="258" rx="4"/></clipPath></defs>
-        <rect class="plot" x=".75" y=".75" width="338.5" height="258.5" rx="4"/>
-        <g clip-path="url(#stack-clip)">
-          <path class="gh" transform="translate(0 1.6)" d="M0 28H176A160 160 0 0 1 336 188V262M0 49H176A139 139 0 0 1 315 188V262M0 70H176A118 118 0 0 1 294 188V262M0 91H176A97 97 0 0 1 273 188V262M0 112H176A76 76 0 0 1 252 188V262M0 133H176A55 55 0 0 1 231 188V262M0 154H176A34 34 0 0 1 210 188V262"/>
-          <path class="gr" d="M0 28H176A160 160 0 0 1 336 188V262M0 49H176A139 139 0 0 1 315 188V262M0 70H176A118 118 0 0 1 294 188V262M0 91H176A97 97 0 0 1 273 188V262M0 112H176A76 76 0 0 1 252 188V262M0 133H176A55 55 0 0 1 231 188V262M0 154H176A34 34 0 0 1 210 188V262"/>
-        </g>
-        <text x="10" y="21">database</text>
-        <text x="10" y="42">HTTP server</text>
-        <text x="10" y="63">sessions and sign-in</text>
-        <text x="10" y="84">HTML templates</text>
-        <text x="10" y="105">CSS design system</text>
-        <text x="10" y="126">progressive JS</text>
-        <text x="10" y="147">background jobs</text>
-        <circle class="stone-sh" cx="178" cy="191" r="20"/>
-        <circle class="stone" cx="176" cy="188" r="20"/>
-        <text class="one" x="146" y="192" text-anchor="end">one binary</text>
-      </svg>
+      <!-- The full stack raked straight onto the page: one groove per layer,
+           every groove bending down to end at the same slab, with a stone,
+           its ripples and a scatter of pebbles in the corner. On load, water
+           runs down each groove into the slab, which fills as the last
+           arrives. Icons are lucide-static 1.31.0, copied verbatim. The viewBox runs
+           from the first label's baseline (its letters rise above it,
+           overflow visible) to the slab's shadow, so those are the edges
+           that line up with the copy: the headline's baseline, the foot of
+           the buttons. -->
+      <div class="stack-cell">
+        <svg class="stack" viewBox="0 21 340 234" role="img" aria-label="Seven raked grooves, labelled Database, HTTP Server, Sessions and Sign-In, HTML Templates, CSS Design System, Progressive JS and Background Jobs, all carry water down into one slab labelled One Binary.">
+          <path class="gh" transform="translate(0 1.6)" d="M0 28H160A160 160 0 0 1 320 188V226M0 49H160A139 139 0 0 1 299 188V226M0 70H160A118 118 0 0 1 278 188V226M0 91H160A97 97 0 0 1 257 188V226M0 112H160A76 76 0 0 1 236 188V226M0 133H160A55 55 0 0 1 215 188V226M0 154H160A34 34 0 0 1 194 188V226"/>
+          <path class="gr" d="M0 28H160A160 160 0 0 1 320 188V226M0 49H160A139 139 0 0 1 299 188V226M0 70H160A118 118 0 0 1 278 188V226M0 91H160A97 97 0 0 1 257 188V226M0 112H160A76 76 0 0 1 236 188V226M0 133H160A55 55 0 0 1 215 188V226M0 154H160A34 34 0 0 1 194 188V226"/>
+          <path class="gh gh-fine" transform="translate(0 1.2)" d="M67 212a17 17 0 1 0 34 0a17 17 0 1 0 -34 0M60 212a24 24 0 1 0 48 0a24 24 0 1 0 -48 0M53 212a31 31 0 1 0 62 0a31 31 0 1 0 -62 0"/><path class="gr gr-fine" d="M67 212a17 17 0 1 0 34 0a17 17 0 1 0 -34 0M60 212a24 24 0 1 0 48 0a24 24 0 1 0 -48 0M53 212a31 31 0 1 0 62 0a31 31 0 1 0 -62 0"/>
+          <circle class="pebble" cx="230.2" cy="56.0" r="1.4"/><circle class="pebble" cx="292.0" cy="117.8" r="1.4"/><circle class="pebble" cx="249.3" cy="95.6" r="1.4"/><circle class="pebble" cx="285.7" cy="161.3" r="1.4"/><circle class="pebble" cx="196.8" cy="87.0" r="1.4"/><circle class="pebble" cx="250.2" cy="129.5" r="1.4"/><circle class="pebble" cx="213.3" cy="119.8" r="1.4"/><circle class="pebble" cx="242.3" cy="161.3" r="1.4"/><circle class="pebble" cx="188.7" cy="129.1" r="1.4"/><circle class="pebble" cx="216.7" cy="155.2" r="1.4"/><circle class="pebble" cx="191.5" cy="156.5" r="1.4"/><circle class="pebble" cx="30.0" cy="176.0" r="1.4"/><circle class="pebble" cx="138.0" cy="238.0" r="1.4"/><circle class="pebble" cx="36.0" cy="246.0" r="1.4"/><circle class="pebble" cx="134.0" cy="176.0" r="1.4"/><circle class="pebble" cx="16.0" cy="216.0" r="1.4"/>
+          <circle class="stone-sh" cx="86" cy="215" r="10"/><circle class="stone" cx="84" cy="212" r="10"/>
+          <!-- The water: one stream per layer, each running in from its label
+               and down into the binary, a moment behind the one above. -->
+          <path class="w" pathLength="1" style="--k:0" d="M0 28H160A160 160 0 0 1 320 188V226"/>
+          <path class="w" pathLength="1" style="--k:1" d="M0 49H160A139 139 0 0 1 299 188V226"/>
+          <path class="w" pathLength="1" style="--k:2" d="M0 70H160A118 118 0 0 1 278 188V226"/>
+          <path class="w" pathLength="1" style="--k:3" d="M0 91H160A97 97 0 0 1 257 188V226"/>
+          <path class="w" pathLength="1" style="--k:4" d="M0 112H160A76 76 0 0 1 236 188V226"/>
+          <path class="w" pathLength="1" style="--k:5" d="M0 133H160A55 55 0 0 1 215 188V226"/>
+          <path class="w" pathLength="1" style="--k:6" d="M0 154H160A34 34 0 0 1 194 188V226"/>
+          <svg class="ic" x="10" y="11" width="12" height="12" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg><text x="28" y="21">Database</text>
+          <svg class="ic" x="10" y="32" width="12" height="12" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg><text x="28" y="42">HTTP Server</text>
+          <svg class="ic" x="10" y="53" width="12" height="12" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg><text x="28" y="63">Sessions and Sign-In</text>
+          <svg class="ic" x="10" y="74" width="12" height="12" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg><text x="28" y="84">HTML Templates</text>
+          <svg class="ic" x="10" y="95" width="12" height="12" viewBox="0 0 24 24"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg><text x="28" y="105">CSS Design System</text>
+          <svg class="ic" x="10" y="116" width="12" height="12" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></svg><text x="28" y="126">Progressive JS</text>
+          <svg class="ic" x="10" y="137" width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><text x="28" y="147">Background Jobs</text>
+          <rect class="stone-sh" x="184" y="229" width="150" height="26" rx="3"/>
+          <rect class="slab" x="182" y="226" width="150" height="26" rx="3"/>
+          <svg class="ic slab-t" x="212" y="233" width="12" height="12" viewBox="0 0 24 24"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/><path d="M6 14h2v6"/><path d="M14 4h2v6"/></svg><text class="one slab-t" x="230" y="243">One Binary</text>
+        </svg>
+      </div>
     </div>
     <div class="waterline" aria-hidden="true"></div>
   </section>
@@ -199,7 +216,7 @@ eleventyExcludeFromCollections: true
     <!-- 0. What better means: answers the hero's "better". Thirteen grooves
          in the motif, one per item, parting round one stone. "Better means:"
          is gone; the four group headings do its job. -->
-    <section class="sec g-tone sec-better" aria-labelledby="h-better">
+    <section class="sec g-tone sec-better sec-split" aria-labelledby="h-better">
       <svg class="mo" viewBox="0 0 240 150" aria-hidden="true" focusable="false">
         <defs><clipPath id="clip-better"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
         <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
@@ -209,6 +226,7 @@ eleventyExcludeFromCollections: true
       </svg>
       <div class="body">
         <h2 id="h-better">What does better mean?</h2>
+        <p class="lead">There are many tradeoffs involved when building software, but some choices are objectively better.</p>
         <!-- Icons are lucide-static 1.31.0, copied verbatim; decorative, the text carries the meaning. -->
         <div class="better">
           <div class="bgroup">
@@ -266,7 +284,7 @@ eleventyExcludeFromCollections: true
       </svg>
       <div class="body">
         <h2 id="h-faster">Go faster</h2>
-        <p class="claim">Go is the perfect blend of fast—both compile and runtime—and rich in features</p>
+        <p class="lead">The Go programming language is the perfect blend of fast—both compile and runtime—and rich in features</p>
         <ul class="list">
           <li>The great runtime performance of Go</li>
           <li>Full HTML pages rendered in milliseconds</li>
@@ -286,7 +304,7 @@ eleventyExcludeFromCollections: true
         </g>
       </svg>
       <div class="body agents">
-        <h2 id="h-agents">Built by agents for agents and humans</h2>
+        <h2 id="h-agents">Built by agents, for agents and humans</h2>
         <p class="lead">Designed to be easy to use, whether assisted or not</p>
 
         <!-- --d orders the pieces for the timed fallback; the scroll version
@@ -305,7 +323,7 @@ eleventyExcludeFromCollections: true
             <li><i class="ch ra" style="--d:17" aria-hidden="true"></i><i class="ch arm" style="--d:18" aria-hidden="true"></i><i class="ch out" style="--d:19" aria-hidden="true"></i>
               <code class="file">admin/posts/[id]/delete.POST.go</code><code class="route"><b class="post">POST</b> /admin/posts/{id}/delete</code></li>
           </ul>
-          <figcaption class="tree-cap">Real files from <code>examples/blog</code>, one per route.</figcaption>
+          <figcaption class="tree-cap">Real files from <a href="https://amadan.net/rastrillo/rastrillo?ref=main&amp;path=examples/blog"><code>examples/blog</code></a>, one per route.</figcaption>
         </figure>
 
         <ul class="attrs">
@@ -345,18 +363,18 @@ eleventyExcludeFromCollections: true
         <p class="lead">Experience the pure joy of putting a file on a remote host and having a working web app. Rastrillo apps are full stack: database, HTTP server, HTML, CSS, JS all in a single binary that runs anywhere. What’s old is new again.</p>
         <svg class="merge" viewBox="118 0 380 198" aria-hidden="true" focusable="false">
           <g transform="translate(0 2)">
-            <path class="ch-edge" d="M130 50H200C250 50 255 106 305 106"/>
+            <path class="ch-edge" d="M130 50H200C250 50 255 98 305 98"/>
             <path class="ch-edge" d="M130 106H305"/>
-            <path class="ch-edge" d="M130 162H200C250 162 255 106 305 106"/>
+            <path class="ch-edge" d="M130 162H200C250 162 255 114 305 114"/>
             <path class="main ch-edge" d="M300 106H488"/>
           </g>
-          <path class="ch-bed" d="M130 50H200C250 50 255 106 305 106"/>
+          <path class="ch-bed" d="M130 50H200C250 50 255 98 305 98"/>
           <path class="ch-bed" d="M130 106H305"/>
-          <path class="ch-bed" d="M130 162H200C250 162 255 106 305 106"/>
+          <path class="ch-bed" d="M130 162H200C250 162 255 114 305 114"/>
           <path class="main ch-bed" d="M300 106H488"/>
-          <path class="ch-water" pathLength="1" d="M130 50H200C250 50 255 106 305 106"/>
+          <path class="ch-water" pathLength="1" d="M130 50H200C250 50 255 98 305 98"/>
           <path class="ch-water" pathLength="1" d="M130 106H305"/>
-          <path class="ch-water" pathLength="1" d="M130 162H200C250 162 255 106 305 106"/>
+          <path class="ch-water" pathLength="1" d="M130 162H200C250 162 255 114 305 114"/>
           <path class="main ch-water" pathLength="1" d="M300 106H488"/>
           <text x="130" y="34">database</text>
           <text x="130" y="90">HTTP server</text>
@@ -377,7 +395,7 @@ eleventyExcludeFromCollections: true
       </svg>
       <div class="body">
         <h2 id="h-dejank">Let’s de-jank the web, one app at a time</h2>
-        <p class="lead">The push toward SPAs was supposed to lead to faster apps and better experiences, but we got the opposite: computers are faster than ever but web apps feel slower. Rastrillo apps encourage instant page loads, server-rendered HTML, with uncompromising client-side experiences with progressively-enhanced JS.</p>
+        <p class="lead">The push toward <abbr title="single-page applications">SPAs</abbr> was supposed to lead to faster apps and better experiences, but we got the opposite: computers are faster than ever but web apps feel slower. Rastrillo apps encourage instant page loads, server-rendered HTML, with uncompromising client-side experiences with progressively-enhanced JS.</p>
         <!-- The claim, drawn: the same page loading two ways. Dashed outlines mark
              where a block sat before the last shift. -->
         <div class="dj" id="dejank" data-moment-dj>
@@ -418,7 +436,7 @@ eleventyExcludeFromCollections: true
     </section>
 
     <!-- 5. Design system -->
-    <section class="sec" aria-labelledby="h-ds">
+    <section class="sec sec-split" aria-labelledby="h-ds">
       <svg class="mo " viewBox="0 0 240 150" aria-hidden="true" focusable="false">
         <defs><clipPath id="clip-ds"><rect x="1" y="1" width="238" height="148" rx="4"/></clipPath></defs>
         <rect class="plot" x=".75" y=".75" width="238.5" height="148.5" rx="4"/>
@@ -429,14 +447,6 @@ eleventyExcludeFromCollections: true
       <div class="body">
         <h2 id="h-ds">A design system for everyone</h2>
         <p class="lead">The Rastrillo design system is a robust design system using elegant, semantic markup to create usable baseline styles for your apps.</p>
-        <ul class="list">
-          <li>Get good-looking admin screens out of the box</li>
-          <li>A full set of configurable design tokens</li>
-          <li>A host of the most common components</li>
-          <li>Light: &lt;20KiB gzipped</li>
-          <li>WCAG AA 2.2 accessibility audit-ready</li>
-          <li>Proper hierarchy-based mobile navigation</li>
-        </ul>
         <!-- Real design-system markup from the gallery's Requests screen,
              trimmed, and the same markup rendered below by the design
              system's own stylesheets (loaded from rastrillo.org). The CSS
@@ -453,7 +463,7 @@ eleventyExcludeFromCollections: true
           </div>
           <div class="mk-panes">
             <div class="mk-out">
-              <iframe class="mk-l" title="The markup, rendered by the design system, light theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
+              <iframe class="mk-l" title="The markup, rendered by the design system, light theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}.panes{display:grid;align-items:start}.panes&gt;*{grid-area:1/1;min-width:0}.panes&gt;.off{visibility:hidden}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}.t{position:fixed;left:50%;bottom:10px;transform:translate(-50%,8px);opacity:0;pointer-events:none;white-space:nowrap;padding:.5rem .9rem;border-radius:var(--rst-radius);background:var(--rst-text);color:var(--rst-bg);font-size:var(--rst-fs-sm);font-weight:600;box-shadow:var(--rst-shadow-pop);transition:opacity .2s,transform .2s}.t.on{opacity:1;transform:translate(-50%,0)}@media (prefers-reduced-motion:reduce){.t{transition:none}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
   &lt;div rst-page-header-titles&gt;
     &lt;h1&gt;Requests&lt;/h1&gt;
     &lt;p rst-page-header-sub&gt;Newest first.&lt;/p&gt;
@@ -465,7 +475,7 @@ eleventyExcludeFromCollections: true
   &lt;a href=&quot;/requests?open&quot;&gt;Open&lt;/a&gt;
   &lt;a href=&quot;/requests?resolved&quot;&gt;Resolved&lt;/a&gt;
 &lt;/nav&gt;
-&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
+&lt;div class=&quot;panes&quot;&gt;&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
   &lt;div rst-lrow&gt;
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4471&quot;&gt;Invoice never arrived&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;warning&quot;&gt;Waiting&lt;/span&gt;
@@ -474,8 +484,23 @@ eleventyExcludeFromCollections: true
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4468&quot;&gt;Card declined&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;neutral&quot;&gt;Open&lt;/span&gt;
   &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){n.querySelectorAll(&quot;a&quot;).forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;)}});&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
-              <iframe class="mk-d" title="The markup, rendered by the design system, dark theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;dark&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
+&lt;/div&gt;
+&lt;div rst-stats class=&quot;off&quot;&gt;
+  &lt;div rst-stat=&quot;lead&quot;&gt;&lt;span rst-stat-label&gt;Open requests&lt;/span&gt;&lt;span rst-stat-num&gt;24&lt;/span&gt;&lt;span rst-stat-delta rst-tone=&quot;positive&quot;&gt;−6&lt;/span&gt;&lt;span rst-stat-note&gt;since Monday&lt;/span&gt;&lt;/div&gt;
+  &lt;div rst-stat&gt;&lt;span rst-stat-label&gt;Waiting on us&lt;/span&gt;&lt;span rst-stat-num&gt;6&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;section rst-box class=&quot;off&quot;&gt;
+  &lt;dl rst-detail&gt;
+    &lt;dt&gt;Reference&lt;/dt&gt;
+    &lt;dd class=&quot;rst-mono&quot;&gt;REQ-4455&lt;/dd&gt;
+    &lt;dt&gt;Status&lt;/dt&gt;
+    &lt;dd&gt;&lt;span rst-status rst-tone=&quot;positive&quot;&gt;Resolved&lt;/span&gt;&lt;/dd&gt;
+    &lt;dt&gt;Closed by&lt;/dt&gt;
+    &lt;dd&gt;Ada Lovelace&lt;/dd&gt;
+  &lt;/dl&gt;
+  &lt;label rst-switch&gt;&lt;input type=&quot;checkbox&quot; checked&gt;&lt;span rst-switch-track aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; Email me about replies&lt;/label&gt;
+&lt;/section&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;t&quot; role=&quot;status&quot;&gt;&lt;/div&gt;&lt;script&gt;(function(){var t=document.querySelector(&quot;.t&quot;),c=document.querySelector(&quot;[rst-card]&quot;),d=0,h;function say(m){t.textContent=m;t.classList.add(&quot;on&quot;);clearTimeout(h);h=setTimeout(function(){t.classList.remove(&quot;on&quot;)},1800)}document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){var l=[].slice.call(n.children),i=l.indexOf(a),p=n.nextElementSibling.firstElementChild;l.forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;);for(var k=0;p;k++,p=p.nextElementSibling)p.classList.toggle(&quot;off&quot;,k!==i);return}if(a.hasAttribute(&quot;rst-btn&quot;)){if(d)return say(&quot;Draft already started&quot;);d=1;c.insertAdjacentHTML(&quot;afterbegin&quot;,'&lt;div rst-lrow&gt;&lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4472&quot;&gt;Untitled request&lt;/a&gt;&lt;span rst-status rst-tone=&quot;info&quot;&gt;Draft&lt;/span&gt;&lt;/div&gt;');return say(&quot;Draft request created&quot;)}say(&quot;Opening #&quot;+a.getAttribute(&quot;href&quot;).split(&quot;/&quot;).pop())});document.addEventListener(&quot;change&quot;,function(e){say(e.target.checked?&quot;Reply emails on&quot;:&quot;Reply emails off&quot;)})})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
+              <iframe class="mk-d" title="The markup, rendered by the design system, dark theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;dark&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}.panes{display:grid;align-items:start}.panes&gt;*{grid-area:1/1;min-width:0}.panes&gt;.off{visibility:hidden}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}.t{position:fixed;left:50%;bottom:10px;transform:translate(-50%,8px);opacity:0;pointer-events:none;white-space:nowrap;padding:.5rem .9rem;border-radius:var(--rst-radius);background:var(--rst-text);color:var(--rst-bg);font-size:var(--rst-fs-sm);font-weight:600;box-shadow:var(--rst-shadow-pop);transition:opacity .2s,transform .2s}.t.on{opacity:1;transform:translate(-50%,0)}@media (prefers-reduced-motion:reduce){.t{transition:none}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
   &lt;div rst-page-header-titles&gt;
     &lt;h1&gt;Requests&lt;/h1&gt;
     &lt;p rst-page-header-sub&gt;Newest first.&lt;/p&gt;
@@ -487,7 +512,7 @@ eleventyExcludeFromCollections: true
   &lt;a href=&quot;/requests?open&quot;&gt;Open&lt;/a&gt;
   &lt;a href=&quot;/requests?resolved&quot;&gt;Resolved&lt;/a&gt;
 &lt;/nav&gt;
-&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
+&lt;div class=&quot;panes&quot;&gt;&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
   &lt;div rst-lrow&gt;
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4471&quot;&gt;Invoice never arrived&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;warning&quot;&gt;Waiting&lt;/span&gt;
@@ -496,7 +521,22 @@ eleventyExcludeFromCollections: true
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4468&quot;&gt;Card declined&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;neutral&quot;&gt;Open&lt;/span&gt;
   &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){n.querySelectorAll(&quot;a&quot;).forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;)}});&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
+&lt;/div&gt;
+&lt;div rst-stats class=&quot;off&quot;&gt;
+  &lt;div rst-stat=&quot;lead&quot;&gt;&lt;span rst-stat-label&gt;Open requests&lt;/span&gt;&lt;span rst-stat-num&gt;24&lt;/span&gt;&lt;span rst-stat-delta rst-tone=&quot;positive&quot;&gt;−6&lt;/span&gt;&lt;span rst-stat-note&gt;since Monday&lt;/span&gt;&lt;/div&gt;
+  &lt;div rst-stat&gt;&lt;span rst-stat-label&gt;Waiting on us&lt;/span&gt;&lt;span rst-stat-num&gt;6&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;section rst-box class=&quot;off&quot;&gt;
+  &lt;dl rst-detail&gt;
+    &lt;dt&gt;Reference&lt;/dt&gt;
+    &lt;dd class=&quot;rst-mono&quot;&gt;REQ-4455&lt;/dd&gt;
+    &lt;dt&gt;Status&lt;/dt&gt;
+    &lt;dd&gt;&lt;span rst-status rst-tone=&quot;positive&quot;&gt;Resolved&lt;/span&gt;&lt;/dd&gt;
+    &lt;dt&gt;Closed by&lt;/dt&gt;
+    &lt;dd&gt;Ada Lovelace&lt;/dd&gt;
+  &lt;/dl&gt;
+  &lt;label rst-switch&gt;&lt;input type=&quot;checkbox&quot; checked&gt;&lt;span rst-switch-track aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; Email me about replies&lt;/label&gt;
+&lt;/section&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;t&quot; role=&quot;status&quot;&gt;&lt;/div&gt;&lt;script&gt;(function(){var t=document.querySelector(&quot;.t&quot;),c=document.querySelector(&quot;[rst-card]&quot;),d=0,h;function say(m){t.textContent=m;t.classList.add(&quot;on&quot;);clearTimeout(h);h=setTimeout(function(){t.classList.remove(&quot;on&quot;)},1800)}document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){var l=[].slice.call(n.children),i=l.indexOf(a),p=n.nextElementSibling.firstElementChild;l.forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;);for(var k=0;p;k++,p=p.nextElementSibling)p.classList.toggle(&quot;off&quot;,k!==i);return}if(a.hasAttribute(&quot;rst-btn&quot;)){if(d)return say(&quot;Draft already started&quot;);d=1;c.insertAdjacentHTML(&quot;afterbegin&quot;,'&lt;div rst-lrow&gt;&lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4472&quot;&gt;Untitled request&lt;/a&gt;&lt;span rst-status rst-tone=&quot;info&quot;&gt;Draft&lt;/span&gt;&lt;/div&gt;');return say(&quot;Draft request created&quot;)}say(&quot;Opening #&quot;+a.getAttribute(&quot;href&quot;).split(&quot;/&quot;).pop())});document.addEventListener(&quot;change&quot;,function(e){say(e.target.checked?&quot;Reply emails on&quot;:&quot;Reply emails off&quot;)})})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
             </div>
             <pre class="mk-code"><code><span class="tg">&lt;header</span> <span class="ra">rst-page-header</span><span class="tg">&gt;</span>
   <span class="tg">&lt;div</span> <span class="ra">rst-page-header-titles</span><span class="tg">&gt;</span>
@@ -519,11 +559,22 @@ eleventyExcludeFromCollections: true
     <span class="tg">&lt;a</span> <span class="at">class</span>=<span class="av">&quot;rst-nm&quot;</span> <span class="at">href</span>=<span class="av">&quot;/requests/4468&quot;</span><span class="tg">&gt;</span>Card declined<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
     <span class="tg">&lt;span</span> <span class="ra">rst-status</span> <span class="ra">rst-tone</span>=<span class="av">&quot;neutral&quot;</span><span class="tg">&gt;</span>Open<span class="tg">&lt;/span</span><span class="tg">&gt;</span>
   <span class="tg">&lt;/div</span><span class="tg">&gt;</span>
-<span class="tg">&lt;/div</span><span class="tg">&gt;</span></code></pre>
+<span class="tg">&lt;/div</span><span class="tg">&gt;</span>
+<span class="cm">&lt;!-- Open and Resolved panes (rst-stats, and rst-box
+     with rst-detail and rst-switch) sit here, hidden
+     until their tab is clicked --&gt;</span>
+<span class="cm">&lt;!-- ...plus a few lines of script for tabs and toast --&gt;</span></code></pre>
           </div>
           <figcaption>Plain HTML with <code>rst-</code> attributes. Custom elements, ids, and classes are left clear for your apps.</figcaption>
         </figure>
-        <p class="weight" aria-hidden="true"><b>&lt;20KiB</b><span>gzipped</span></p>
+        <ul class="list cols">
+          <li>Get good-looking admin screens out of the box</li>
+          <li>A full set of configurable design tokens</li>
+          <li>A host of the most common components</li>
+          <li>Light: <b>&lt;20KiB</b> gzipped</li>
+          <li>WCAG AA 2.2 accessibility audit-ready</li>
+          <li>Proper hierarchy-based mobile navigation</li>
+        </ul>
         <a class="btn" href="/design-system/">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg>
           Try it out</a>
