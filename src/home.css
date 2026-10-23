@@ -355,8 +355,10 @@ main .sec + .sec::before {
 .merge { display: block; width: 100%; max-width: 26rem; height: auto; margin-top: 1.6rem; }
 .merge .ch-bed, .merge .ch-edge { stroke-width: 16; }
 .merge .ch-water { stroke-width: 8; }
-.merge .main.ch-bed, .merge .main.ch-edge { stroke-width: 26; }
-.merge .main.ch-water { stroke-width: 16; }
+/* The three arms arrive side by side, so the main channel is their joined
+   width: three 8px streams make one of 24, with the same 4px banks. */
+.merge .main.ch-bed, .merge .main.ch-edge { stroke-width: 32; }
+.merge .main.ch-water { stroke-width: 24; }
 .merge text { font: 600 16px var(--sans); fill: var(--ink); }
 .merge text.one { font: 600 21px var(--serif); fill: var(--acequia); }
 
