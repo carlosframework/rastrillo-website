@@ -122,6 +122,7 @@ body {
 a { color: var(--acequia); text-decoration-thickness: 1px; text-underline-offset: .2em; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 3px solid var(--almagra); outline-offset: 3px; border-radius: 2px; }
+abbr[title] { text-decoration: underline dotted 1px; text-underline-offset: .2em; cursor: help; }
 code, pre {
   font-family: var(--mono);
   font-variant-ligatures: none;
@@ -179,7 +180,10 @@ h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 .6rem; }
 .hero-in { display: grid; grid-template-columns: minmax(0, 38rem) minmax(340px, 1fr); column-gap: 3rem; align-items: end; padding-top: 3rem; }
 .hero-copy { padding-bottom: 3rem; }
 .hero .sub { font: 400 1.6rem/1.55 var(--serif); letter-spacing: -.01em; max-width: 24em; margin: 0 0 1rem; text-wrap: balance; }
-@media (max-width: 600px) { .hero .sub br.wide { display: none; } }
+/* Wide, the line breaks after "framework"; narrow, the sentence runs on
+   and takes a comma there instead. */
+.hero .sub .narrow { display: none; }
+@media (max-width: 600px) { .hero .sub br.wide { display: none; } .hero .sub .narrow { display: inline; } }
 .hero .sub .name { font-weight: 600; color: var(--acequia); padding-bottom: .3em; background: linear-gradient(var(--acequia), var(--acequia)) 0 100% / 100% 1.5px no-repeat, linear-gradient(var(--acequia), var(--acequia)) 0 calc(100% - 3.5px) / 100% 1.5px no-repeat, linear-gradient(var(--acequia), var(--acequia)) 0 calc(100% - 7px) / 100% 1.5px no-repeat; background-clip: border-box; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .hero .lede { font-size: 1.0625rem; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 34rem; margin: 0 0 1.8rem; }
 /* The drawing runs from the headline's baseline to the foot of the buttons, as
@@ -253,7 +257,6 @@ h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 .6rem; }
 }
 
 /* Go faster's claim: above body text, well below the heading. */
-.body > .claim { font: 400 1.75rem/1.25 var(--serif); letter-spacing: -.01em; margin: 0 0 1rem; max-width: 26em; }
 
 /* ---------- Section vignettes: one raked plot per section, each raked in
    a pattern that says something about the section. Beside the heading on
