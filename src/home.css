@@ -106,7 +106,11 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+/* The section grounds reach the window edges through 100vmax outsets.
+   body's own overflow-x: clip hides them on desktop, but on phones it
+   isn't enough: Safari still scrolled sideways and Chrome widened the
+   layout viewport to about 1,200px. Clipping the root as well stops both. */
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
 body {
   margin: 0;
   overflow-x: clip;
