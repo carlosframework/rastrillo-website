@@ -490,10 +490,11 @@ main .sec + .sec::before {
 .mk-code .ra { color: var(--acequia); font-weight: 600; }
 .mk-code .at { color: var(--ink); }
 .mk-code .av { color: var(--almagra); }
+.mk-code .cm { color: var(--muted); font-style: italic; }
 .mk-out { background: #fff; }
 .mk-code { border-top: 1.5px dashed var(--bed); }
-.mk-out iframe { display: block; width: 100%; height: 330px; border: 0; align-self: stretch; }
-@media (max-width: 600px) { .mk-out iframe { height: 400px; } }
+.mk-out iframe { display: block; width: 100%; height: 416px; border: 0; align-self: stretch; }
+@media (max-width: 600px) { .mk-out iframe { height: 432px; } }
 .mk-out .mk-d { display: none; }
 .mk:has(#mk-dark:checked) .mk-out { background: #16181b; }
 .mk:has(#mk-dark:checked) .mk-l { display: none; }
@@ -513,7 +514,7 @@ main .sec + .sec::before {
   .mk-panes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); }
   .mk-out { border-top: 0; display: flex; }
   .mk-code { border-left: 1.5px dashed var(--bed); }
-  .mk-out iframe { height: auto; min-height: 330px; }
+  .mk-out iframe { height: auto; min-height: 416px; }
   .mk-code { display: flex; align-items: center; }
 }
 /* On wide screens the design system's list runs in two columns. */

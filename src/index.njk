@@ -462,7 +462,7 @@ eleventyExcludeFromCollections: true
           </div>
           <div class="mk-panes">
             <div class="mk-out">
-              <iframe class="mk-l" title="The markup, rendered by the design system, light theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
+              <iframe class="mk-l" title="The markup, rendered by the design system, light theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;light&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}.panes{display:grid;align-items:start}.panes&gt;*{grid-area:1/1;min-width:0}.panes&gt;.off{visibility:hidden}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}.t{position:fixed;left:50%;bottom:10px;transform:translate(-50%,8px);opacity:0;pointer-events:none;white-space:nowrap;padding:.5rem .9rem;border-radius:var(--rst-radius);background:var(--rst-text);color:var(--rst-bg);font-size:var(--rst-fs-sm);font-weight:600;box-shadow:var(--rst-shadow-pop);transition:opacity .2s,transform .2s}.t.on{opacity:1;transform:translate(-50%,0)}@media (prefers-reduced-motion:reduce){.t{transition:none}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
   &lt;div rst-page-header-titles&gt;
     &lt;h1&gt;Requests&lt;/h1&gt;
     &lt;p rst-page-header-sub&gt;Newest first.&lt;/p&gt;
@@ -474,7 +474,7 @@ eleventyExcludeFromCollections: true
   &lt;a href=&quot;/requests?open&quot;&gt;Open&lt;/a&gt;
   &lt;a href=&quot;/requests?resolved&quot;&gt;Resolved&lt;/a&gt;
 &lt;/nav&gt;
-&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
+&lt;div class=&quot;panes&quot;&gt;&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
   &lt;div rst-lrow&gt;
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4471&quot;&gt;Invoice never arrived&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;warning&quot;&gt;Waiting&lt;/span&gt;
@@ -483,8 +483,23 @@ eleventyExcludeFromCollections: true
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4468&quot;&gt;Card declined&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;neutral&quot;&gt;Open&lt;/span&gt;
   &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){n.querySelectorAll(&quot;a&quot;).forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;)}});&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
-              <iframe class="mk-d" title="The markup, rendered by the design system, dark theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;dark&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
+&lt;/div&gt;
+&lt;div rst-stats class=&quot;off&quot;&gt;
+  &lt;div rst-stat=&quot;lead&quot;&gt;&lt;span rst-stat-label&gt;Open requests&lt;/span&gt;&lt;span rst-stat-num&gt;24&lt;/span&gt;&lt;span rst-stat-delta rst-tone=&quot;positive&quot;&gt;−6&lt;/span&gt;&lt;span rst-stat-note&gt;since Monday&lt;/span&gt;&lt;/div&gt;
+  &lt;div rst-stat&gt;&lt;span rst-stat-label&gt;Waiting on us&lt;/span&gt;&lt;span rst-stat-num&gt;6&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;section rst-box class=&quot;off&quot;&gt;
+  &lt;dl rst-detail&gt;
+    &lt;dt&gt;Reference&lt;/dt&gt;
+    &lt;dd class=&quot;rst-mono&quot;&gt;REQ-4455&lt;/dd&gt;
+    &lt;dt&gt;Status&lt;/dt&gt;
+    &lt;dd&gt;&lt;span rst-status rst-tone=&quot;positive&quot;&gt;Resolved&lt;/span&gt;&lt;/dd&gt;
+    &lt;dt&gt;Closed by&lt;/dt&gt;
+    &lt;dd&gt;Ada Lovelace&lt;/dd&gt;
+  &lt;/dl&gt;
+  &lt;label rst-switch&gt;&lt;input type=&quot;checkbox&quot; checked&gt;&lt;span rst-switch-track aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; Email me about replies&lt;/label&gt;
+&lt;/section&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;t&quot; role=&quot;status&quot;&gt;&lt;/div&gt;&lt;script&gt;(function(){var t=document.querySelector(&quot;.t&quot;),c=document.querySelector(&quot;[rst-card]&quot;),d=0,h;function say(m){t.textContent=m;t.classList.add(&quot;on&quot;);clearTimeout(h);h=setTimeout(function(){t.classList.remove(&quot;on&quot;)},1800)}document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){var l=[].slice.call(n.children),i=l.indexOf(a),p=n.nextElementSibling.firstElementChild;l.forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;);for(var k=0;p;k++,p=p.nextElementSibling)p.classList.toggle(&quot;off&quot;,k!==i);return}if(a.hasAttribute(&quot;rst-btn&quot;)){if(d)return say(&quot;Draft already started&quot;);d=1;c.insertAdjacentHTML(&quot;afterbegin&quot;,'&lt;div rst-lrow&gt;&lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4472&quot;&gt;Untitled request&lt;/a&gt;&lt;span rst-status rst-tone=&quot;info&quot;&gt;Draft&lt;/span&gt;&lt;/div&gt;');return say(&quot;Draft request created&quot;)}say(&quot;Opening #&quot;+a.getAttribute(&quot;href&quot;).split(&quot;/&quot;).pop())});document.addEventListener(&quot;change&quot;,function(e){say(e.target.checked?&quot;Reply emails on&quot;:&quot;Reply emails off&quot;)})})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
+              <iframe class="mk-d" title="The markup, rendered by the design system, dark theme" scrolling="no" srcdoc="&lt;!doctype html&gt;&lt;html lang=&quot;en&quot; data-theme=&quot;dark&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/tokens.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/theme-day.css&quot;&gt;&lt;link rel=&quot;stylesheet&quot; href=&quot;/design-system/shell.css&quot;&gt;&lt;style&gt;html{scrollbar-gutter:auto!important;overflow:hidden}html,body{height:100%}body{margin:0;padding:22px 22px 24px;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:safe center}.panes{display:grid;align-items:start}.panes&gt;*{grid-area:1/1;min-width:0}.panes&gt;.off{visibility:hidden}@media (max-width:800px){[rst-lrow]{grid-template-columns:var(--rst-cols,1fr)}}.t{position:fixed;left:50%;bottom:10px;transform:translate(-50%,8px);opacity:0;pointer-events:none;white-space:nowrap;padding:.5rem .9rem;border-radius:var(--rst-radius);background:var(--rst-text);color:var(--rst-bg);font-size:var(--rst-fs-sm);font-weight:600;box-shadow:var(--rst-shadow-pop);transition:opacity .2s,transform .2s}.t.on{opacity:1;transform:translate(-50%,0)}@media (prefers-reduced-motion:reduce){.t{transition:none}}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;div&gt;&lt;header rst-page-header&gt;
   &lt;div rst-page-header-titles&gt;
     &lt;h1&gt;Requests&lt;/h1&gt;
     &lt;p rst-page-header-sub&gt;Newest first.&lt;/p&gt;
@@ -496,7 +511,7 @@ eleventyExcludeFromCollections: true
   &lt;a href=&quot;/requests?open&quot;&gt;Open&lt;/a&gt;
   &lt;a href=&quot;/requests?resolved&quot;&gt;Resolved&lt;/a&gt;
 &lt;/nav&gt;
-&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
+&lt;div class=&quot;panes&quot;&gt;&lt;div rst-card style=&quot;--rst-cols: 1fr auto&quot;&gt;
   &lt;div rst-lrow&gt;
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4471&quot;&gt;Invoice never arrived&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;warning&quot;&gt;Waiting&lt;/span&gt;
@@ -505,7 +520,22 @@ eleventyExcludeFromCollections: true
     &lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4468&quot;&gt;Card declined&lt;/a&gt;
     &lt;span rst-status rst-tone=&quot;neutral&quot;&gt;Open&lt;/span&gt;
   &lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;&lt;script&gt;document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){n.querySelectorAll(&quot;a&quot;).forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;)}});&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
+&lt;/div&gt;
+&lt;div rst-stats class=&quot;off&quot;&gt;
+  &lt;div rst-stat=&quot;lead&quot;&gt;&lt;span rst-stat-label&gt;Open requests&lt;/span&gt;&lt;span rst-stat-num&gt;24&lt;/span&gt;&lt;span rst-stat-delta rst-tone=&quot;positive&quot;&gt;−6&lt;/span&gt;&lt;span rst-stat-note&gt;since Monday&lt;/span&gt;&lt;/div&gt;
+  &lt;div rst-stat&gt;&lt;span rst-stat-label&gt;Waiting on us&lt;/span&gt;&lt;span rst-stat-num&gt;6&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;section rst-box class=&quot;off&quot;&gt;
+  &lt;dl rst-detail&gt;
+    &lt;dt&gt;Reference&lt;/dt&gt;
+    &lt;dd class=&quot;rst-mono&quot;&gt;REQ-4455&lt;/dd&gt;
+    &lt;dt&gt;Status&lt;/dt&gt;
+    &lt;dd&gt;&lt;span rst-status rst-tone=&quot;positive&quot;&gt;Resolved&lt;/span&gt;&lt;/dd&gt;
+    &lt;dt&gt;Closed by&lt;/dt&gt;
+    &lt;dd&gt;Ada Lovelace&lt;/dd&gt;
+  &lt;/dl&gt;
+  &lt;label rst-switch&gt;&lt;input type=&quot;checkbox&quot; checked&gt;&lt;span rst-switch-track aria-hidden=&quot;true&quot;&gt;&lt;/span&gt; Email me about replies&lt;/label&gt;
+&lt;/section&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;t&quot; role=&quot;status&quot;&gt;&lt;/div&gt;&lt;script&gt;(function(){var t=document.querySelector(&quot;.t&quot;),c=document.querySelector(&quot;[rst-card]&quot;),d=0,h;function say(m){t.textContent=m;t.classList.add(&quot;on&quot;);clearTimeout(h);h=setTimeout(function(){t.classList.remove(&quot;on&quot;)},1800)}document.addEventListener(&quot;click&quot;,function(e){var a=e.target.closest(&quot;a,button&quot;);if(!a)return;e.preventDefault();var n=a.closest(&quot;[rst-seg-tabs]&quot;);if(n){var l=[].slice.call(n.children),i=l.indexOf(a),p=n.nextElementSibling.firstElementChild;l.forEach(function(x){x.removeAttribute(&quot;aria-current&quot;)});a.setAttribute(&quot;aria-current&quot;,&quot;page&quot;);for(var k=0;p;k++,p=p.nextElementSibling)p.classList.toggle(&quot;off&quot;,k!==i);return}if(a.hasAttribute(&quot;rst-btn&quot;)){if(d)return say(&quot;Draft already started&quot;);d=1;c.insertAdjacentHTML(&quot;afterbegin&quot;,'&lt;div rst-lrow&gt;&lt;a class=&quot;rst-nm&quot; href=&quot;/requests/4472&quot;&gt;Untitled request&lt;/a&gt;&lt;span rst-status rst-tone=&quot;info&quot;&gt;Draft&lt;/span&gt;&lt;/div&gt;');return say(&quot;Draft request created&quot;)}say(&quot;Opening #&quot;+a.getAttribute(&quot;href&quot;).split(&quot;/&quot;).pop())});document.addEventListener(&quot;change&quot;,function(e){say(e.target.checked?&quot;Reply emails on&quot;:&quot;Reply emails off&quot;)})})();&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;" loading="lazy" tabindex="-1"></iframe>
             </div>
             <pre class="mk-code"><code><span class="tg">&lt;header</span> <span class="ra">rst-page-header</span><span class="tg">&gt;</span>
   <span class="tg">&lt;div</span> <span class="ra">rst-page-header-titles</span><span class="tg">&gt;</span>
@@ -528,7 +558,11 @@ eleventyExcludeFromCollections: true
     <span class="tg">&lt;a</span> <span class="at">class</span>=<span class="av">&quot;rst-nm&quot;</span> <span class="at">href</span>=<span class="av">&quot;/requests/4468&quot;</span><span class="tg">&gt;</span>Card declined<span class="tg">&lt;/a</span><span class="tg">&gt;</span>
     <span class="tg">&lt;span</span> <span class="ra">rst-status</span> <span class="ra">rst-tone</span>=<span class="av">&quot;neutral&quot;</span><span class="tg">&gt;</span>Open<span class="tg">&lt;/span</span><span class="tg">&gt;</span>
   <span class="tg">&lt;/div</span><span class="tg">&gt;</span>
-<span class="tg">&lt;/div</span><span class="tg">&gt;</span></code></pre>
+<span class="tg">&lt;/div</span><span class="tg">&gt;</span>
+<span class="cm">&lt;!-- Open and Resolved panes (rst-stats, and rst-box
+     with rst-detail and rst-switch) sit here, hidden
+     until their tab is clicked --&gt;</span>
+<span class="cm">&lt;!-- ...plus a few lines of script for tabs and toast --&gt;</span></code></pre>
           </div>
           <figcaption>Plain HTML with <code>rst-</code> attributes. Custom elements, ids, and classes are left clear for your apps.</figcaption>
         </figure>
