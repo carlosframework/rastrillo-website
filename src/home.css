@@ -163,25 +163,53 @@ pre code { background: none; padding: 0; font-size: 1em; }
 .brandline .here { font: 600 1.35rem/1 var(--serif); letter-spacing: -.01em; }
 .brandline .sep { color: var(--muted); }
 
+/* The headline's size, shared with the hero drawing, which puts its first
+   label on the headline's baseline (.858em below the top of the line). */
+:root { --h1: clamp(2.3rem, 1.6rem + 2.2vw, 3.4rem); }
 /* Type: Ibarra for display, Chivo for reading, Chivo Mono for code and routes. */
 h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -.015em; text-wrap: balance; }
-h1 { font-size: clamp(2.3rem, 1.6rem + 2.2vw, 3.4rem); line-height: 1.08; margin: 0 0 1.1rem; max-width: 14em; }
+h1 { font-size: var(--h1); line-height: 1.08; margin: 0 0 1.1rem; max-width: 14em; }
 h2 { font-size: clamp(1.8rem, 1.4rem + 1.2vw, 2.3rem); line-height: 1.12; margin: 0 0 1.1rem; }
 h3 { font-weight: 600; font-size: 1.2rem; line-height: 1.3; margin: 0 0 .6rem; }
 
-/* ---------- Hero: copy on the left; on the right, a raked plot whose seven
-   grooves are the layers of the stack, all bending round one stone. Drawn
+/* ---------- Hero: copy on the left; on the right, seven grooves raked onto
+   the page, the layers of the stack, all bending down to one slab. Drawn
    1 unit = 1px at 340 wide (so the 12px labels stay 12px on a phone) and
    scaled up a little on wide screens. ---------- */
-.hero-in { display: grid; grid-template-columns: minmax(0, 38rem) minmax(0, 1fr); column-gap: 3rem; align-items: end; padding-top: 3rem; }
+.hero-in { display: grid; grid-template-columns: minmax(0, 38rem) minmax(340px, 1fr); column-gap: 3rem; align-items: end; padding-top: 3rem; }
 .hero-copy { padding-bottom: 3rem; }
 .hero .sub { font: 400 1.6rem/1.55 var(--serif); letter-spacing: -.01em; max-width: 24em; margin: 0 0 1rem; text-wrap: balance; }
 @media (max-width: 600px) { .hero .sub br.wide { display: none; } }
 .hero .sub .name { font-weight: 600; color: var(--acequia); padding-bottom: .3em; background: linear-gradient(var(--acequia), var(--acequia)) 0 100% / 100% 1.5px no-repeat, linear-gradient(var(--acequia), var(--acequia)) 0 calc(100% - 3.5px) / 100% 1.5px no-repeat, linear-gradient(var(--acequia), var(--acequia)) 0 calc(100% - 7px) / 100% 1.5px no-repeat; background-clip: border-box; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .hero .lede { font-size: 1.0625rem; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 34rem; margin: 0 0 1.8rem; }
-.stack { display: block; justify-self: end; width: 391px; height: auto; margin-bottom: 2rem; }
+/* The drawing runs from the headline's baseline to the foot of the buttons, as
+   large as that height allows; where the column is too narrow for it, it
+   keeps to the column and lines up at the foot alone. The cell takes the
+   copy's height without adding any of its own (size containment). */
+.stack-cell { align-self: stretch; container-type: size; display: grid; justify-items: end; align-items: end; padding: calc(var(--h1) * .858) 0 3rem; }
+.stack { display: block; width: min(100cqw, 100cqh * 340 / 234); height: auto; overflow: visible; }
 .stack text { font: 400 12px var(--mono); fill: var(--muted); font-variant-ligatures: none; }
 .stack .one { font-weight: 600; fill: var(--ink); }
+.stack .ic { fill: none; stroke: var(--acequia); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.stack .pebble { fill: var(--groove); }
+.stack .gr-fine { stroke-width: 1.4; }
+.stack .gh-fine { stroke-width: .8; }
+/* Water in every groove, and the slab it fills: the finished binary. */
+.stack .w { fill: none; stroke: var(--chan); stroke-width: 1.2; }
+.stack .slab { fill: var(--chan); }
+.stack text.slab-t { fill: var(--plaster); }
+.stack .ic.slab-t { stroke: var(--plaster); }
+/* On load the water runs in, one layer a moment behind the next, and the
+   slab fills as the last stream arrives. Without motion it is simply full. */
+@media (prefers-reduced-motion: no-preference) {
+  .stack .w { stroke-dasharray: 1; animation: draw 1.1s cubic-bezier(.45, 0, .25, 1) calc(.4s + var(--k) * .12s) backwards; }
+  .stack .slab { animation: slab-fill .5s ease 2s backwards; }
+  .stack text.slab-t { animation: slab-ink .5s ease 2s backwards; }
+  .stack .ic.slab-t { animation: slab-ink-stroke .5s ease 2s backwards; }
+}
+@keyframes slab-fill { from { fill: var(--rock); } }
+@keyframes slab-ink { from { fill: var(--ink); } }
+@keyframes slab-ink-stroke { from { stroke: var(--ink); } }
 /* Shared by the hero plot and the section vignettes: a plot of gravel, and
    grooves drawn as a shadowed furrow over a sunlit ridge. */
 .plot { fill: var(--gravel); stroke: var(--bed); stroke-width: 1.5; }
@@ -634,7 +662,8 @@ footer .links { font-weight: 600; color: var(--ink); }
   .hero-in { grid-template-columns: minmax(0, 1fr); padding-top: 2rem; }
   .hero-copy { padding-bottom: 1.5rem; }
   /* 1:1 on a phone, so the 12px labels stay 12px. */
-  .stack { justify-self: start; width: 100%; max-width: 340px; }
+  .stack-cell { container-type: normal; display: block; padding: 0 0 2rem; }
+  .stack { width: 100%; max-width: 340px; }
 }
 @media (max-width: 760px) {
   body { font-size: 1.0625rem; }

@@ -170,26 +170,43 @@ eleventyExcludeFromCollections: true
             Try the design system</a>
         </div>
       </div>
-      <!-- The full stack as a raked plot: one groove per layer, every groove
-           bending round the same stone. -->
-      <svg class="stack" viewBox="0 0 340 260" role="img" aria-label="A raked gravel plot. Seven grooves, labelled database, HTTP server, sessions and sign-in, HTML templates, CSS design system, progressive JS and background jobs, all bend around one stone labelled one binary.">
-        <defs><clipPath id="stack-clip"><rect x="1" y="1" width="338" height="258" rx="4"/></clipPath></defs>
-        <rect class="plot" x=".75" y=".75" width="338.5" height="258.5" rx="4"/>
-        <g clip-path="url(#stack-clip)">
-          <path class="gh" transform="translate(0 1.6)" d="M0 28H176A160 160 0 0 1 336 188V262M0 49H176A139 139 0 0 1 315 188V262M0 70H176A118 118 0 0 1 294 188V262M0 91H176A97 97 0 0 1 273 188V262M0 112H176A76 76 0 0 1 252 188V262M0 133H176A55 55 0 0 1 231 188V262M0 154H176A34 34 0 0 1 210 188V262"/>
-          <path class="gr" d="M0 28H176A160 160 0 0 1 336 188V262M0 49H176A139 139 0 0 1 315 188V262M0 70H176A118 118 0 0 1 294 188V262M0 91H176A97 97 0 0 1 273 188V262M0 112H176A76 76 0 0 1 252 188V262M0 133H176A55 55 0 0 1 231 188V262M0 154H176A34 34 0 0 1 210 188V262"/>
-        </g>
-        <text x="10" y="21">database</text>
-        <text x="10" y="42">HTTP server</text>
-        <text x="10" y="63">sessions and sign-in</text>
-        <text x="10" y="84">HTML templates</text>
-        <text x="10" y="105">CSS design system</text>
-        <text x="10" y="126">progressive JS</text>
-        <text x="10" y="147">background jobs</text>
-        <circle class="stone-sh" cx="178" cy="191" r="20"/>
-        <circle class="stone" cx="176" cy="188" r="20"/>
-        <text class="one" x="146" y="192" text-anchor="end">one binary</text>
-      </svg>
+      <!-- The full stack raked straight onto the page: one groove per layer,
+           every groove bending down to end at the same slab, with a stone,
+           its ripples and a scatter of pebbles in the corner. On load, water
+           runs down each groove into the slab, which fills as the last
+           arrives. Icons are lucide-static 1.31.0, copied verbatim. The viewBox runs
+           from the first label's baseline (its letters rise above it,
+           overflow visible) to the slab's shadow, so those are the edges
+           that line up with the copy: the headline's baseline, the foot of
+           the buttons. -->
+      <div class="stack-cell">
+        <svg class="stack" viewBox="0 21 340 234" role="img" aria-label="Seven raked grooves, labelled database, HTTP server, sessions and sign-in, HTML templates, CSS design system, progressive JS and background jobs, all carry water down into one slab labelled one binary.">
+          <path class="gh" transform="translate(0 1.6)" d="M0 28H160A160 160 0 0 1 320 188V226M0 49H160A139 139 0 0 1 299 188V226M0 70H160A118 118 0 0 1 278 188V226M0 91H160A97 97 0 0 1 257 188V226M0 112H160A76 76 0 0 1 236 188V226M0 133H160A55 55 0 0 1 215 188V226M0 154H160A34 34 0 0 1 194 188V226"/>
+          <path class="gr" d="M0 28H160A160 160 0 0 1 320 188V226M0 49H160A139 139 0 0 1 299 188V226M0 70H160A118 118 0 0 1 278 188V226M0 91H160A97 97 0 0 1 257 188V226M0 112H160A76 76 0 0 1 236 188V226M0 133H160A55 55 0 0 1 215 188V226M0 154H160A34 34 0 0 1 194 188V226"/>
+          <path class="gh gh-fine" transform="translate(0 1.2)" d="M67 212a17 17 0 1 0 34 0a17 17 0 1 0 -34 0M60 212a24 24 0 1 0 48 0a24 24 0 1 0 -48 0M53 212a31 31 0 1 0 62 0a31 31 0 1 0 -62 0"/><path class="gr gr-fine" d="M67 212a17 17 0 1 0 34 0a17 17 0 1 0 -34 0M60 212a24 24 0 1 0 48 0a24 24 0 1 0 -48 0M53 212a31 31 0 1 0 62 0a31 31 0 1 0 -62 0"/>
+          <circle class="pebble" cx="230.2" cy="56.0" r="1.4"/><circle class="pebble" cx="292.0" cy="117.8" r="1.4"/><circle class="pebble" cx="249.3" cy="95.6" r="1.4"/><circle class="pebble" cx="285.7" cy="161.3" r="1.4"/><circle class="pebble" cx="196.8" cy="87.0" r="1.4"/><circle class="pebble" cx="250.2" cy="129.5" r="1.4"/><circle class="pebble" cx="213.3" cy="119.8" r="1.4"/><circle class="pebble" cx="242.3" cy="161.3" r="1.4"/><circle class="pebble" cx="188.7" cy="129.1" r="1.4"/><circle class="pebble" cx="216.7" cy="155.2" r="1.4"/><circle class="pebble" cx="191.5" cy="156.5" r="1.4"/><circle class="pebble" cx="30.0" cy="176.0" r="1.4"/><circle class="pebble" cx="138.0" cy="238.0" r="1.4"/><circle class="pebble" cx="36.0" cy="246.0" r="1.4"/><circle class="pebble" cx="134.0" cy="176.0" r="1.4"/><circle class="pebble" cx="16.0" cy="216.0" r="1.4"/>
+          <circle class="stone-sh" cx="86" cy="215" r="10"/><circle class="stone" cx="84" cy="212" r="10"/>
+          <!-- The water: one stream per layer, each running in from its label
+               and down into the binary, a moment behind the one above. -->
+          <path class="w" pathLength="1" style="--k:0" d="M0 28H160A160 160 0 0 1 320 188V226"/>
+          <path class="w" pathLength="1" style="--k:1" d="M0 49H160A139 139 0 0 1 299 188V226"/>
+          <path class="w" pathLength="1" style="--k:2" d="M0 70H160A118 118 0 0 1 278 188V226"/>
+          <path class="w" pathLength="1" style="--k:3" d="M0 91H160A97 97 0 0 1 257 188V226"/>
+          <path class="w" pathLength="1" style="--k:4" d="M0 112H160A76 76 0 0 1 236 188V226"/>
+          <path class="w" pathLength="1" style="--k:5" d="M0 133H160A55 55 0 0 1 215 188V226"/>
+          <path class="w" pathLength="1" style="--k:6" d="M0 154H160A34 34 0 0 1 194 188V226"/>
+          <svg class="ic" x="10" y="11" width="12" height="12" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg><text x="28" y="21">database</text>
+          <svg class="ic" x="10" y="32" width="12" height="12" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg><text x="28" y="42">HTTP server</text>
+          <svg class="ic" x="10" y="53" width="12" height="12" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg><text x="28" y="63">sessions and sign-in</text>
+          <svg class="ic" x="10" y="74" width="12" height="12" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 12.5 8 15l2 2.5"/><path d="m14 12.5 2 2.5-2 2.5"/></svg><text x="28" y="84">HTML templates</text>
+          <svg class="ic" x="10" y="95" width="12" height="12" viewBox="0 0 24 24"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/></svg><text x="28" y="105">CSS design system</text>
+          <svg class="ic" x="10" y="116" width="12" height="12" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"/></svg><text x="28" y="126">progressive JS</text>
+          <svg class="ic" x="10" y="137" width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><text x="28" y="147">background jobs</text>
+          <rect class="stone-sh" x="184" y="229" width="150" height="26" rx="3"/>
+          <rect class="slab" x="182" y="226" width="150" height="26" rx="3"/>
+          <svg class="ic slab-t" x="212" y="233" width="12" height="12" viewBox="0 0 24 24"><rect x="14" y="14" width="4" height="6" rx="2"/><rect x="6" y="4" width="4" height="6" rx="2"/><path d="M6 20h4"/><path d="M14 10h4"/><path d="M6 14h2v6"/><path d="M14 4h2v6"/></svg><text class="one slab-t" x="230" y="243">one binary</text>
+        </svg>
+      </div>
     </div>
     <div class="waterline" aria-hidden="true"></div>
   </section>
