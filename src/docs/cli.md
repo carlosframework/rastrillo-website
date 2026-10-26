@@ -1,20 +1,19 @@
 # 🤖 The CLI
 
-One binary, nine commands. Install it with:
+One binary, ten commands. Install it with:
 
 ```sh
 go install amadan.net/rastrillo/rastrillo/cmd/rastrillo@latest
 ```
 
-Every command takes an optional directory as its last argument and
-defaults to `.`. Flags come before the directory. `rastrillo help`, `-h`
-and `--help` all print usage.
+Every command except `session-key` takes an optional directory as its last argument and defaults to `.`. `session-key` takes a key id instead. Flags come before the directory. `rastrillo help`, `-h` and `--help` all print usage.
 
 ## rastrillo new
 
 ```sh
 rastrillo new [--icons=<set>] [--icon-delivery=<mode>] [--ux=<profile>]
-              [--theme=<name>] [--shell=<name>] [--locale=<code>] <name>
+              [--theme=<name>] [--shell=<name>] [--locale=<code>]
+              [--auth=<kind>] <name>
 ```
 
 Scaffolds a complete app in `./<name>` — one that compiles, passes its
@@ -28,6 +27,7 @@ own tests, and serves, before you have written anything. It runs
 | `--ux` | `considered`, `standard` | `considered` |
 | `--theme` | `day`, `plain`, `signal` | `day` |
 | `--shell` | `column`, `topbar`, `sidebar`, `console` | `column` |
+| `--auth` | `none`, `magic` | `none` |
 | `--locale` | `en`, `ga`, `zh-Hans`, `es`, `hi`, `pt-PT`, `bn`, `ru`, `ja`, `yue`, `vi`, `ar` | `en` |
 
 All six set × delivery combinations scaffold, compile and pass
@@ -50,6 +50,8 @@ typo fails with your working directory still clean.
 requires, because that obligation is the app's and has to travel with
 the code.
 
+`--auth=magic` starts the app with sign-in by emailed link: the [magic links](/docs/magic-links) plugin with its sign-in screen, a Sign in and Sign out control in the header, and an example page only a signed-in person can open. Rows belong to the signed-in address, read and written through the `owned` seam in `auth.go`. Until you set `<APP>_SMTP_HOST` and `<APP>_SMTP_FROM`, each link is written to the log instead of sent. The app's own tests sign in through the emailed link, so `make ci` passes from the first commit.
+
 `--locale` picks the one language the app starts with, written to
 `manifest/app.toml`. It must be one the framework's own strings ship in,
 and `pt` means `pt-PT`. Anything else fails before a file is written:
@@ -64,7 +66,7 @@ switcher. Add more later; see [Localization](/docs/localization#declaring).
 ## rastrillo generate
 
 ```sh
-rastrillo generate [--check] [dir]
+rastrillo generate [--check] [--accept-breaking] [dir]
 ```
 
 Walks `actions/` and `manifest/` and emits `gen/`: the router on a Go
@@ -91,6 +93,17 @@ before you ship.
 `manifest/app.toml`. The `--default-locale` flag was removed, and
 passing it fails with
 `--default-locale was removed: the default comes from default_locale in manifest/app.toml`.
+
+`generate` also writes `api/v1.json` at the app root: every route
+`/api/v1` serves, with its arguments and result fields. Commit it.
+Before writing, `generate` compares the file it would write with the
+committed one. A change that only adds (a new route, a new optional
+argument, a new result field) is written. A change that breaks a client
+(a route or field removed, an argument newly required, a kind changed)
+fails, names each break, and leaves the file as it was. To rewrite it
+over a break on purpose, run `rastrillo generate --accept-breaking`; the
+diff shows the break in review. `--check` fails if the file is missing
+or stale, and never writes it.
 
 ## rastrillo dev
 
@@ -210,7 +223,7 @@ that it does, and running from outside the app — which is what asking
 | Flag | Purpose |
 |---|---|
 | `--fix` | Re-copy each drifted file from this binary's library copy |
-| `--force` | With `--fix`: re-copy across a version mismatch, and over files recorded as deliberate edits |
+| `--force` | With `--fix`: re-copy across a version mismatch, and over files recorded as deliberate edits or removals |
 | `--theme` | Which theme `static/theme.css` should be, for an app with no pin to read it from |
 | `--probe` | Also build the app and run it to check its language setup. This runs your app's own code |
 
@@ -557,3 +570,24 @@ in the run, so a lane cannot go green having run nothing.
 
 The scaffold's `make budget`, `make test` and `make perf` call these.
 [Testing](/docs/testing) explains the budgets.
+
+## rastrillo session-key
+
+```sh
+rastrillo session-key <kid>
+```
+
+Makes a new signing key for signed sessions and prints it as two lines:
+
+```
+secret <kid>.<private key>
+public <kid>.<public key>
+```
+
+Store the value after `secret` on the hub, with `carlos secrets set`. The hub signs session cookies with it. Set the value after `public` on every tenant, with `carlos env set`. Tenants check cookies with it.
+
+The `kid` is 1 to 32 characters from `a-z`, `0-9`, `_` and `-`.
+
+To rotate, make a key with a new `kid` and follow [the rotation order](/docs/reference/sessions#rotating-the-signing-key).
+
+Exits 2 when the `kid` is missing or not valid, and prints nothing on standard output.
