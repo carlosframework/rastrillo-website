@@ -1,0 +1,38 @@
+---
+permalink: /tour/index.html
+eleventyExcludeFromCollections: true
+---
+{#
+  🤖 /tour/: the tour's title, its steps, and a way into the first one.
+  There is one tour today; a second would add a block here, not a page.
+  Every word on it comes from tour.json except the UI labels, so it
+  carries no prose of its own to drift from the steps.
+#}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{{ tour.title }} · Rastrillo tour</title>
+<link rel="preload" href="/fonts/ibarra-real-nova.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/chivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/tour.css">
+</head>
+<body class="tour-index">
+{% include "tour-top.njk" %}
+<main class="index">
+  <h1><span class="ai">🤖</span> {{ tour.title }}</h1>
+  <h2 id="steps-h">Steps</h2>
+  <ol class="index-steps" aria-labelledby="steps-h">
+    {% for s in tour.steps %}
+    <li><a href="{{ s.url }}"><span class="n">{{ s.number }}</span><span class="t">{{ s.title | withoutRobot }}</span></a></li>
+    {% endfor %}
+  </ol>
+  {% set first = tour.steps[0] %}
+  <p><a class="btn primary" href="{{ first.url }}">{{ first.title | withoutRobot }}<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></a></p>
+  <p class="llm">🤖 These pages were written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly — that's <a href="https://11factor.org/#x">factor X</a>.</p>
+</main>
+</body>
+</html>
