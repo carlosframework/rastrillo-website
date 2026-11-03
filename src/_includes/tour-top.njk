@@ -33,7 +33,7 @@
   {% if step %}
   {% if step.zipUrl %}<a class="dl" href="{{ step.zipUrl }}" download title="The whole app as it stands at the end of this step">
     <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
-    Project at step {{ step.number }} (.zip)</a>{% endif %}
+    Download project at step {{ step.number }} (.zip)</a>{% endif %}
   <p class="prog">
     <span>{{ step.number }} / {{ tour.total }}</span>
     <span class="bar" aria-hidden="true">{% for s in tour.steps %}<b{% if s.number <= step.number %} class="on"{% endif %}></b>{% endfor %}</span>

@@ -87,18 +87,18 @@ eleventyExcludeFromCollections: true
     <div class="mk editor">
       <div class="mk-tabs tablist" role="tablist" aria-label="Files" hidden>
         {% for f in step.files %}
-        <button class="mk-tab" type="button" role="tab" id="tab-{{ f.id }}" aria-controls="{{ f.id }}">{{ f.name }} <span class="tag {{ f.status }}">{{ "NEW" if f.status == "new" else "EDIT" }}</span></button>
+        <button class="mk-tab" type="button" role="tab" id="tab-{{ f.id }}" aria-controls="{{ f.id }}">{{ f.name }} <span class="tag {{ f.status }}">{{ "New" if f.status == "new" else "Edit" }}</span></button>
         {% endfor %}
       </div>
       {% for f in step.files %}
       <section class="file" id="{{ f.id }}" aria-labelledby="name-{{ f.id }}">
-        <div class="mk-tabs file-head"><h2 class="mk-tab on" id="name-{{ f.id }}">{{ f.name }} <span class="tag {{ f.status }}">{{ "NEW" if f.status == "new" else "EDIT" }}</span></h2></div>
+        <div class="mk-tabs file-head"><h2 class="mk-tab on" id="name-{{ f.id }}">{{ f.name }} <span class="tag {{ f.status }}">{{ "New" if f.status == "new" else "Edit" }}</span></h2></div>
         <div class="mk-bar">
           <span class="path"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>{{ f.path }}</span>
           <button class="copy" type="button" hidden data-copy="code-{{ f.id }}">
             <svg class="i i-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
             <svg class="i i-done" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>
-            Copy file</button>
+            Copy file contents</button>
         </div>
         <pre class="code" id="code-{{ f.id }}" tabindex="0" aria-label="{{ f.path }}"><code>{{ f | tourCode | safe }}</code></pre>
       </section>
