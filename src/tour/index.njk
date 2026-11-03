@@ -1,12 +1,26 @@
 ---
 permalink: /tour/index.html
 eleventyExcludeFromCollections: true
+stages:
+  - title: Set up
+    blurb: Install Rastrillo, make the app, and run it and its tests.
+    from: 1
+    to: 4
+  - title: Rooms and an admin
+    blurb: Give rooms a table, add an admin only admins can open, and list the rooms.
+    from: 5
+    to: 9
+  - title: Live chat
+    blurb: Post messages, make every open window show them at once, test it and ship it.
+    from: 10
+    to: 14
 ---
 {#
-  🤖 /tour/: the tour's title, its steps, and a way into the first one.
-  There is one tour today; a second would add a block here, not a page.
-  Every word on it comes from tour.json except the UI labels, so it
-  carries no prose of its own to drift from the steps.
+  🤖 /tour/: what the tour builds, shown working, then its steps in
+  three stages and the way in. The two windows in the hero are the
+  finished app's room page drawn in markup: a message sent in Bob's
+  arrives in Ada's too, which is what step 11 makes happen. With
+  reduced motion they show the end state, still.
 #}
 <!doctype html>
 <html lang="en">
@@ -15,6 +29,7 @@ eleventyExcludeFromCollections: true
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>{{ tour.title }} · Rastrillo tour</title>
+<meta name="description" content="Go from an empty folder to a live chat app, one step at a time.">
 <link rel="preload" href="/fonts/ibarra-real-nova.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/chivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -22,16 +37,52 @@ eleventyExcludeFromCollections: true
 </head>
 <body class="tour-index">
 {% include "tour-top.njk" %}
+{% set first = tour.steps[0] %}
+{% set last = tour.steps | last %}
 <main class="index">
-  <h1><span class="ai">🤖</span> {{ tour.title }}</h1>
-  <h2 id="steps-h">Steps</h2>
-  <ol class="index-steps" aria-labelledby="steps-h">
-    {% for s in tour.steps %}
-    <li><a href="{{ s.url }}"><span class="n">{{ s.number }}</span><span class="t">{{ s.title | withoutRobot }}</span></a></li>
-    {% endfor %}
-  </ol>
-  {% set first = tour.steps[0] %}
-  <p><a class="btn primary" href="{{ first.url }}">{{ first.title | withoutRobot }}<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></a></p>
+  <section class="index-hero" aria-labelledby="index-h">
+    <div class="index-pitch">
+      <h1 id="index-h">{{ tour.title }}</h1>
+      <p class="lede"><span class="ai" title="Written by an LLM">🤖</span> Go from an empty folder to a chat app where a message shows up in every open window the moment it is sent. You type every line, and each step tells you how to check it worked.</p>
+      <p class="index-go">
+        <a class="btn primary" href="{{ first.url }}">Start the tour<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></a>
+        {% if last.zipUrl %}<a class="btn" href="{{ last.zipUrl }}" download><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download the finished app (.zip)</a>{% endif %}
+      </p>
+      <p class="needs">You need Go 1.26 or newer, on Linux, macOS or Windows with WSL. {{ tour.total }} steps, built on Rastrillo {{ tour.version }}.</p>
+    </div>
+    <figure class="demo" aria-label="Two people in the same room: a message Bob sends appears in Ada's window too.">
+      {% for who in ["Ada", "Bob"] %}
+      <div class="demo-win demo-{{ who | lower }}" aria-hidden="true">
+        <div class="demo-bar"><i></i><i></i><i></i><span>{{ who }} · General</span></div>
+        <div class="demo-room">
+          <p><b>ada</b> Is the new release out?</p>
+          <p><b>bob</b> This morning. Try the tour.</p>
+          <p class="demo-new"><b>bob</b> Every window gets this at once.</p>
+        </div>
+        <div class="demo-box"><span class="demo-field"><span class="demo-typed">{% if who == "Bob" %}Every window gets this at once.{% endif %}</span></span><span class="demo-send">Send</span></div>
+      </div>
+      {% endfor %}
+      <figcaption>Step 11 makes this happen: Bob sends, and Ada's window shows it without a reload.</figcaption>
+    </figure>
+  </section>
+
+  <section class="index-stages" aria-labelledby="stages-h">
+    <h2 id="stages-h">The steps</h2>
+    <ol class="stages">
+      {% for stage in stages %}
+      <li class="stage">
+        <h3>{{ stage.title }}</h3>
+        <p>{{ stage.blurb }}</p>
+        <ol class="index-steps">
+          {% for s in tour.steps %}{% if s.number >= stage.from and s.number <= stage.to %}
+          <li><a href="{{ s.url }}"><span class="n">{{ s.number }}</span><span class="t">{{ s.title | withoutRobot }}</span></a></li>
+          {% endif %}{% endfor %}
+        </ol>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
   <p class="llm">🤖 These pages were written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly — that's <a href="https://11factor.org/#x">factor X</a>.</p>
 </main>
 </body>
