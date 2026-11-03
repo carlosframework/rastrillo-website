@@ -33,7 +33,7 @@ stages:
 <link rel="preload" href="/fonts/ibarra-real-nova.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/chivo.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/tour.css">
+<link rel="stylesheet" href="{{ '/tour.css' | fingerprint }}">
 </head>
 <body class="tour-index">
 {% include "tour-top.njk" %}

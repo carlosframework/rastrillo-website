@@ -32,8 +32,8 @@ eleventyExcludeFromCollections: true
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {% if step.prev %}<link rel="prev" href="{{ step.prev.url }}">{% endif %}
 {% if step.next %}<link rel="next" href="{{ step.next.url }}">{% endif %}
-<link rel="stylesheet" href="/tour.css">
-<script src="/tour.js"></script>
+<link rel="stylesheet" href="{{ '/tour.css' | fingerprint }}">
+<script src="{{ '/tour.js' | fingerprint }}"></script>
 </head>
 <body class="tour-step">
 {% include "tour-top.njk" %}

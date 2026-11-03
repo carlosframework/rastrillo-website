@@ -1,7 +1,8 @@
 // 🤖 Build-time only. The served site ships two small scripts: /home.js,
 // which only adds motion to a homepage that is complete without it, and
 // /tour.js, the tour's step-list collapse, file tabs and copy buttons.
-import { rmSync } from "node:fs";
+import { readFileSync, rmSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join } from "node:path";
 import markdownIt from "markdown-it";
 import markdownItAnchor from "markdown-it-anchor";
@@ -91,6 +92,12 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("tourCode", renderCode);
   // The tour pages put their own visible 🤖 before each step's title, so
   // a title that already carries one would show it twice.
+  // The tour's own CSS and script change between publishes under the same
+  // name; a content hash in the URL stops a browser serving the old one.
+  eleventyConfig.addFilter("fingerprint", (path) => {
+    const hash = createHash("sha256").update(readFileSync("src" + path)).digest("hex").slice(0, 10);
+    return `${path}?v=${hash}`;
+  });
   eleventyConfig.addFilter("withoutRobot", (text) => String(text ?? "").replace(/^🤖\s*/, ""));
 
   // The docs corpus is vendored from the rastrillo repo by
