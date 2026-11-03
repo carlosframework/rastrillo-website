@@ -63,6 +63,16 @@
         panels[i].hidden = !on;
       });
       if (focus) tabs[index].focus();
+      showFirstChange(panels[index]);
+    }
+    // A long file opens at its first changed line, not at its imports.
+    function showFirstChange(panel) {
+      var first = panel.querySelector('pre.code .hl');
+      var box = first && first.parentElement;
+      while (box && box !== document.body && box.scrollHeight <= box.clientHeight) box = box.parentElement;
+      if (!first || !box || box === document.body) return;
+      var above = first.getBoundingClientRect().top - box.getBoundingClientRect().top;
+      box.scrollTop = Math.max(0, box.scrollTop + above - 32);
     }
     tabs.forEach(function (tab, i) {
       panels[i].setAttribute('role', 'tabpanel');
@@ -75,9 +85,9 @@
         select((to + tabs.length) % tabs.length, true);
       });
     });
-    select(0, false);
     strip.hidden = false;
     editor.classList.add('tabbed');
+    select(0, false);
   }
 
   // "Copy file" copies the file exactly as written: the <pre>'s text is

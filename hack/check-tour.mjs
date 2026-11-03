@@ -100,7 +100,7 @@ for (const step of tour.steps) {
   }
   checkLinks(url, html);
   if (!/<h1><span class="ai">🤖<\/span>/.test(html)) fail(`${url}: the title carries no visible 🤖`);
-  if (!html.includes(`href="/tour/zips/${step.zip}"`)) fail(`${url}: no download link for ${step.zip}`);
+  if (step.zip && !html.includes(`href="/tour/zips/${step.zip}"`)) fail(`${url}: no download link for ${step.zip}`);
   if (!html.includes(`${step.number} / ${tour.steps.length}`)) fail(`${url}: no progress indicator`);
   if (step.check && !html.includes('id="check-h"')) fail(`${url}: the "Check it worked" box is missing`);
 

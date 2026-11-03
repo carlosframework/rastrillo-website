@@ -28,7 +28,7 @@ export default function () {
       ...step,
       nn,
       url: `/tour/${tour.slug}/${nn}-${step.slug}/`,
-      zipUrl: `/tour/zips/${step.zip}`,
+      zipUrl: step.zip ? `/tour/zips/${step.zip}` : null,
       files: step.files.map((file, i) => ({
         ...file,
         name: basename(file.path),

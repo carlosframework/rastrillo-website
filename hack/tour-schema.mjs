@@ -35,7 +35,8 @@ export function validateTour(tour) {
     if (!Array.isArray(step.commands) || !step.commands.every(isText)) {
       fail(`${at}: commands must be a list of strings`);
     }
-    if (!ZIP.test(step.zip ?? "")) fail(`${at}: zip ${JSON.stringify(step.zip)} is not a plain .zip file name`);
+    if (step.zip === undefined) { /* a step before the app exists has none */ }
+    else if (!ZIP.test(step.zip)) fail(`${at}: zip ${JSON.stringify(step.zip)} is not a plain .zip file name`);
     else if (zips.has(step.zip)) fail(`${at}: zip ${step.zip} is used by an earlier step`);
     else zips.add(step.zip);
     if (!Array.isArray(step.files)) {
