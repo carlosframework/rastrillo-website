@@ -43,7 +43,7 @@ stages:
   <section class="index-hero" aria-labelledby="index-h">
     <div class="index-pitch">
       <h1 id="index-h">{{ tour.title }}</h1>
-      <p class="lede"><span class="ai" title="Written by an LLM">🤖</span> Go from an empty folder to a chat app where a message shows up in every open window the moment it is sent. You type every line, and each step tells you how to check it worked.</p>
+      <p class="lede"><span class="ai" title="Written by an LLM">🤖</span> Learn Rastrillo step by step by going from an empty folder to a working chat app.</p>
       <p class="index-go">
         <a class="btn primary" href="{{ first.url }}">Start the tour<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></a>
         {% if last.zipUrl %}<a class="btn" href="{{ last.zipUrl }}" download><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>Download the finished app (.zip)</a>{% endif %}
@@ -62,7 +62,7 @@ stages:
         <div class="demo-box"><span class="demo-field"><span class="demo-typed">{% if who == "Bob" %}Every window gets this at once.{% endif %}</span></span><span class="demo-send">Send</span></div>
       </div>
       {% endfor %}
-      <figcaption>Step 11 makes this happen: Bob sends, and Ada's window shows it without a reload.</figcaption>
+      <figcaption>Where you'll be by step 11: Bob sends, and Ada's window shows it without a reload.</figcaption>
     </figure>
   </section>
 
