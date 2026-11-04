@@ -42,20 +42,15 @@ checkbox and kebab a list row carries. See
 func Funcs(opts ...Option) template.FuncMap
 ```
 
-The function map the partials need, for an app that renders through its
-own template tree instead of [`ui.Pages`](#pages). It holds twenty-three:
-`dict`, `list`, `menuGroup`, `searchClear`, `icon`, `iconAssets`, `opt`,
-`stageArt`, `displayURL`, `safeHref`, `rowMenuItems`, `paginationItems`,
-`localizer`, `withL`, `strong`, and the locale functions `T`, `Tf`, `Tbdi`,
-`number`, `displayValue`, `dateWords`, `money` and `actor`. Add your
-own on top; do not drop any. `rowMenuItems` checks `row-menu`'s items
-and stops the render on one it cannot show.
+The function map the partials need, for an app that renders through its own template tree instead of [`ui.Pages`](#pages). It holds twenty-eight: `dict`, `list`, `menuGroup`, `searchClear`, `icon`, `iconAssets`, `opt`, `stageArt`, `displayURL`, `safeHref`, `rowMenuItems`, `paginationItems`, `localizer`, `withL`, `strong`, `path`, `needs`, `neededScripts`, `pageStylesheet`, `pageScripts`, and the locale functions `T`, `Tf`, `Tbdi`, `number`, `displayValue`, `dateWords`, `money` and `actor`. Add your own on top; do not drop any. `rowMenuItems` checks `row-menu`'s items and stops the render on one it cannot show. Outside `ui.Pages`, `pageStylesheet` links the whole `tokens.css` at `/static/tokens.css`, without a hash, `pageScripts` gives every optional script, and `neededScripts` gives the three component scripts; bind your own `pageStylesheet` to link the hashed file or a slice from `Assets.Stylesheet`.
 
 `opt` reads an optional key off a partial's data, whether it is a map or
 a struct, and gives nil when it is missing. `Tbdi` is `Tf` for a
 sentence that shows back something a visitor typed: each value is
 escaped and wrapped in `<bdi>`. `stageArt` draws the stage shell's
 backdrop from a word; the same word always draws the same picture.
+
+`path` puts the page's base path in front of a root-absolute URL, as `basepath.Join` does: `{{path $ (asset "static/tokens.css")}}`, `{{path $ "/"}}`. It reads the base from the data's `Base`, which `Localized` carries, and returns the URL unchanged when there is none. The shells send every URL they write through it.
 
 `displayURL` and `safeHref` are `form.DisplayURL` and `form.SafeHref`,
 for showing an address that `field-url` collected. `displayURL` is the
@@ -80,6 +75,10 @@ and every other `Hidden` pair kept. See
 ```go
 func NewPages(cfg PagesConfig) (*Pages, error)
 func (p *Pages) Execute(w io.Writer, page string, data any) error
+func (p *Pages) Render(w http.ResponseWriter, r *http.Request, status int, page string, data func(takeFlash bool) (any, error)) error
+func (p *Pages) ExecuteRegions(w io.Writer, page string, names []string, data any) ([]string, error)
+func (p *Pages) WriteRegions(w http.ResponseWriter, r *http.Request, page string, names []string, data any) error
+func (p *Pages) HasRegions(page string, names []string) bool
 func (p *Pages) Middleware(next http.Handler) http.Handler
 func (p *Pages) Localizer(identity string) *Localizer
 func (p *Pages) LocalizerFor(r *http.Request) *Localizer
@@ -94,6 +93,7 @@ type PagesConfig struct {
 	Catalog  rastrillo.Catalog   // Options.BaseCatalog
 	LocaleFS fs.FS               // Options.LocaleFS: locales/<code>.toml
 	Funcs    template.FuncMap    // the app's request-independent functions (icon, iconAssets, asset)
+	Assets   *rastrillo.Assets   // the app's static files; nil links the whole tokens.css
 	Compat   bool
 	Logger   *slog.Logger // nil means slog.Default()
 }
@@ -111,14 +111,58 @@ with that page's own file. A `PageFile` with a nil `FS` is read from
 is copied per language or per request, and the function map never
 changes after `NewPages` returns.
 
+Pages are [`tmpl`](/docs/reference/tmpl) templates. Once
+`rastrillo generate` has compiled them they render as compiled Go, and
+until then, or when a template has changed since, they render through
+`html/template` as before. You change nothing in your app.
+
 `Funcs` adds your own functions, such as your icon set's `icon` and
 `iconAssets` and your `asset`. A function named after a locale function,
 `localizer` or `withL` is refused:
 `ui: app function "T" would replace a framework function`.
 
+`Assets` is the app's `rastrillo.Assets`. With it, each page links a
+slice of `static/tokens.css` for its hooks, and `pageScripts` does not
+list an optional script the app has deleted. Without it, every page links the whole file. See
+[Templates](/docs/templates#the-page-s-stylesheet-and-scripts).
+
 `Execute` renders a page. Its data must carry a non-nil localizer as
 `L`. It renders into a buffer and writes nothing unless the whole page
 rendered, so a failure is a clean error, not half a page.
+
+`Render` is the call to make from a handler. It answers a request for
+a page, whole or as the regions a live page asks for, in the order
+[`live.Render`](/docs/reference/live#render) gives, and with that
+page's own templates. `status` `0` means `200`, and a fragment keeps
+the status. `data` builds the page data: it is told whether this
+render may take the flash, and is not called when the answer is a
+navigation. Like `Execute`, the data must carry a localizer as `L`.
+An error from `data`, the localizer check or a template comes back
+with nothing written. An error while writing the response can come
+after it has started. An unknown page is an error.
+
+`HasRegions` reports whether a page defines a `region:<name>` template
+for any of `names` other than `notice`, which every layout has. A page
+that does not exist has none. Ask it before you take the flash: a GET
+that names only regions this page lacks is answered by navigating, and
+the page navigated to must still find the flash.
+
+`ExecuteRegions` renders those regions into `w`, in the order you name
+them. A name the page has no region for is skipped. The result lists
+what was rendered, for `live.Answer`. It has `Execute`'s localizer
+check, and like `Execute` it writes nothing unless every region
+rendered. The `region:` prefix is the whole safety rule: a name from a
+request reaches only templates the page marked as regions, never its
+layout or a partial.
+
+`WriteRegions` answers a fragment request. It renders with
+`ExecuteRegions`, sets `Rastrillo-Regions`, then writes the body. When
+nothing rendered, a `GET` or `HEAD` gets a `204` with
+`Rastrillo-Location` and no body. Pass it the `ResponseWriter`. Do not
+write what `ExecuteRegions` gave you yourself: the body would commit the
+headers first and `Rastrillo-Regions` would be lost. On error nothing is
+sent, so you can write your own 500. See [Live pages](/docs/live) and
+[`live`](/docs/reference/live).
 
 `Middleware` puts the request's localizer on the request, for
 `ForRequest`. Wrap your routes in it. `LocalizerFor` finds the
@@ -151,6 +195,7 @@ type Localized struct {
 	Locales []rastrillo.LocaleItem
 	Return  string
 	Scheme  string
+	Base    string
 }
 
 func ForRequest(r *http.Request) Localized
@@ -168,15 +213,9 @@ app offers (`zh-TW`), `Format` the locale that formats it (`zh-Hant`),
 and `Dir` the page's `dir`, `rtl` or `ltr`. `Pages` makes one for each
 language you offer; `NewLocalizer` is for a test or your own rendering.
 
-A page's data carries its localizer as `L`. `ForRequest` gives the
-request's localizer, the language switcher's items, the path to come
-back to (locale prefix included) and the colour scheme the cookie
-chose, `light`, `dark` or `""` for System. Put them in a map as `L`,
-`Locales`, `Return` and `Scheme`, or embed `Localized` in a view
-struct. `Localized.Request` is promoted to every
-struct that embeds it, so a render function can read those values off
-any generated view. `WithLocalizer` and `LocalizerFrom` put a localizer
-on a request and read it back; `Pages.Middleware` uses them.
+A page's data carries its localizer as `L`. `ForRequest` gives the request's localizer, the language switcher's items, the path to come back to (locale prefix included), the colour scheme the cookie chose (`light`, `dark` or `""` for System) and the base path. Put them in a map as `L`, `Locales`, `Return`, `Scheme` and `Base`, or embed `Localized` in a view struct. `Localized.Request` is promoted to every struct that embeds it, so a render function can read those values off any generated view. `WithLocalizer` and `LocalizerFrom` put a localizer on a request and read it back; `Pages.Middleware` uses them.
+
+`Base` is the base path the request was served under, such as `/acme`, or `""` at the root, from `basepath.Base`. The `path` function reads it. `Return` stays the app's path, without the base.
 
 In a template, `{{$L := localizer $}}` finds `L` in the data, and
 `withL` adds it to a map passed to a partial. `LocaleFuncs` are the
@@ -654,10 +693,12 @@ undemonstrated. The returned map is a copy, safe to mutate.
 func TokensCSS() []byte
 func ShimJS() []byte
 func BusyJS() []byte
+func LiveJS() []byte
 func SelectJS() []byte
 func DatetimeJS() []byte
 func CalendarJS() []byte
 func ShellJS() []byte
+func TransitionJS() []byte
 func ShellCSS() []byte
 ```
 
@@ -685,6 +726,16 @@ at least 650ms, the button disables and the form refuses a second
 submit, and Back hands the form back — by default, with
 `data-busy="false"` as the opt-out and `data-busy-label` as the label
 swap. Linking it is the whole opt-in.
+
+`LiveJS` is `live.js`, the live pages script. It opens one change stream
+per page and fetches a region again when a topic it shows has moved,
+keeping to the order the fetches began in. It leaves a region alone
+while someone is editing in it, and it never lets focus fall to
+`<body>`. It also sends a form marked `data-live-form` with `fetch` and
+swaps in the answer. It does nothing on a page without the
+`rastrillo-live` meta tag or a `data-live` region, so linking it on a
+static page is harmless. See [Live pages](/docs/live) and
+[`live`](/docs/reference/live).
 
 `LightJS` is `light.js`, the light the depth styles read: it sets
 `--rst-light-x` and `--rst-light-y` from the hour (its `FOLLOW` flag,
@@ -718,11 +769,16 @@ there it has not enhanced already.
 The list opens downward unless there is not room for it below and there
 is more room above. It never goes past the edge of what the reader can
 see: if neither side has room for the whole list, it takes the bigger
-side and fits itself to it.
+side and fits itself to it. A box that scrolls, around the field, is an
+edge too, unless your stylesheet fixes the list to the screen or anchors
+it outside that box.
 
 Mark a bar that stays pinned below your form, such as a sticky save bar,
 with `data-rst-select-floor`. The list then treats the top of the bar as
 the bottom of the screen, so it never opens over the bar's buttons.
+Mark a header that stays pinned above it with `data-rst-select-ceiling`.
+The list then treats the bottom of the header as the top of the screen,
+so it never opens up behind the header.
 
 Inside an iframe, `select.js` sees only its own frame, so it cannot tell
 when the page around it hides part of the frame, for example behind a

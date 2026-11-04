@@ -59,11 +59,14 @@ layout can show a notice. See [Forms](/docs/forms).
 
 ## Template functions
 
-`ui.Pages` registers `dict`, `list`, `menuGroup`, `searchClear`, `icon`,
-`iconAssets`, `opt`, `stageArt`, `displayURL`, `safeHref`,
-`rowMenuItems`, `paginationItems`, `localizer` and `withL`, and the
-locale functions `T`, `Tf`, `Tbdi`, `number`, `displayValue`,
-`dateWords`, `money` and `actor`.
+`ui.Pages` registers the template functions `dict`, `list`, `menuGroup`,
+`searchClear`, `icon`, `iconAssets`, `opt`, `stageArt`, `displayURL`,
+`safeHref`, `rowMenuItems`, `paginationItems`, `localizer`, `withL`,
+`path`, `needs`, `pageStylesheet`, `pageScripts` and `neededScripts`.
+It also registers the locale functions `T`, `Tf`, `Tbdi`, `number`,
+`displayValue`, `dateWords`, `money` and `actor`.
+
+Write a link to one of your own pages with `path`: `{{path $ "/orders"}}`. At the root it changes nothing. Under a [base path](/docs/reference/basepath) it adds the base, so the link stays in your app.
 
 Start each template body with `{{$L := localizer $}}`. Pass `$L` first
 to every locale function, and to every partial as `"L" $L`:
@@ -75,9 +78,9 @@ to every locale function, and to every partial as `"L" $L`:
 <form rst-form method="post">
 {{template "field-text" dict "L" $L "Name" "name" "Label" "Name" "Value" .Name "Required" true}}
 {{template "field-daterange" dict "L" $L "Label" "When" "Start" (dict "Name" "s" "Label" "From") "End" (dict "Name" "e" "Label" "To")}}
-{{template "form-foot" dict "L" $L "Submit" "Save" "CancelHref" "/" "CancelLabel" "Cancel"}}
+{{template "form-foot" dict "L" $L "Submit" "Save" "CancelHref" (path $ "/") "CancelLabel" "Cancel"}}
 </form>
-{{template "pagination" dict "L" $L "Prev" "/p/1" "Next" "/p/3"}}
+{{template "pagination" dict "L" $L "Prev" (path $ "/p/1") "Next" (path $ "/p/3")}}
 {{end}}
 ```
 
@@ -103,22 +106,94 @@ layout's `<head>`. It renders empty for the vendored-inline default, so
 you can call it unconditionally and never edit the layout when the
 delivery mode changes. See [Icons](/docs/icons).
 
+### The page's stylesheet and scripts
+
+Each page sends only the CSS and JS it can use. When `ui.Pages` starts,
+it reads each page's templates for the hooks they show, such as
+`rst-card` and `rst-btn`, and the scripts they need. The layout links
+the result with two functions:
+
+```html
+<link rel="stylesheet" href="{{path $ pageStylesheet}}">
+{{range pageScripts}}<script defer src="{{path $ (asset .)}}"></script>{{end}}
+```
+
+`pageStylesheet` is the page's slice of `static/tokens.css`: the rules
+for the hooks the page shows, and the rules every page needs. Slices
+are minified, gzipped and cached like your other files, and pages that
+show the same hooks share one. Your `tokens.css` stays one file, and an
+edit to it reaches every slice. If it can't be read, for example
+because it uses CSS nesting, every page links the whole file.
+`theme.css` is never sliced.
+
+`pageScripts` lists the scripts the page uses, in the order they load:
+
+- `busy.js` with a form of the page's own. The layout's language and
+  scheme menus don't count.
+- `light.js` with a component it lights: `rst-btn`, `rst-box`,
+  `rst-card`, `rst-stats` or `rst-list`.
+- `anchor.js` with a menu.
+- `select.js` with `field-select`, and `datetime.js` and `calendar.js`
+  with the date and time fields.
+
+A page with a live region or a polling fragment links the slice for
+every page's hooks and loads every script, because the HTML it swaps
+in later may carry anything.
+
+Pass your app's `rastrillo.Assets` as `PagesConfig.Assets`. With it,
+`pageScripts` does not list an optional script you deleted from
+`static/`, such as `light.js` for the still design. Without it, every
+page links the whole `tokens.css`.
+
+Markup you write in a template is read like a partial's. A field you
+write yourself loads its script as long as the markup carries its
+attribute: `data-rst-select` loads `select.js`, and `data-rst-date`,
+`data-rst-time` or `data-rst-range` load `datetime.js` and
+`calendar.js`.
+
+### Asking with needs
+
+Some markup is not in the templates: HTML your Go code builds, an
+attribute that comes from your data, or markup your own script adds.
+Ask for what it needs in the template that shows it:
+
+```html
+{{needs "select.js"}}<select {{.Hook}}>
+{{needs "rst-card"}}{{.Summary}}
+```
+
+`needs` takes a script or a hook, in quotes, and renders nothing. The
+scripts are `busy.js`, `live.js`, `light.js`, `anchor.js`,
+`select.js`, `calendar.js` and `datetime.js`. A hook is `rst-` and a
+component's name. Any other name makes `NewPages` return an error
+naming the page. Don't add a `<script>` tag for these scripts yourself.
+
+You don't have to find every hook by hand. `make perf` fails when a
+page's slice lacks a rule for a hook that the whole `tokens.css` would
+apply to it, and names the hook to ask for. See
+[Testing](/docs/testing#the-perf-lane).
+
+A layout written before `pageScripts` may load the component scripts
+with `neededScripts`, which lists only `select.js`, `calendar.js` and
+`datetime.js`. It still works.
+
 ## The partials
 
 They span the list-screen, display, form and route families:
 
 ```text
-actor         error-page       field-url           notice
-api-tokens    field            form-error          page-header
-back-nav      field-check      form-foot           pagination
-badge         field-date       job-status          person
-bulk-bar      field-daterange  list-bar            row-menu
-callout       field-datetime   list-bar-search     scheme-menu
-choice-field  field-money      list-row-action     seg-tabs
-confirm-form  field-select     list-search-submit  signin
-detail-list   field-text       locale-menu         signin-title
-dropdown      field-textarea   media-grid          stat
-empty-state   field-time       meter               status-pill
+actor         field            form-foot           pagination
+api-tokens    field-check      job-status          person
+back-nav      field-date       list-bar            region:notice
+badge         field-daterange  list-bar-search     row-menu
+bulk-bar      field-datetime   list-row-action     scheme-menu
+callout       field-money      list-search-submit  seg-tabs
+choice-field  field-select     live-head           signin
+confirm-form  field-text       locale-menu         signin-title
+detail-list   field-textarea   media-grid          stat
+dropdown      field-time       meter               status-pill
+empty-state   field-url        notice
+error-page    form-error       page-header
 ```
 
 `locale-menu` is the language switcher; see
@@ -177,8 +252,8 @@ gone. `ClearHref` is the hook, on both `list-bar-search` and `list-bar`:
 
 ```html
 {{template "list-bar" dict "L" $L
-    "SearchAction" "/posts" "Query" .Query "Hidden" .Carry
-    "ClearHref" "/posts"}}
+    "SearchAction" (path $ "/posts") "Query" .Query "Hidden" .Carry
+    "ClearHref" (path $ "/posts")}}
 ```
 
 Anything you pass wins over the computed default.
@@ -1210,7 +1285,11 @@ pages, an index and an Overview section, to show the shape.
 
 An app on `topbar`, `column` or `stage` can delete `shell.js` and
 `shell.css`. Add both to `vendoredIsMine` in `vendored_test.go`, or
-that test fails on the missing files.
+that test fails on the missing files. These apps need `transition.js`
+before the first stylesheet to handle skipped page transitions.
+Sidebar and console apps can delete `transition.js`. Add
+`"transition.js": true` to `vendoredIsMine` in `vendored_test.go` so the
+test allows the missing file.
 
 ### Upgrading: the topbar's tail is a level deeper
 
