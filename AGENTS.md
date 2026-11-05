@@ -129,81 +129,61 @@ every theme, locale and page kind arrived in `_site`. Don't weaken it.
 
 ## Deploying
 
-The site runs on the **CARLOS flagship** as app `rastrillo` — the same
-bucket-mode `ship`/`promote` + registry-mode `add` sequence as
-carlosframework.com (whose runbook in `carlosframework/website`'s
-CLAUDE.md is the canonical reference, alongside `ship-app.sh` /
-`promote-app.sh` in `carlosframework/platform-infrastructure`).
+🤖 The site is the console app `rastrillo` in account `ops` (sqid `bab`)
+on `https://console.carloku.com`, claimed on 2026-11-05 over the routes
+that were filed by hand under the operator. It deploys like
+carlosframework.com: `carlos deploy` through the console API, with no
+AWS profile, deployment bucket or release key. It is moving to its own
+account, `rastrillo` (`bfu`), once the platform can run `carlos accounts
+migrate` for it; when that lands, `--account ops` below becomes
+`--account rastrillo`.
 
-The one difference: **this repo has a build step, so never ship the repo
-tree.** Ship the built `_site/` of a clean export:
-
-```
-mkdir -p /tmp/rastrillo-ship
-git archive <sha> --prefix=export/ | tar -x -C /tmp/rastrillo-ship
-cd /tmp/rastrillo-ship/export && npm ci && npm run check
-find _site/design-system -type f | wc -l    # 369 at c5fd8c9
-
-export AWS_PROFILE=keymail AWS_REGION=eu-west-1 \
-       CARLOS_DEPLOYMENT_BUCKET=carlos-flagship-271376211898
-carlos ship -app rastrillo -kind static -version <sha> _site
-CARLOS_RELEASE_KEY=$(aws ssm get-parameter --name /carlos/release-key \
-  --with-decryption --query Parameter.Value --output text) \
-  carlos promote -app rastrillo <sha> canary/rehearsal
-```
-
-🤖 That export carries no `src/design-system/` — the gallery is
-generated, not committed (above) — so whatever runs it needs **Go 1.25+
-on `PATH` and network access to `proxy.golang.org`** as well as Node.
-`npm run check` renders the gallery first and then refuses to pass if it
-is missing or partial, so a green check on the export is a complete
-`_site`; a missing Go stops the build with an explanation rather than
-shipping a site with a hole in it. The `find` line is belt and braces —
-read the count before you ship.
-
-The env matters: without `CARLOS_DEPLOYMENT_BUCKET` the CLI goes through
-the console API, where this app is not registered, and fails with "not
-found". Routes (`carlos add`) are registry-mode: they run on the flagship
-box itself (instance `i-092c0c1eea75723cb`, via SSM; env comes from
-`/etc/carlos/host.env`, binary at `/opt/carlos/carlos`).
-
-🤖 As of CARLOS platform PR #108 (2026-08-08, live), adoption after
-`promote` converges in **seconds**, not minutes — there's no meaningful
-wait between the pointer move and the box picking it up. `carlos deploy`
-folds `ship` + `promote` + a wait-until-serving watch into one command,
-but that watch doesn't yet cover instance-less static apps like this one
-(platform#112) — a clean exit isn't a reliable live confirmation here.
-Use `ship` + `promote` separately (above); for this app that pair IS the
-deploy, and convergence is still seconds.
-
-Verify with the version header, then confirm by content. **This route
-does carry `X-Carlos-Version`** — an earlier note here said static routes
-never do, and that was wrong; it has now returned the promoted sha on the
-first poll of three consecutive deploys (2026-08-24, 2026-08-28,
-2026-08-29). It is the fastest confirmation available:
+**This repo has a build step, so never ship the repo tree.** Ship the
+built `_site/` of a clean export of the merged commit, and keep scratch
+on disk under `~/.cache`, not the shared `/tmp` RAM disk:
 
 ```
-curl -sI https://rastrillo.org/docs/compare/ | grep -i x-carlos-version
+sha=$(git rev-parse --short origin/main)
+dir=$(mktemp -d "$HOME/.cache/rastrillo-ship.XXXXXX")
+git archive origin/main | tar -x -C "$dir"
+cd "$dir" && npm ci && npm run check
+carlos deploy --console https://console.carloku.com --account ops \
+  --app rastrillo --kind static --channel canary/rehearsal \
+  --version "$sha" --no-prompt _site
+cd ~ && rm -rf "$dir"
+```
+
+The export carries no `src/design-system/`: the gallery is generated,
+not committed (above), so whatever runs it needs **Go on `PATH` and
+network access to `proxy.golang.org`** as well as Node. `npm run check`
+renders the gallery first and refuses to pass if it is missing or
+partial, so a green check on the export is a complete `_site`.
+
+`carlos deploy` ships, promotes and watches the platform host
+(`rastrillo.bab.oncarlos.com`). A static route re-checks its channel
+about every 60 seconds, so the custom hostnames can lag that long. Verify
+both, by header and then by content:
+
+```
+for h in rastrillo.org www.rastrillo.org; do
+  curl -sI https://$h/docs/ | grep -i x-carlos-version
+done
 curl -s https://rastrillo.org | grep -i "<something from the change>"
+carlos channels --console https://console.carloku.com --account ops --app rastrillo
 ```
 
-Check content as well as the header. The header tells you which sha the
-edge is serving; only the content tells you the build inside it is the
-one you meant.
+The apex can serve the new sha a little after `www` does: poll it before
+concluding a deploy failed.
 
-`carlos channels -app rastrillo` does **not** work for this app — it
-fails with `CARLOS_RELEASE_PUBKEY: expected a base64 32-byte Ed25519
-public key`, and that parameter is not in SSM. Reproduced 2026-08-29.
-Use the header instead.
+`rastrillo.org` and `www.rastrillo.org` are routes on the same app and
+channel. The channel is `canary/rehearsal` for the same reason
+carlosframework.com's is: `stable` bakes 72h on a box's first sighting of
+a channel head. The routes' registry lives on the flagship box annie;
+DNS for the apex points at another flagship box, which serves them from
+annie's published edges file. Do not hand-edit routes or DNS for a
+release.
 
-`rastrillo.org` and `www.rastrillo.org` are CARLOS routes on the same
-app and channel; DNS `A` records point at the flagship
-(`99.81.104.219`). The channel is `canary/rehearsal` for the same reason
-carlosframework.com's is: `stable` bakes 72h on a box's first sighting
-of a channel head, which would mean 72h of downtime for a
-never-before-served route.
-
-Rollback is a pointer move: promote the previous good sha back onto
-`canary/rehearsal` and the edge picks it up within seconds. Read the
-version header to see what is actually being served, since
-`carlos channels` is unusable here (above).
+Rollback is a pointer move: `carlos rollback --console
+https://console.carloku.com --account ops --app rastrillo
+canary/rehearsal`, or promote the previous good sha. Record the version
+`carlos channels` shows before deploying so you know what to go back to.
