@@ -1,9 +1,12 @@
-// 🤖 Build-time only. The served site ships one small script, /home.js,
-// which only adds motion to a homepage that is complete without it.
-import { rmSync } from "node:fs";
+// 🤖 Build-time only. The served site ships two small scripts: /home.js,
+// which only adds motion to a homepage that is complete without it, and
+// /tour.js, the tour's step-list collapse, file tabs and copy buttons.
+import { readFileSync, rmSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join } from "node:path";
 import markdownIt from "markdown-it";
 import markdownItAnchor from "markdown-it-anchor";
+import { renderCode } from "./lib/tour-code.js";
 
 // slugify must match internal/docsite's Anchor in the rastrillo repo
 // exactly, or an internal fragment link passes that repo's Go gate and
@@ -65,11 +68,37 @@ export default function (eleventyConfig) {
   });
   eleventyConfig.addPassthroughCopy({ "src/favicon.svg": "favicon.svg" });
 
+  // The tour (/tour/): its stylesheet, its one script, and the per-step
+  // project zips that hack/gen-tour.mjs left in _tour/zips/. The zip
+  // names already carry the tour's slug (chat-05-rooms.zip), so one
+  // flat directory serves them. The pages themselves are rendered from
+  // _tour/tour.json by src/_data/tour.js and src/tour/.
+  eleventyConfig.addPassthroughCopy({ "src/tour.css": "tour.css" });
+  eleventyConfig.addPassthroughCopy({ "src/tour.js": "tour.js" });
+  eleventyConfig.addPassthroughCopy({ "_tour/zips": "tour/zips" });
+  eleventyConfig.addWatchTarget("_tour/");
+
   const md = markdownIt({ html: true, linkify: false, typographer: false }).use(
     markdownItAnchor,
     { slugify, level: [2, 3, 4], tabIndex: false },
   );
   eleventyConfig.setLibrary("md", md);
+
+  // The tour's lessons arrive as markdown inside tour.json rather than as
+  // .md files, so they are rendered through this same instance: one
+  // markdown dialect for the docs and the tour.
+  eleventyConfig.addFilter("markdown", (text) => md.render(String(text ?? "")));
+  // A file's code with its changed lines marked (lib/tour-code.js).
+  eleventyConfig.addFilter("tourCode", renderCode);
+  // The tour pages put their own visible 🤖 before each step's title, so
+  // a title that already carries one would show it twice.
+  // The tour's own CSS and script change between publishes under the same
+  // name; a content hash in the URL stops a browser serving the old one.
+  eleventyConfig.addFilter("fingerprint", (path) => {
+    const hash = createHash("sha256").update(readFileSync("src" + path)).digest("hex").slice(0, 10);
+    return `${path}?v=${hash}`;
+  });
+  eleventyConfig.addFilter("withoutRobot", (text) => String(text ?? "").replace(/^🤖\s*/, ""));
 
   // The docs corpus is vendored from the rastrillo repo by
   // hack/sync-docs.mjs. Pages are addressed by slug — "migrations",

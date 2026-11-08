@@ -1,0 +1,84 @@
+{
+  "slug": "chat",
+  "title": "Build a live chat app",
+  "version": "v0.31.0",
+  "steps": [
+    {
+      "number": 1,
+      "slug": "install",
+      "title": "Install Go and the Rastrillo CLI",
+      "lesson": "Fixture lesson for step 1. It has no files, only commands.\n\nA second paragraph with `inline code` and a [link to the docs](/docs/).\n",
+      "check": "Fixture check: `rastrillo version` prints `v0.31.0`.",
+      "commands": [
+        "go install amadan.net/rastrillo/rastrillo/cmd/rastrillo@v0.31.0",
+        "rastrillo version"
+      ],
+      "files": [],
+      "zip": "chat-01-install.zip"
+    },
+    {
+      "number": 2,
+      "slug": "scaffold",
+      "title": "Scaffold the app",
+      "lesson": "Fixture lesson for step 2.\n\n- A list item.\n- Another list item, with `chat/`.\n\n```sh\nls chat\n```\n",
+      "check": "Fixture check: a `chat` directory exists.",
+      "commands": [
+        "rastrillo new chat -auth magic",
+        "cd chat"
+      ],
+      "files": [],
+      "zip": "chat-02-scaffold.zip"
+    },
+    {
+      "number": 3,
+      "slug": "rooms",
+      "title": "Give chat rooms a table",
+      "lesson": "Fixture lesson for step 3. It edits one file and adds another.\n\nOpen `internal/chat/models.go`. Then add `migrations/0002_rooms.sql`.\n\nFixture filler paragraph, long enough to make the lesson pane scroll on a short window. Fixture filler paragraph, long enough to make the lesson pane scroll on a short window. Fixture filler paragraph, long enough to make the lesson pane scroll on a short window. Fixture filler paragraph, long enough to make the lesson pane scroll on a short window. Fixture filler paragraph, long enough to make the lesson pane scroll on a short window. Fixture filler paragraph, long enough to make the lesson pane scroll on a short window. \n",
+      "check": "Fixture check: `go test ./...` passes.",
+      "commands": [
+        "go test ./..."
+      ],
+      "files": [
+        {
+          "path": "internal/chat/models.go",
+          "status": "edit",
+          "language": "go",
+          "content": "package chat\n\nimport (\n\t\"context\"\n\t\"database/sql\"\n\t\"time\"\n)\n\n// Room is a place to talk.\ntype Room struct {\n\tID        int64\n\tName      string\n\tCreatedAt time.Time\n}\n\n// Rooms lists every room, oldest first.\nfunc Rooms(ctx context.Context, db *sql.DB) ([]Room, error) {\n\trows, err := db.QueryContext(ctx,\n\t\t`SELECT id, name, created_at FROM rooms ORDER BY id`)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer rows.Close()\n\n\tvar rooms []Room\n\tfor rows.Next() {\n\t\tvar room Room\n\t\terr := rows.Scan(&room.ID, &room.Name, &room.CreatedAt)\n\t\tif err != nil {\n\t\t\treturn nil, err\n\t\t}\n\t\trooms = append(rooms, room)\n\t}\n\treturn rooms, rows.Err()\n}\n\n/* The scaffold's own helpers stay below. */\nfunc open(path string) (*sql.DB, error) {\n\treturn sql.Open(\"sqlite\", path+\"?_pragma=foreign_keys(1)\")\n}\n",
+          "changed": [
+            [
+              3,
+              7
+            ],
+            [
+              9,
+              35
+            ]
+          ]
+        },
+        {
+          "path": "migrations/0002_rooms.sql",
+          "status": "new",
+          "language": "sql",
+          "content": "-- 0002: rooms.\nCREATE TABLE rooms (\n\tid INTEGER PRIMARY KEY,\n\tname TEXT NOT NULL UNIQUE,\n\tcreated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n",
+          "changed": [
+            [
+              1,
+              6
+            ]
+          ]
+        }
+      ],
+      "zip": "chat-03-rooms.zip"
+    },
+    {
+      "number": 4,
+      "slug": "look-around",
+      "title": "Look around",
+      "lesson": "Fixture lesson for step 4. It has neither files nor commands.\n",
+      "check": "Fixture check: nothing to run.",
+      "commands": [],
+      "files": [],
+      "zip": "chat-04-look-around.zip"
+    }
+  ]
+}

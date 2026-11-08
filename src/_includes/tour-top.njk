@@ -1,0 +1,42 @@
+{#
+  🤖 The tour's head of page: a slim row of the homepage's flags, the
+  rake mark and the CARLOS / rastrillo / tour brand line. On a step page
+  (when `step` is set) it also carries the step's project download and
+  the progress indicator.
+
+  The flags are one SVG pattern of ten, the order the approved layout
+  hangs them in, repeated across whatever width the window has. Unlike
+  the homepage's they do not move: this page is for reading code.
+#}
+<div class="flagrow" aria-hidden="true">
+  <svg width="100%" height="14" focusable="false">
+    <defs>
+      <pattern id="flags" width="340" height="14" patternUnits="userSpaceOnUse" x="30">
+        {% for c in [0, 1, 2, 3, 4, 5, 6, 1, 2, 0] %}<polygon class="f-{{ c }}" points="{{ loop.index0 * 34 }},0 {{ loop.index0 * 34 + 14 }},0 {{ loop.index0 * 34 + 7 }},12"/>{% endfor %}
+      </pattern>
+    </defs>
+    <rect width="100%" height="14" fill="url(#flags)"/>
+  </svg>
+</div>
+<header class="top">
+  <svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false" fill="none" stroke-width="3.4" stroke-linecap="round">
+    <path stroke="var(--chan)" d="M16 9V16A2.5 2.5 0 0 0 18.5 18.5H30M10.5 9V16A8 8 0 0 0 18.5 24H30M5 9V16A13.5 13.5 0 0 0 18.5 29.5H30"/>
+    <path stroke="var(--almagra)" d="M5 9H16M10.5 9V2"/>
+  </svg>
+  <nav class="brandline" aria-label="Site">
+    <a class="carlos" href="https://carlosframework.com">CARLOS</a>
+    <span class="sep" aria-hidden="true">/</span>
+    <a class="here" href="/">rastrillo</a>
+    <span class="sep" aria-hidden="true">/</span>
+    <a class="now" href="/tour/"{% if not step %} aria-current="page"{% endif %}>tour</a>
+  </nav>
+  {% if step %}
+  {% if step.zipUrl %}<a class="dl" href="{{ step.zipUrl }}" download title="The whole app as it stands at the end of this step">
+    <svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+    Download project at step {{ step.number }} (.zip)</a>{% endif %}
+  <p class="prog">
+    <span>{{ step.number }} / {{ tour.total }}</span>
+    <span class="bar" aria-hidden="true">{% for s in tour.steps %}<b{% if s.number <= step.number %} class="on"{% endif %}></b>{% endfor %}</span>
+  </p>
+  {% endif %}
+</header>

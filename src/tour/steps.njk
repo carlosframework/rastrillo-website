@@ -1,0 +1,129 @@
+---
+pagination:
+  data: tour.steps
+  size: 1
+  alias: step
+permalink: "{{ step.url }}index.html"
+eleventyExcludeFromCollections: true
+---
+{#
+  🤖 One page per step of the tour: the step list, the lesson, the editor.
+
+  Everything is on the page with scripts off. /tour.js only adds the
+  conveniences: collapsing the step list (and remembering that across
+  steps), turning the stacked files into tabs, and the copy buttons,
+  which stay hidden without it. With it off the step list is open, every
+  file is shown one under another with its own name and tag, and the
+  code is plain selectable text.
+
+  The lesson and check are markdown from tour.json, rendered by the
+  same markdown-it the docs use. The code is rendered at build time by
+  lib/tour-code.js; nothing is coloured in the browser.
+#}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>{{ step.number }}. {{ step.title | withoutRobot }} · {{ tour.title }} · Rastrillo tour</title>
+<link rel="preload" href="/fonts/ibarra-real-nova.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/chivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+{% if step.prev %}<link rel="prev" href="{{ step.prev.url }}">{% endif %}
+{% if step.next %}<link rel="next" href="{{ step.next.url }}">{% endif %}
+<link rel="stylesheet" href="{{ '/tour.css' | fingerprint }}">
+<script src="{{ '/tour.js' | fingerprint }}"></script>
+</head>
+<body class="tour-step">
+{% include "tour-top.njk" %}
+{% set hasCode = step.files.length or step.commands.length %}
+<div class="main">
+  <nav class="steplist" id="steplist" aria-labelledby="steps-h">
+    <div class="head">
+      <h2 id="steps-h">Steps</h2>
+      <button class="tgl" type="button" hidden aria-controls="steplist" aria-expanded="true" aria-label="Collapse steps" title="Collapse steps">
+        <svg class="i ico-close" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></svg>
+        <svg class="i ico-open" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></svg>
+      </button>
+    </div>
+    <ol>
+      {% for s in tour.steps %}
+      <li{% if s.number < step.number %} class="ok"{% elif s.number == step.number %} class="cur"{% endif %}>
+        <a href="{{ s.url }}"{% if s.number == step.number %} aria-current="step"{% endif %} title="{{ s.number }}. {{ s.title | withoutRobot }}"><span class="n">{{ s.number }}</span><span class="t">{{ s.title | withoutRobot }}</span></a>
+      </li>
+      {% endfor %}
+    </ol>
+  </nav>
+
+  <main class="lesson">
+    <div class="scroll">
+      <article class="lesson-in">
+        <p class="kicker">Step {{ step.number }} · {{ tour.title }}</p>
+        <h1><span class="ai">🤖</span> {{ step.title | withoutRobot }}</h1>
+        <div class="prose">{{ step.lesson | markdown | safe }}</div>
+        {% if step.check %}
+        <section class="done" aria-labelledby="check-h">
+          <h2 id="check-h"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>Check it worked</h2>
+          {{ step.check | markdown | safe }}
+        </section>
+        {% endif %}
+        <p class="llm">🤖 These pages were written by an LLM, on the ideas, instruction, and editing of humans. AI-written text here is always marked, visibly — that's <a href="https://11factor.org/#x">factor X</a>.</p>
+      </article>
+    </div>
+    <nav class="navbar" aria-label="Back and next">
+      {% if step.prev %}
+      <a class="btn" href="{{ step.prev.url }}" rel="prev"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg><span class="sr">Back: </span>{{ step.prev.title | withoutRobot }}</a>
+      {% else %}<span></span>{% endif %}
+      {% if step.next %}
+      <a class="btn primary" href="{{ step.next.url }}" rel="next"><span class="sr">Next: </span>{{ step.next.title | withoutRobot }}<svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg></a>
+      {% endif %}
+    </nav>
+  </main>
+
+  {% if hasCode %}
+  <section class="codepane" aria-label="Editor">
+    {% if step.files.length %}
+    <div class="mk editor">
+      <div class="mk-tabs tablist" role="tablist" aria-label="Files" hidden>
+        {% for f in step.files %}
+        <button class="mk-tab" type="button" role="tab" id="tab-{{ f.id }}" aria-controls="{{ f.id }}">{{ f.name }} <span class="tag {{ f.status }}">{{ "New" if f.status == "new" else "Edit" }}</span></button>
+        {% endfor %}
+      </div>
+      {% for f in step.files %}
+      <section class="file" id="{{ f.id }}" aria-labelledby="name-{{ f.id }}">
+        <div class="mk-tabs file-head"><h2 class="mk-tab on" id="name-{{ f.id }}">{{ f.name }} <span class="tag {{ f.status }}">{{ "New" if f.status == "new" else "Edit" }}</span></h2></div>
+        <div class="mk-bar">
+          <span class="path"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>{{ f.path }}</span>
+          <button class="copy" type="button" hidden data-copy="code-{{ f.id }}">
+            <svg class="i i-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            <svg class="i i-done" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>
+            Copy file contents</button>
+        </div>
+        <pre class="code" id="code-{{ f.id }}" tabindex="0" aria-label="{{ f.path }}"><code>{{ f | tourCode | safe }}</code></pre>
+      </section>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if step.commands.length %}
+    <div class="mk term">
+      <div class="mk-bar">
+        <span class="path"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></svg>Terminal</span>
+        <button class="copy" type="button" hidden data-copy-commands="commands">
+          <svg class="i i-copy" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          <svg class="i i-done" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg>
+          Copy</button>
+      </div>
+      <pre class="cmd" id="commands">{% for c in step.commands %}<span class="p" aria-hidden="true">$ </span><span class="c">{{ c }}</span>{% if not loop.last %}{{ "\n" }}{% endif %}{% endfor %}</pre>
+    </div>
+    {% endif %}
+    <span class="sr" role="status"></span>
+  </section>
+  {% else %}
+  {# Nothing to type or run in this step. The column stays, empty, so the
+     lesson and its Back/Next keep their place from one step to the next. #}
+  <div class="codepane empty" aria-hidden="true"></div>
+  {% endif %}
+</div>
+</body>
+</html>
