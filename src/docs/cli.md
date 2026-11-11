@@ -237,9 +237,10 @@ rastrillo doctor [--fix] [--force] [--theme <name>] [--probe] [dir]
 ```
 
 Compares the files `rastrillo new` copied into the app's `static/`
-directory (`tokens.css`, `theme.css`, `rastrillo.js`, `select.js`,
-`datetime.js` and `light.js`) against the copies this binary carries,
-and says which ones differ and how.
+directory (`tokens.css`, `theme.css`, `shell.css`, `rastrillo.js`,
+`live.js` and the scripts from Fiesta, such as `fiesta.js`, `select.js`
+and `datetime.js`) against the copies this binary carries, and says
+which ones differ and how.
 
 It is a convenience and an upgrade tool, not the thing standing between
 your app and silent drift. That is the `vendored_test.go` the scaffold
@@ -308,6 +309,27 @@ with no big selects is a supported choice, so an absent file is reported
 as **absent**, not as drift, and does not fail the exit code — you get a
 line saying what the library ships and how big it is. `--fix` will still
 add it, because asking for `--fix` is asking.
+
+### Files that move in pairs
+
+Two pairs of files are refreshed together or not at all: `rastrillo.js`
+with `fiesta.js`, and `datetime.js` with `calendar.js`. An older
+`rastrillo.js` closes menus itself, and running it beside `fiesta.js`
+isn't supported. An older `datetime.js` looks for `rastrilloCalendar`,
+which the current `calendar.js` calls `fiestaCalendar`, so either file
+alone breaks the date field's calendar. If you own one file of a pair,
+`--fix` leaves both and says why. Add the other to `vendoredIsMine`
+too, or pass `--force` to refresh both.
+
+`doctor` also checks your layouts. A layout that links `rastrillo.js`
+by hand and has no `{{range pageScripts}}` gets no `fiesta.js`, so its
+menus stop closing on Escape and its switches can't be dragged once
+`rastrillo.js` is the current one. `doctor` names each such layout and
+the line to add, right after its `rastrillo.js` tag:
+
+```html
+<script defer src="{{path $ (asset "static/fiesta.js")}}"></script>
+```
 
 ### An app on the old module path
 
@@ -475,7 +497,7 @@ failure this staged migration exists to avoid.
 Rewriting is idempotent, so running it twice, or over a tree half of
 which is already done, changes nothing the second time. Nothing breaks
 if you stop between steps 1 and 3, either: `tokens.css` styles both
-spellings until stage 3, and `rastrillo.js` dismisses menus written in
+spellings until stage 3, and `fiesta.js` dismisses menus written in
 either one. Step 3 is what you owe stage 3, not what you owe today.
 
 ### One name changed meaning
@@ -500,12 +522,11 @@ every run that changes anything.
 
 ### The vendored files
 
-It never touches `static/tokens.css`, `static/theme.css`,
-`static/rastrillo.js`, `static/select.js`, `static/datetime.js` or
-`static/light.js`. Those
-are copies of the library's, and `doctor` is what refreshes them;
-rewriting one here would make your copy differ from the library's for
-good.
+It never touches the files `rastrillo new` copied into `static/`, such
+as `static/tokens.css`, `static/theme.css`, `static/rastrillo.js` and
+`static/fiesta.js`. Those are copies of the library's, and `doctor`
+is what refreshes them; rewriting one here would make your copy differ
+from the library's for good.
 
 ### The one opt-out
 
@@ -692,6 +713,48 @@ its type instead.
 Exits 1 when the routes cannot be listed, or when `--check` finds an
 action no route mounts, and 2 when the arguments are wrong. Ctrl-C stops
 it and removes what it built.
+
+## rastrillo csp
+
+```sh
+rastrillo csp [dir]
+```
+
+Finds markup that the default Content-Security-Policy blocks, in the
+module at `dir` (default `.`). The browser drops each of these and
+throws no error, so the page just looks or behaves wrong:
+
+- a `style` attribute, or `setAttribute("style")` in a script
+- a `<style>` block
+- an inline `<script>`, one with no `src`
+- an `on*` handler attribute, such as `onclick`
+- a `javascript:` URL
+
+It reads templates (`.html`, `.htm`, `.gohtml`, `.tmpl`), the string
+literals in Go files, and `.js` and `.mjs` files. It skips test files, generated
+files, and the copies of the framework's files in `static/`. It also
+skips nested modules and directories named `testdata`, `vendor` or
+`node_modules`, or starting with `.` or `_`.
+
+Each line names a file and line, what is there, and what to write
+instead: a class in your own stylesheet, or a listener added with
+`addEventListener` in a script in `static/`. A script can still set
+`element.style.setProperty`, which the CSP allows.
+
+A `<script type="importmap">` passes, though the default CSP blocks it
+too: an app that needs one admits it by its hash in `Options.CSP`, and
+`csp` cannot see whether yours does. A data block such as
+`<script type="application/json">` passes because the browser never
+runs it.
+
+It reads source, not rendered pages, so it cannot see markup an
+attribute value or a template function builds at run time. The browser
+reports blocked markup only in the console and as a
+`securitypolicyviolation` event. The scaffold browser test fails on
+console errors, on the pages it visits.
+
+The scaffold's `make csp` runs it. Exits 1 when it finds something, and
+2 when the arguments are wrong.
 
 ## rastrillo session-key
 

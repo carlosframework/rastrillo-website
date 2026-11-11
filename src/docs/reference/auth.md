@@ -27,6 +27,7 @@ Build one at boot.
 ```go
 type Config struct {
 	DB               *sql.DB
+	Reader           *sql.DB
 	Origin           string
 	InstanceKey      string
 	Proof            *pow.Guard
@@ -54,6 +55,8 @@ type Config struct {
 var ErrProofUnset, ErrProofMode error // from New: neither Proof nor ProofOff; a bound Guard
 const ProofScope = "rastrillo/auth/begin"
 ```
+
+`auth` passes `Reader` to [`sessions`](/docs/reference/sessions). Leave it nil unless a mixed-load test on your instance shows it helps, as the sessions page says.
 
 `Proof` is sign-in's front door, required unless `ProofOff`; [Magic links](/docs/magic-links#the-front-door) and [pow](/docs/reference/pow) cover it.
 
@@ -250,6 +253,11 @@ type ConfirmPageData struct {
 `SigninScreen` on, set it to your sign-in page's handler: `SigninState`
 answers `StepConfirm` on the request it gets. Nil gets a self-contained
 English page, so upgrading needs no code change beyond the POST route.
+The default policy allows the page's single `<style>` block by hash. If
+you set `Options.CSP`, include
+`'sha256-81gZUb3tp60YCqhJ0dItBPh5hRQiGbfst4gpwCNPTfI='` in `style-src`,
+and in `style-src-elem` if your policy has one; otherwise, the page will
+be unstyled.
 
 Before calling you, `Verify` sets `Cache-Control: no-store`,
 `Referrer-Policy: strict-origin`, `X-Robots-Tag: noindex, nofollow`,

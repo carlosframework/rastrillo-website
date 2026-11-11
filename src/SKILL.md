@@ -31,7 +31,7 @@ Read the topic before you start work it covers, not after the source:
 | use the session, magic links, a sign-in screen, 2FA | `skill/signin.md` |
 | build a first slice, add a page or route, a flow, a test, or meet a perf/budget failure | `skill/screens.md` |
 | call a `ui` partial: its keys, at a glance | `skill/partials.md` |
-| style a page, format numbers, add a locale, a menu, a picture grid | `skill/design.md` |
+| style a page (the look is Fiesta's), format numbers, add a locale, a menu, a picture grid | `skill/design.md` |
 | take money, dates, URLs or uploads in a form, or protect a public form | `skill/forms.md` |
 | choose GORM or SQL, store files, write a migration, add teams or roles, serve a tenant under `/<slug>` | `skill/data.md` |
 | run work in the background, poll for progress, schedule | `skill/background.md` |
@@ -56,6 +56,10 @@ no accounts.
 its tests; it compiles, passes and serves before you write a line, so
 never hand-write any of it. The scaffolded `AGENTS.md` is the source of
 truth for that app's code; this file stays the framework's.
+
+**Strict CSP:** browsers silently drop `style` attributes,
+`<style>` blocks, inline scripts and `on*` handlers; use classes and
+files in `static/`. `make csp` finds them.
 
 **Look before you build.** Most things an app needs already ship: a
 Light/Dark/System switch in every shell, a picture grid (`media-grid`),
@@ -159,13 +163,13 @@ The other seven, an action's shape and what each gate message means:
 
 - Never import `github.com/glebarez/*` or `gorm.io/driver/sqlite`: the
   binary panics at init or needs cgo.
-- Never write `style` attributes or `<style>` blocks (the CSP drops
-  them silently), hand-roll a labelled control (use `field-*` partials
+- Never hand-roll a labelled control (use `field-*` partials
   in `<form rst-form>` closed by `form-foot`), an error page, a colour
   toggle or an image grid: they ship (`skill/design.md`).
 - Never add a `<script>` tag for a framework component (your own are
   welcome: `skill/scripts.md`): the `field-*` partials load their own; markup built in Go asks with
-  `{{needs "select.js"}}` or `{{needs "rst-card"}}`.
+  `{{needs "select.js"}}` for the script, and `{{needs "rst-card"}}` for each hook it writes, whether as an attribute or a class.
+- Never put a dropdown on its own line or above a page title: it sits in a row beside what it acts on (a page header, section head, bar, toolbar or footer row).
 - Never save bytes to disk or a column: the filesystem is ephemeral
   (`skill/data.md`).
 - Never `git merge` to main, even locally: every change lands through
