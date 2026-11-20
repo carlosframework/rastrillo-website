@@ -63,8 +63,8 @@ layout can show a notice. See [Forms](/docs/forms).
 `searchClear`, `icon`, `iconAssets`, `opt`, `stageArt`, `displayURL`,
 `safeHref`, `rowMenuItems`, `paginationItems`, `localizer`, `withL`,
 `path`, `needs`, `pageStylesheet`, `pageScripts` and `neededScripts`.
-It also registers the locale functions `T`, `Tf`, `Tbdi`, `number`,
-`displayValue`, `dateWords`, `money` and `actor`.
+It also registers the locale functions `T`, `Tf`, `Tbdi`, `Taround`,
+`number`, `displayValue`, `dateWords`, `money`, `actor` and `date`.
 
 Write a link to one of your own pages with `path`: `{{path $ "/orders"}}`. At the root it changes nothing. Under a [base path](/docs/reference/basepath) it adds the base, so the link stays in your app.
 
@@ -139,8 +139,10 @@ because it uses CSS nesting, every page links the whole file.
 - `fiesta.js` on every page, first: it closes menus on Escape or a
   click elsewhere, lets a switch be dragged and applies a colour-scheme
   choice in place.
-- `busy.js` with a form of the page's own. The layout's language and
-  scheme menus don't count.
+- A form on the page loads `busy.js`, unless its tag opts out with
+  `data-busy="false"`. The layout's language and scheme menus don't
+  count. Put the opt-out before any `{{…}}` in the tag, as in the
+  account card's Sign out form.
 - `light.js` with a component it lights: `rst-btn`, `rst-box`,
   `rst-card`, `rst-stats` or `rst-list`.
 - `anchor.js` with a menu.
@@ -214,17 +216,23 @@ back-nav      field-date       list-bar            region:notice
 badge         field-daterange  list-bar-search     row-menu
 bulk-bar      field-datetime   list-row-action     scheme-menu
 callout       field-money      list-search-submit  seg-tabs
-choice-field  field-select     live-head           signin
-confirm-form  field-text       locale-menu         signin-title
-detail-list   field-textarea   media-grid          stat
-dropdown      field-time       meter               status-pill
-empty-state   field-url        notice
-error-page    form-error       page-header
+choice-field  field-number     live-head           signin
+confirm-form  field-select     locale-menu         signin-title
+detail-list   field-text       media-grid          stat
+dropdown      field-textarea   meter               status-pill
+empty-state   field-time       notice
+error-page    field-url        page-header      signin-app-problem
+              form-error                        signin-forget-way
+                                                signin-glyph
+                                                signin-one-way
 ```
+
+`signin-one-way`, `signin-app-problem`, `signin-forget-way` and
+`signin-glyph` are parts of `signin`. Call `signin`, not them.
 
 `locale-menu` is the language switcher; see
 [Localization](/docs/localization). `scheme-menu` is the colour-scheme
-switch beside it, Light, Dark and System; see
+switch beside it: three icon buttons, Light, Dark and System; see
 [Themes](/docs/reference/ui#themes).
 
 Each partial's file carries its data contract in a comment above the
@@ -340,20 +348,20 @@ judgement call. It stays a plain div until someone drives it.
 
 ### Menus close each other
 
-Every `dropdown`, row menu, `locale-menu` and `scheme-menu` the library
-emits carries `name="rst-menus"`, so opening one closes whichever was
-open. That is the native `<details name>` group and costs no
-JavaScript. Pass `MenuGroup` to `dropdown`, `locale-menu`, `scheme-menu`
-or `bulk-bar` to put a menu in a group of its own.
+Every `dropdown`, row menu and `locale-menu` the library emits carries
+`name="rst-menus"`, so opening one closes whichever was open. That is
+the native `<details name>` group and costs no JavaScript. Pass
+`MenuGroup` to `dropdown`, `locale-menu` or `bulk-bar` to put a menu in
+a group of its own.
 
 A nested `rst-menu-group` **must** use a different name from the menu
 around it. `<details name>` exclusivity is document-wide, not
 sibling-scoped, so a submenu sharing its parent's group closes that
 parent the moment it opens.
 
-The toggle-block is outside the group: it is not a menu. So is the Menu
-button of the topbar and console on a phone: the account menu opens
-inside it, and in the same group it would close it.
+The toggle-block is outside the group: it is not a menu. So is the
+shells' account card, `name="rst-shell-menu"`: the Language row opens
+inside it, and in the same group it would close the card.
 
 Closing an open menu on a click elsewhere, or on Escape, is the one part
 native `<details>` cannot express, so `fiesta.js` does it — two
@@ -577,7 +585,10 @@ order 4,471.
 
 Use `{{number $L .Count}}` for a quantity and
 `{{money $L .Price .Currency}}` for money. Both write the reader's
-language's digits and marks. `money` takes the amount in the currency's
+language's digits and marks, from the same CLDR data. For an exact
+decimal, pass a `number.Decimal`; `"plain"`, `"places" 2` and
+`"percent"` after the value set the format. See
+[Localization](/docs/localization#numbers). `money` takes the amount in the currency's
 smallest unit, or a pointer to it, and the ISO code as a string. A nil
 amount writes nothing.
 
@@ -596,9 +607,10 @@ item a `DateTime` alongside its `Value`:
 ```
 
 `Value` stays whatever you formatted for a person to read; `DateTime`
-carries the same moment in the one syntax a machine can parse. The
-framework does not format dates — a locale decides that and you have the
-locale — so the two are supplied together.
+carries the same moment in the one syntax a machine can parse. Format
+the `Value` with `{{date $L .Published "dateYear"}}`, which writes the
+reader's language's pattern (`2 August 2026`, `August 2, 2026`,
+`2. August 2026`); see [Localization](/docs/localization#dates).
 
 Only for moments and durations. An identifier, a quantity or a reference
 number is not a time however numeric it looks; `Mono` is what marks
@@ -831,16 +843,22 @@ A hand-written select opts out from the markup side with
 This partial never emits it — `Plain` simply emits nothing — but
 `select.js` honours it, so a select you wrote yourself can say no.
 
-## The design system
+## Rastrillo components
 
-Every partial, every state, every markup idiom and all five shells,
-rendered live for all three themes and all twelve base locales: one
-page per section for each theme and locale, plus a full-page demo for
-each shell and one for the modal route. It is live at
-rastrillo.org/design-system.
+Rastrillo components is the gallery of every partial, every state and
+all five shells, rendered live for all three themes and all twelve base
+locales, with the template call beside each sample: one page per section
+for each theme and locale, plus a full-page demo for each shell and one
+for the modal route. The site publishes it at rastrillo.org/components.
+
+The look is Fiesta's, so the gallery leaves Fiesta's parts to Fiesta's
+own design system at fiesta.rastrillo.org/design-system: the tokens, the
+markup you write by hand, and what each stylesheet and script is for.
+Each is linked from the gallery's rail and Overview, in the theme and
+language you are reading.
 
 The gallery is generated by `internal/designsystem` and is not kept in
-the repository: it is about 33 MB of machine output in some 5,700 files,
+the repository: it is about 38 MB of machine output in some 6,300 files,
 rewritten whole every time a `ui` template changes. The site builds it
 at deploy time by running `cmd/dsgen` against the version of the
 framework the docs were vendored from, so the gallery documents the
@@ -848,13 +866,21 @@ version the prose describes:
 
 ```
 go run amadan.net/rastrillo/rastrillo/cmd/dsgen@<version> \
-    -out src/design-system -mount /design-system
+    -out src/components -mount /components -redirect-from /design-system
 ```
 
-Two arguments and no others, deliberately: `-out` is where the files go,
-`-mount` is the URL path they will be served from. Every link and asset
-URL in the output is an absolute path under `-mount`, so a tree
+Three arguments and no others, deliberately: `-out` is where the files
+go, `-mount` is the URL path they will be served from. Every link and
+asset URL in the output is an absolute path under `-mount`, so a tree
 generated for one path cannot be served at another.
+
+`-redirect-from` names a path the site used to serve the gallery from.
+With it, dsgen adds a `_redirects` file to `-out` that sends every
+address the gallery published there to its new place in one hop, with a
+301: the same page under `-mount`, or Fiesta's page for one that moved
+to Fiesta. The rules match whole site paths, so publish the file at the
+site's root. rastrillo.org passes `/design-system`, where the gallery
+lived until it became Rastrillo components.
 
 To read the rendered pages yourself, `go generate ./...` writes the same
 tree into `.design-system/`, which is git-ignored. Nothing reads that
@@ -864,21 +890,23 @@ freshness gate to run.
 
 Every page is laid out in the `sidebar` shell, because that shell is one
 of the things the gallery exists to show. On a desktop the rail is the
-same on every page: a search box over a nav that links every section,
-every partial and every markup idiom in the whole gallery, with the
-section you are reading expanded and the rest folded away.
+same on every page: a search box over a nav that links every section
+and every partial in the whole gallery, with the section you are reading
+expanded and the rest folded away.
 `TestTheSidebarLinksEverythingOnThePageExactlyOnce` derives that list
 from the same markers the coverage gates read, so a new partial shows up
 there without anyone touching it. Typing in the box hides the entries
 that do not match, and it also finds things by the names people call
-them: "checkbox", "dialog", "card". Below 800px the gallery works the
+them: "checkbox", "dialog", "avatar". Below 800px the gallery works the
 way a sidebar app does on a phone: the Overview is an index of every
 section, and every other page has a back control that returns you to the
 row you left.
 
-The reader-facing names for two of those sections are not the code's.
-The gallery calls them **Components** and **UI primitives**; `ui`
-returns partials, and this page calls them partials.
+The gallery calls the partials components, as its name does; `ui`
+returns partials, and this page calls them partials. Markup with no call
+to write it, such as cards, data grids and menus, is Fiesta's: look for
+it on Fiesta's UI primitives page, linked from the rail as **UI
+primitives on Fiesta**, not in the search box.
 
 **Every word on the page is translated**, not only the components. The
 gallery's headings, leads and notes come from a catalog of its own, in
@@ -947,9 +975,9 @@ and the tabs, rather than controls that cannot do anything.
 
 Every link in that tree — stylesheets, scripts, the theme and language
 switchers, the shell and modal demos — is an absolute path under
-`/design-system/`, so the tree is served from that path and no other.
+`/components/`, so the tree is served from that path and no other.
 Relative links looked more portable and were wrong: the static edge
-serves `/design-system` and `/design-system/` as the same page without
+serves `/components` and `/components/` as the same page without
 redirecting between them, and a relative href resolves differently on
 each.
 
@@ -1174,9 +1202,15 @@ The shell is the page frame — `templates/layout.html`, written once by
 | Shell     | The frame                                                                  |
 |-----------|----------------------------------------------------------------------------|
 | `column`  | a centred content column, no chrome (default)                              |
-| `topbar`  | header bar: brand, nav, account menu, locale switcher, footer              |
-| `sidebar` | a rail of nav groups beside the page; on a phone, an index page of sections and a back control |
-| `console` | both at once: a bar across the top with the rail beneath it down the side; on a phone, the bar's menu opens as a card and the rail is an index page |
+| `topbar`  | a bar across the top with the brand, the nav and the account card, then a footer; on a phone, the sections are a Menu page at `/menu` |
+| `sidebar` | a rail of nav groups beside the page; on a phone, the sections are an index page |
+| `console` | both at once: a bar across the top with the rail beneath it down the side; on a phone, the sections are an index page |
+
+Pick the shell by the app's shape. One list and its detail pages fit
+`column`. Sections that people move between need `topbar`, `sidebar` or
+`console`. On a phone, all three show the sections as an index page and
+give every page a single header row: a way back, the app's name and the
+person's avatar. `stage` is for a sign-in page.
 
 Every shell defines `layout`, renders `{{template "content" .}}` for the
 page's own body, and puts each piece of chrome in a block with a working
@@ -1196,10 +1230,11 @@ block:
 {{define "content"}}<h1>Your notes</h1>{{end}}
 ```
 
-The blocks are `title`, `lang`, `dir` and `head` in all five shells,
-plus `brand`, `nav`, `account` and `locale` in `topbar`, `sidebar` and
-`console`, `profile`, `view` and `up` in `sidebar` and `console`, `foot`
-in `topbar`, `console` and `stage`, and `backdrop` in `stage`.
+The blocks are `title`, `lang`, `dir` and `head` in all five shells;
+`brand`, `nav`, `account`, `profile`, `locale`, `scheme`, `view`, `up`
+and `upLabel` in `topbar`, `sidebar` and `console`; `locale` and
+`scheme` in `column`; `foot` in `topbar`, `console` and `stage`; and
+`backdrop` in `stage`.
 
 A shell reads three things from the page's data: `L`, the localizer,
 and `Locales` and `Return` for the language switcher. `L` is required.
@@ -1213,23 +1248,42 @@ the head, so your own CSS wins the ties it should win against
 `tokens.css` and the theme.
 
 `account` is the same in every shell: the links that go inside the
-account menu, such as Settings and Sign out. In `sidebar` and `console`
-the person who is signed in goes in `profile`: the avatar, name and
-email on the button that opens that menu, at the foot of the rail on a
-desktop and at the top of the index on a phone. Move a screen between
-shells and neither block changes.
+account card, such as Settings and Sign out. In `topbar`, `sidebar` and
+`console` the person who is signed in goes in `profile`: the avatar,
+name and email. On a phone, the avatar opens the card. On a desktop,
+the card opens from "Account" in the bar in `topbar` and `console`,
+and from the profile at the foot of the rail in `sidebar`. The card
+also holds the colour scheme and language, so neither sits loose in
+the bar. Move a screen between shells and neither block changes.
 
-The chrome attributes live in `tokens.css` like every other idiom:
-`rst-shell-topbar`, `rst-shell-bar`, `rst-shell-brand`, `rst-shell-nav`,
-`rst-shell-account` and `rst-shell-foot` for the topbar, with
-`rst-shell-menu` and `rst-shell-tail` for its phone menu;
-`rst-shell-sidebar`, `rst-shell-rail`, `rst-shell-group`,
-`rst-shell-main`, `rst-shell-title` and `rst-shell-back` for the
-sidebar, with `rst-shell-rail-foot`, `rst-shell-profile`,
-`rst-shell-avatar`, `rst-shell-who` and `rst-shell-menu-label` for its
-profile menu; `rst-shell-console` for the console, which reuses the
-rest; and `rst-skip`, the skip link, in all five shells. None of it
-needs JavaScript.
+The chrome attributes live in `tokens.css` like every other idiom. The
+roots are `rst-shell-topbar`, `rst-shell-sidebar` and
+`rst-shell-console`, set to `page` or `index` by the `view` block.
+Inside them are `rst-shell-bar`, the header row; `rst-shell-up`, the
+way back; `rst-shell-title`, `rst-shell-brand` and `rst-shell-nav`;
+`rst-shell-rail`, `rst-shell-group` and `rst-shell-rail-foot` for a
+rail; `rst-shell-main` and `rst-shell-foot`. The account card is
+`rst-shell-account` in a bar and `rst-shell-profile` at the foot of the
+sidebar's rail, with `rst-shell-avatar`, `rst-shell-account-label` and
+`rst-shell-who` inside. `rst-skip`, the skip link, is in all five
+shells. Layouts from earlier releases also use `rst-shell-menu`,
+`rst-shell-menu-label`, `rst-shell-tail` and `rst-shell-back`, which
+still draw as they did. None of it needs JavaScript.
+
+The `locale` block is where the language switcher goes. Every shell
+fills it with `locale-menu`, from the page data's `Locales` and
+`Return`:
+
+```html
+{{block "locale" .}}{{$L := localizer $}}{{template "locale-menu" dict "L" $L "Items" (opt $ "Locales") "Return" (opt $ "Return")}}{{end}}
+```
+
+`ui.ForRequest` gives both, so you do not wire the switcher yourself.
+It renders nothing for a one-locale app. In `column` and in older
+layouts it is a dropdown, `rst-dropdown rst-locale`. In this release's
+`topbar`, `sidebar` and `console` it is the account card's Language
+row, and the layout passes `Card`. See
+[Localization](/docs/localization).
 
 `stage` has no chrome. It centres one card, usually the sign-in screen,
 over a full-page backdrop drawn by `{{stageArt "rastrillo"}}` unless you
@@ -1241,12 +1295,20 @@ SVG replaces it outright. Its attributes are `rst-stage`,
 
 ### On a phone: an index and a way back
 
-Below 800px, `sidebar` and `console` show each page in one of two ways.
-Your index page is the list of sections. Every other page shows its
-content, with a back control at the top that returns to that list. The
-sections are never behind a menu button: the only one on the index is
-your profile, at the top right, which holds the account and language
-menus.
+Below 800px, `topbar`, `sidebar` and `console` show each page in one of
+two ways. Your index page is the list of sections. Every other page
+shows its content under one header row: the way back at the start, the
+app's name in the middle and the person's avatar at the end. If the
+name does not fit, it is hidden; the way back and the avatar always
+stay. The sections are never behind a menu button. The avatar opens the
+account card, which holds the account links, the colour scheme and the
+language.
+
+In `sidebar` and `console`, the index is your home page. In `topbar` it
+is a Menu page at `/menu`, and your home page is a content page one
+level below it. `rastrillo new --shell=topbar` writes that page, its
+route and its action. On a desktop the shell adds nothing to `/menu`,
+so the page lists the links itself.
 
 Mark your index page with the `view` block:
 
@@ -1262,34 +1324,44 @@ the index, and give that row the matching id:
 {{define "nav"}}<a id="nav-invoices" href="/invoices" aria-current="page">Invoices</a>…{{end}}
 ```
 
+In `topbar` the row is on the Menu page, so `up` is
+`/menu#nav-invoices`.
+
+The way back says "Sections" in `sidebar` and `console` and "Menu" in
+`topbar`. A page whose parent is not the index points `up` at that
+parent and names it in `upLabel`:
+
+```html
+{{define "up"}}/invoices{{end}}
+{{define "upLabel"}}Invoices{{end}}
+```
+
+Keep `upLabel` plain text. The layout also uses it in the link's
+accessible name, "Back to Invoices", in the reader's language.
+
 With JavaScript off, the fragment brings the reader back to the row
-they left. With `shell.js`, the back control uses the browser's history
+they left. With `shell.js`, the way back uses the browser's history
 when it can, the pages slide, and focus returns to the row. A page with
 no `view` block is a content page, so a page you forget still shows its
-content and a way back.
+content and a way back. In `topbar`, that way back leads to `/menu`.
 
-In `topbar` and `console`, the Menu button on a phone opens a card over
-the page. A tap outside it, or Escape, closes it. The page underneath
-does not move.
-
-In this release's `sidebar` and `console` layouts, `rastrillo.Serve`
-prerenders the pages your navigation links to, so the next page is ready
-when it is tapped. On a phone, Chrome may prerender a section as soon as
-its row is on screen, before anyone taps it; on a desktop, when the
-pointer rests on a link. Older layouts and other pages are not
-prerendered. A prerendered page is fetched with a GET and runs its
-scripts before anyone sees it, so a GET handler must never change
-anything, and a script that changes something as the page opens must
-wait until `document.prerendering` is false. To turn it off, set
+In this release's `topbar`, `sidebar` and `console` layouts,
+`rastrillo.Serve` prerenders the pages your navigation links to, so the
+next page is ready when it is tapped. On a phone, Chrome may prerender a
+section as soon as its row is on screen, before anyone taps it; on a
+desktop, when the pointer rests on a link. Older layouts and other
+pages are not prerendered. A prerendered page is fetched with a GET and
+runs its scripts before anyone sees it, so a GET handler must never
+change anything, and a script that changes something as the page opens
+must wait until `document.prerendering` is false. To turn it off, set
 `Options.NoSpeculationRules`.
 
 ### The console on a phone
 
 `console` has two pieces of chrome to put away below 800px, and each
-goes the way it goes in the shell it comes from. The bar's account and
-language menus go behind the Menu button, which opens a card, as in
-`topbar`. The rail is an index page, as in `sidebar`: mark the index
-with `view` and give other pages `up`.
+behaves as it does in the shell it comes from. The rail is an index
+page, as in `sidebar`: mark the index with `view` and give other pages
+`up`. The bar becomes the one header row, as in `topbar`.
 
 Nothing is reordered at any width. The DOM order, bar, rail, page, is
 the reading order and the focus order at 320px and at 1280px, in both
@@ -1318,15 +1390,53 @@ still opens. To move to the index:
 `rastrillo new --shell=sidebar` and `--shell=console` now write two
 pages, an index and an Overview section, to show the shape.
 
-An app on `topbar`, `column` or `stage` can delete `shell.js` and
-`shell.css`. Add both to `vendoredIsMine` in `vendored_test.go`, or
+An app on `column` or `stage`, or on a `topbar` layout from before
+[one header row](#upgrading-to-one-header-row), can delete `shell.js`
+and `shell.css`. Add both to `vendoredIsMine` in `vendored_test.go`, or
 that test fails on the missing files. These apps need `transition.js`
-before the first stylesheet to handle skipped page transitions.
-Sidebar and console apps can delete `transition.js`. Add
-`"transition.js": true` to `vendoredIsMine` in `vendored_test.go` so the
-test allows the missing file.
+before the first stylesheet to handle skipped page transitions. Apps on
+this release's `topbar`, `sidebar` and `console` can delete
+`transition.js`. Add `"transition.js": true` to `vendoredIsMine` in
+`vendored_test.go` so the test allows the missing file.
+
+### Upgrading to one header row
+
+A `topbar`, `console` or `sidebar` layout from an earlier release keeps
+working: its Menu card, back strip or drawer still opens on a phone.
+`rastrillo doctor` names such a layout. To move it to one header row:
+
+1. Upgrade the module and run `rastrillo doctor --fix`. It re-copies the
+   files `rastrillo new` vendored, `tokens.css`, `shell.js` and
+   `shell.css` among them.
+2. Replace `templates/layout.html` with the new shell
+   (`ui.Layout("topbar")`, `ui.Layout("console")` or
+   `ui.Layout("sidebar")`), and carry your own edits across. The bar,
+   the account card and its Appearance and Language rows are the
+   layout's now. Your `brand`, `nav`, `profile` and `account` blocks
+   keep their names.
+3. Mark your index page with `view`. Give every other page `up`, and
+   `upLabel` where its parent is not the index. A sidebar or console app
+   already on the phone index has the first two.
+4. In `topbar`, add the Menu page: `templates/menu.html`, a `/menu`
+   route and its action, as `rastrillo new --shell=topbar` writes them,
+   and add `"menu"` to the page list in `render.go`. Give each nav link
+   an id, and each page an `up` naming its row: `/menu#nav-events`.
+   Until the page exists, every way back leads to a 404.
+5. If you already have a template called `upLabel` (or, in `topbar`,
+   `view`, `up` or `profile`), rename it. The shells use those names
+   now.
+6. If your `account` block shows who is signed in (an avatar, a name, an
+   email), move that into a `profile` block and keep only the links in
+   `account`.
+
+`rastrillo new --shell=topbar` now writes two pages, a home page and
+its Menu page, to show the shape.
 
 ### Upgrading: the topbar's tail is a level deeper
+
+This applies only to a `topbar` layout from before
+[one header row](#upgrading-to-one-header-row); this release's topbar
+has no tail.
 
 The topbar grew a narrow layout, and with it a wrapper. Below 800px its
 `nav`, `account` and `locale` hide behind a `<details>`; above it,
@@ -1353,22 +1463,6 @@ use a descendant selector, or target the attribute on its own:
 
 The block names — `brand`, `nav`, `account`, `locale`, `foot` — did not
 change, and a test holds them. Only the depth did.
-
-The `locale` block is where the language switcher goes. Every shell
-fills it with `locale-menu`, from the page data's `Locales` and
-`Return`:
-
-```html
-{{block "locale" .}}{{$L := localizer $}}{{template "locale-menu" dict "L" $L "Items" (opt $ "Locales") "Return" (opt $ "Return")}}{{end}}
-```
-
-`ui.ForRequest` gives both, so you do not wire the switcher yourself.
-It renders nothing for a one-locale app. It sits on
-`rst-dropdown rst-locale`, the ordinary
-dropdown vocabulary rather than a shell-specific name, so it looks and
-behaves the same in every shell, except in `sidebar` and `console`,
-where it opens in place inside the profile menu. See
-[Localization](/docs/localization).
 
 ## Error pages
 

@@ -8,7 +8,7 @@
 // heading becomes an anchor, which is exactly the failure worth
 // catching here.
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { join, posix, relative } from "node:path";
 
 const site = "_site";
 const docs = join(site, "docs");
@@ -17,10 +17,11 @@ const nav = JSON.parse(readFileSync("src/_data/docsnav.json", "utf8"));
 const problems = [];
 const fail = (m) => problems.push(m);
 
-// Filled in by the design-system block below, for the success line.
+// Filled in by the components block below, for the success line.
 let dsFiles = 0;
 let dsThemes = 0;
 let dsShort = "?";
+let dsRedirects = 0;
 
 const exists = (p) => {
   try {
@@ -31,37 +32,47 @@ const exists = (p) => {
   }
 };
 
-// The design-system gallery.
+// The Rastrillo components gallery, at /components.
 //
 // This used to be a count: the tree was committed, the sync vendored it
 // byte for byte, and a missing gallery was impossible. It is generated
-// now — hack/gen-design-system.mjs runs the framework's dsgen at the
-// pinned sha before Eleventy — and that buys a failure this repo has
+// now (hack/gen-components.mjs runs the framework's dsgen at the
+// pinned sha before Eleventy), and that buys a failure this repo had
 // never had. A generator that dies quietly, or a build that reaches
-// Eleventy first, publishes a site with no design system and no error;
-// the pages that vanish are the ones nobody browses on the way to
+// Eleventy first, publishes a site with no gallery and no error; the
+// pages that vanish are the ones nobody browses on the way to
 // noticing. Nothing downstream would catch it, so this block is
 // deliberately specific about what a whole gallery looks like.
 {
-  const src = "src/design-system";
-  const out = join(site, "design-system");
-  // Written by dsgen and by hack/gen-design-system.mjs respectively;
+  const src = "src/components";
+  const out = join(site, "components");
+  const MOUNT = "/components";
+  // Where the gallery lived until Rastrillo v0.38.0. Every address it
+  // published there has to keep answering, with a redirect.
+  const OLD_MOUNT = "/design-system";
+  // Written by dsgen and by hack/gen-components.mjs respectively;
   // eleventy.config.js strips both from the built site.
   const STAMP = ".dsgen";
   const RECEIPT = ".dsgen-source.json";
+  // dsgen's redirect rules. Generated into the gallery's directory, but
+  // published at the site root, because they match whole site paths.
+  const REDIRECTS = "_redirects";
   // One theme, one locale, rendered whole. Named rather than counted so
-  // a half-generated gallery says which pages it is missing.
+  // a half-generated gallery says which pages it is missing. The tokens
+  // and UI primitives pages are not here: since v0.38.0 they are
+  // Fiesta's, and their old addresses redirect there.
   const KINDS = [
     ["index.html", "Overview"],
-    ["tokens.html", "Tokens"],
     ["getting-started.html", "Getting started"],
     ["icons.html", "Icons"],
     ["list-screen.html", "the List screen components"],
     ["display.html", "the Display components"],
     ["form.html", "the Form components"],
+    ["choices-and-actions.html", "the Choices and actions components"],
     ["date-and-time.html", "the Date and time components"],
+    ["formats.html", "Dates, numbers and names"],
     ["route.html", "the Route components"],
-    ["primitives.html", "UI primitives"],
+    ["screens.html", "Screens"],
     ["shells.html", "Shells"],
     ["demo.html", "the demo app"],
     ["modal.html", "the modal"],
@@ -76,13 +87,15 @@ const exists = (p) => {
   const MIN_THEMES = 3;
   const MIN_LOCALES = 12;
 
-  // Files a browser would be served — dotfiles are build bookkeeping.
-  const count = (dir) => {
+  // Files a browser would be served from the gallery: dotfiles are
+  // build bookkeeping, and the top-level _redirects goes to the root.
+  const count = (dir, top = true) => {
     let n = 0;
     try {
       for (const entry of readdirSync(dir, { withFileTypes: true })) {
         if (entry.name.startsWith(".")) continue;
-        n += entry.isDirectory() ? count(join(dir, entry.name)) : 1;
+        if (top && entry.name === REDIRECTS) continue;
+        n += entry.isDirectory() ? count(join(dir, entry.name), false) : 1;
       }
     } catch {
       return -1;
@@ -103,8 +116,8 @@ const exists = (p) => {
   // 1. The generator ran and owns the directory.
   if (!exists(join(src, STAMP))) {
     fail(
-      `design-system: no ${STAMP} stamp at ${src} — the gallery was not generated. ` +
-        `run: npm run gen-design-system`,
+      `components: no ${STAMP} stamp at ${src}, so the gallery was not generated. ` +
+        `run: npm run gen-components`,
     );
   }
 
@@ -117,19 +130,25 @@ const exists = (p) => {
   try {
     receipt = JSON.parse(readFileSync(join(src, RECEIPT), "utf8"));
   } catch {
-    fail(`design-system: no ${RECEIPT} at ${src} — cannot tell which sha the gallery came from`);
+    fail(`components: no ${RECEIPT} at ${src}, so there is no telling which sha the gallery came from`);
   }
   if (receipt) {
     if (receipt.sha !== version.sha) {
       fail(
-        `design-system: generated from ${receipt.short ?? receipt.sha}, but the docs are ` +
-          `vendored from ${version.short ?? version.sha} — regenerate: npm run gen-design-system`,
+        `components: generated from ${receipt.short ?? receipt.sha}, but the docs are ` +
+          `vendored from ${version.short ?? version.sha}. regenerate: npm run gen-components`,
       );
     }
-    if (receipt.mount !== "/design-system") {
+    if (receipt.mount !== MOUNT) {
       fail(
-        `design-system: generated for mount ${JSON.stringify(receipt.mount)}, but the site ` +
-          `serves it at /design-system — every link in the tree would be wrong`,
+        `components: generated for mount ${JSON.stringify(receipt.mount)}, but the site ` +
+          `serves it at ${MOUNT}, so every link in the tree would be wrong`,
+      );
+    }
+    if (receipt.redirectFrom !== OLD_MOUNT) {
+      fail(
+        `components: generated with redirects from ${JSON.stringify(receipt.redirectFrom)}, ` +
+          `but the gallery used to live at ${OLD_MOUNT}`,
       );
     }
   }
@@ -137,16 +156,16 @@ const exists = (p) => {
   // 3. The built site carries all of it, and none of the bookkeeping.
   const want = count(src);
   const got = count(out);
-  if (want < 1) fail(`design-system: nothing to publish at ${src}`);
-  else if (got !== want) fail(`design-system: built ${got} files, generated ${want}`);
+  if (want < 1) fail(`components: nothing to publish at ${src}`);
+  else if (got !== want) fail(`components: built ${got} files, generated ${want}`);
   if (receipt && receipt.files !== want) {
-    fail(`design-system: ${RECEIPT} claims ${receipt.files} files, ${src} holds ${want}`);
+    fail(`components: ${RECEIPT} claims ${receipt.files} files, ${src} holds ${want}`);
   }
-  for (const name of [STAMP, RECEIPT]) {
-    if (exists(join(out, name))) fail(`design-system: ${name} was published to the built site`);
+  for (const name of [STAMP, RECEIPT, REDIRECTS]) {
+    if (exists(join(out, name))) fail(`components: ${name} was published inside ${MOUNT}`);
   }
-  if (!exists(join(out, "index.html"))) fail("design-system: no index.html in the built site");
-  if (!exists(join(out, "tokens.css"))) fail("design-system: no tokens.css in the built site");
+  if (!exists(join(out, "index.html"))) fail("components: no index.html in the built site");
+  if (!exists(join(out, "tokens.css"))) fail("components: no tokens.css in the built site");
 
   // 4. Every theme, every locale, every page kind. This is the check
   //    that turns "the tree silently didn't generate" from a deploy into
@@ -157,19 +176,19 @@ const exists = (p) => {
   dsThemes = themes.length;
   dsShort = receipt?.short ?? "?";
   if (themes.length < MIN_THEMES) {
-    fail(`design-system: ${themes.length} theme(s) in the built site (${themes.join(", ") || "none"}), want at least ${MIN_THEMES}`);
+    fail(`components: ${themes.length} theme(s) in the built site (${themes.join(", ") || "none"}), want at least ${MIN_THEMES}`);
   }
   for (const theme of themes) {
-    if (!exists(join(out, `theme-${theme}.css`))) fail(`design-system: no theme-${theme}.css for theme ${theme}`);
+    if (!exists(join(out, `theme-${theme}.css`))) fail(`components: no theme-${theme}.css for theme ${theme}`);
     const locales = dirs(join(out, theme));
     if (locales.length < MIN_LOCALES) {
-      fail(`design-system: theme ${theme} has ${locales.length} locale(s), want at least ${MIN_LOCALES}`);
+      fail(`components: theme ${theme} has ${locales.length} locale(s), want at least ${MIN_LOCALES}`);
     }
-    if (!locales.includes("en")) fail(`design-system: theme ${theme} has no en locale`);
+    if (!locales.includes("en")) fail(`components: theme ${theme} has no en locale`);
     for (const locale of locales) {
       for (const [file, label] of KINDS) {
         if (!exists(join(out, theme, locale, file))) {
-          fail(`design-system: ${theme}/${locale} is missing ${label} (${file})`);
+          fail(`components: ${theme}/${locale} is missing ${label} (${file})`);
         }
       }
     }
@@ -180,8 +199,99 @@ const exists = (p) => {
   //    passes every check above and 404s on the first click.
   if (exists(join(out, "index.html"))) {
     const home = readFileSync(join(out, "index.html"), "utf8");
-    if (!home.includes('href="/design-system/')) {
-      fail("design-system: the built index.html carries no /design-system/ links — wrong -mount?");
+    if (!home.includes(`href="${MOUNT}/`)) {
+      fail(`components: the built index.html carries no ${MOUNT}/ links. wrong -mount?`);
+    }
+  }
+
+  // 6. The old addresses still answer. The gallery was at /design-system
+  //    until v0.38.0, and the homepage loaded its unhashed stylesheets from
+  //    there; bookmarks, search results and other sites still do. dsgen
+  //    writes the rules and eleventy.config.js publishes them at the
+  //    root, after any of the site's own. This reads the built file as
+  //    the static edge does (the first matching rule wins, a trailing
+  //    slash makes no difference, :splat is what * matched) and follows
+  //    each address to a file that is really in _site.
+  const rootRules = join(site, REDIRECTS);
+  if (!exists(rootRules)) {
+    fail(`components: no ${REDIRECTS} at the site root, so every ${OLD_MOUNT}/ address 404s`);
+  } else {
+    const lines = readFileSync(rootRules, "utf8")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith("#"));
+    dsRedirects = lines.length;
+    const segmentsOf = (path) => posix.normalize(path).split("/").filter(Boolean);
+    const rules = lines.map((line) => {
+      const [source, destination, status] = line.split(/\s+/);
+      const segments = segmentsOf(source);
+      const splat = segments.at(-1) === "*";
+      if (splat) segments.pop();
+      return { segments, splat, destination, status };
+    });
+    const follow = (path) => {
+      const asked = segmentsOf(path);
+      for (const rule of rules) {
+        if (asked.length < rule.segments.length) continue;
+        if (!rule.splat && asked.length !== rule.segments.length) continue;
+        if (rule.segments.some((segment, i) => segment !== asked[i])) continue;
+        let rest = asked.slice(rule.segments.length).join("/");
+        if (rest && path.endsWith("/")) rest += "/";
+        return { to: rule.destination.replace(":splat", rest), status: rule.status };
+      }
+      return null;
+    };
+    const served = (path) => {
+      const file = join(site, path);
+      if (path.endsWith("/")) return exists(join(file, "index.html"));
+      return exists(file) && statSync(file).isFile();
+    };
+    const mustLand = [
+      [`${OLD_MOUNT}/`, `${MOUNT}/`],
+      [OLD_MOUNT, `${MOUNT}/`],
+      [`${OLD_MOUNT}/tokens.css`, `${MOUNT}/tokens.css`],
+      [`${OLD_MOUNT}/shell.css`, `${MOUNT}/shell.css`],
+      ...themes.map((t) => [`${OLD_MOUNT}/theme-${t}.css`, `${MOUNT}/theme-${t}.css`]),
+      [`${OLD_MOUNT}/day/en/`, `${MOUNT}/day/en/`],
+      [`${OLD_MOUNT}/day/en/icons.html`, `${MOUNT}/day/en/icons.html`],
+    ];
+    for (const [old, landing] of mustLand) {
+      const hop = follow(old);
+      if (!hop) fail(`components: no rule in /${REDIRECTS} for ${old}`);
+      else if (hop.status !== "301") fail(`components: ${old} answers ${hop.status}, want 301`);
+      else if (hop.to !== landing) fail(`components: ${old} goes to ${hop.to}, want ${landing}`);
+      else if (!served(landing)) fail(`components: ${old} goes to ${landing}, which is not in _site`);
+    }
+    // The pages that left go to Fiesta, not to a 404 under /components.
+    for (const page of ["tokens.html", "primitives.html"]) {
+      const old = `${OLD_MOUNT}/day/en/${page}`;
+      const hop = follow(old);
+      if (!hop?.to.startsWith("https://fiesta.rastrillo.org/")) {
+        fail(`components: ${old} goes to ${hop?.to ?? "nowhere"}, want Fiesta's page`);
+      } else if (hop.status !== "301") {
+        fail(`components: ${old} answers ${hop.status}, want 301`);
+      }
+    }
+    // The site's own pages point into the gallery: the homepage's buttons
+    // and its markup windows' stylesheets (inside srcdoc, so entity-encoded),
+    // and the docs sidebar. Each must be a file the build really holds.
+    const outside = walk(site, (name) => name.endsWith(".html")).filter(
+      (file) => !file.startsWith(out + "/"),
+    );
+    for (const file of outside) {
+      const html = readFileSync(file, "utf8").replaceAll("&quot;", '"').replaceAll("&amp;", "&");
+      for (const [, path] of html.matchAll(/(?:href|src)="(\/components\/[^"#?]*)/g)) {
+        if (!served(path)) fail(`components: ${file.slice(site.length)} links ${path}, which is not in _site`);
+      }
+    }
+    // The root file carries every rule dsgen wrote, in its order.
+    if (exists(join(src, REDIRECTS))) {
+      const fragment = readFileSync(join(src, REDIRECTS), "utf8").trim();
+      if (!readFileSync(rootRules, "utf8").includes(fragment)) {
+        fail(`components: /${REDIRECTS} does not carry dsgen's rules from ${src}/${REDIRECTS} whole`);
+      }
+    } else {
+      fail(`components: dsgen wrote no ${REDIRECTS} to ${src}. was -redirect-from passed?`);
     }
   }
 }
@@ -276,5 +386,6 @@ if (problems.length) {
 }
 console.log(
   `docs ok — ${slugs.length} pages, ${pages.length} built, anchors agree; ` +
-    `design-system: ${dsFiles} files across ${dsThemes} themes generated from ${dsShort}`,
+    `components: ${dsFiles} files across ${dsThemes} themes generated from ${dsShort}, ` +
+    `${dsRedirects} redirect rules at /_redirects`,
 );

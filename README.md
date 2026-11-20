@@ -24,8 +24,8 @@ npm run build    # writes _site/
 npm run check    # build, then the three gates
 ```
 
-You need **Go 1.25+** alongside Node. The `/design-system` gallery is
-not committed here: it is 20 MB of machine output, rendered on every
+You need **Go 1.25+** alongside Node. The `/components` gallery is
+not committed here: it is about 40 MB of machine output, rendered on every
 build by the framework's own `dsgen` command at the sha in
 `src/_data/docsversion.json`. `AGENTS.md` has the details, including
 what stops a build that fails to generate it.

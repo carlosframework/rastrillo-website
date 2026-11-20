@@ -11,11 +11,11 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: 20 }
 
-      # The design-system gallery is no longer in this repo. `npm run
-      # build` renders it with the rastrillo framework's dsgen command,
-      # at the sha in src/_data/docsversion.json, so the site needs Go as
-      # well as Node. Without it hack/gen-design-system.mjs stops the
-      # build rather than let a site publish with no design system.
+      # The components gallery is not in this repo. `npm run build`
+      # renders it with the rastrillo framework's dsgen command, at the
+      # sha in src/_data/docsversion.json, so the site needs Go as well
+      # as Node. Without it hack/gen-components.mjs stops the build
+      # rather than let a site publish with no gallery.
       - uses: actions/setup-go@v5
         with:
           go-version: "1.25"

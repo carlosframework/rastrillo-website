@@ -2,8 +2,8 @@
 //
 // The tour's lessons and code live in the framework repo, where a test
 // replays every step and proves it builds. Its tourgen command writes
-// what this site needs, the same way dsgen writes the design-system
-// gallery (see hack/gen-design-system.mjs):
+// what this site needs, the same way dsgen writes the components
+// gallery (see hack/gen-components.mjs):
 //
 //   go run amadan.net/rastrillo/rastrillo/cmd/tourgen@<sha> -out _tour
 //

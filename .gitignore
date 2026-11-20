@@ -1,4 +1,7 @@
 node_modules/
 _site/
+src/components/
+# Where the gallery was generated before it moved to /components. A
+# leftover tree stays ignored, so Eleventy never reads it as input.
 src/design-system/
 _tour/
