@@ -69,18 +69,28 @@ person marker.**
   top links to carlosframework.com — the two sites cross-reference, they
   don't duplicate each other.
 
-## The design system is generated, not vendored
+## Rastrillo components is generated, not vendored
 
-🤖 `/design-system` — the gallery of every partial, class idiom and
-token, in three themes and twelve languages — is 369 files and 20 MB.
-It is **not in this repo**. `src/design-system/` is gitignored and
-rebuilt on every `npm run build` by `hack/gen-design-system.mjs`, which
+🤖 `/components`, the Rastrillo components gallery of every partial and
+icon in three themes and twelve languages, is about 6,400 files and
+40 MB. It is **not in this repo**. `src/components/` is gitignored and
+rebuilt on every `npm run build` by `hack/gen-components.mjs`, which
 shells out to the framework's own generator:
 
 ```
-go run github.com/carlosframework/rastrillo/cmd/dsgen@<sha> \
-    -out src/design-system -mount /design-system
+go run amadan.net/rastrillo/rastrillo/cmd/dsgen@<sha> \
+    -out src/components -mount /components -redirect-from /design-system
 ```
+
+The gallery was called the design system and lived at `/design-system`
+until Rastrillo v0.38.0, when its tokens and UI primitives pages moved
+to Fiesta's own design system. `-redirect-from /design-system` makes
+dsgen write a `_redirects` file into `src/components/` that sends every
+old address there to the same file under `/components`, or to Fiesta
+for the pages that left, in one 301. Its rules match whole site paths,
+so `eleventy.config.js` publishes it at the site root (after the rules
+in `src/_redirects`, if the site ever has its own) rather than inside
+`/components`.
 
 `go run …@<sha>` resolves an unreleased commit through
 `proxy.golang.org`, including the module path's redirect from
@@ -88,10 +98,10 @@ go run github.com/carlosframework/rastrillo/cmd/dsgen@<sha> \
 measured cold at ~24s, warm at ~1s. If that ever stops working (a
 rename undone, a private module, an offline build), the fallback is a
 framework checkout at the same sha and `go run ./cmd/dsgen` with the
-same two flags; the output is byte-identical.
+same three flags; the output is byte-identical.
 
 The sha is read from `src/_data/docsversion.json` — the same commit
-`hack/sync-docs.mjs` vendored the 49 markdown pages from. That is the
+`hack/sync-docs.mjs` vendored the markdown pages from. That is the
 point of reading it from there rather than pinning it twice: the gallery
 and the prose beside it can never end up describing different versions
 of the framework. To move both, re-sync the docs from a newer rastrillo
@@ -100,10 +110,13 @@ checkout and rebuild; the sha follows.
 **So building this site needs Go 1.25+ and network access**, not just
 Node. It also brings the one failure this repo never used to have: a
 generator that dies quietly, or an Eleventy run that beats it, publishes
-a site with no design system and no error. `npm run check` is what
+a site with no gallery and no error. `npm run check` is what
 catches that — `hack/check-docs.mjs` fails unless the generator's
-`.dsgen` stamp is there, the sha it recorded matches the docs' sha, and
-every theme, locale and page kind arrived in `_site`. Don't weaken it.
+`.dsgen` stamp is there, the sha it recorded matches the docs' sha,
+every theme, locale and page kind arrived in `_site`, and the root
+`_redirects` sends the old `/design-system/` addresses (the overview,
+a page, and the unhashed `tokens.css`, `theme-*.css` and `shell.css`)
+to files that are really there. Don't weaken it.
 
 ## The tour is generated too
 
@@ -153,8 +166,8 @@ tourgen, so it needs a synced sha whose framework has `cmd/tourgen`.
   README, its code, its examples. If you change a claim, check it against
   the repo rather than against the previous copy. The homepage's
   `actions/` tree is real files from `examples/blog`, and its markup
-  window is the design system's real markup rendered by the site's own
-  `/design-system/*.css`; when either changes shape, the page follows.
+  window is the gallery's real markup rendered by the site's own
+  `/components/*.css`; when either changes shape, the page follows.
 - **The live-proof link must actually be live.** Before shipping a change
   that touches it, curl the URL.
 - **Rastrillo is the framework; CARLOS is the architecture and platform.**
@@ -186,7 +199,7 @@ carlos deploy --console https://console.carloku.com --account ops \
 cd ~ && rm -rf "$dir"
 ```
 
-The export carries no `src/design-system/`: the gallery is generated,
+The export carries no `src/components/`: the gallery is generated,
 not committed (above), so whatever runs it needs **Go on `PATH` and
 network access to `proxy.golang.org`** as well as Node. `npm run check`
 renders the gallery first and refuses to pass if it is missing or

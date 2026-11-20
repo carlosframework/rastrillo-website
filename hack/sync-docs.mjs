@@ -6,10 +6,10 @@
 // sha it came from, so the site build is self-contained: it never needs
 // the Go repo present and never fails because a checkout is missing.
 //
-// The 49 markdown pages are all this vendors. The design-system gallery
+// The markdown pages are all this vendors. The components gallery
 // used to come across the same way — 369 files, 20 MB, byte for byte —
 // until the framework stopped committing it; it is now rendered at build
-// time by hack/gen-design-system.mjs, from the very sha this script
+// time by hack/gen-components.mjs, from the very sha this script
 // records in src/_data/docsversion.json.
 //
 // Usage:
@@ -147,4 +147,4 @@ writeFileSync(
   JSON.stringify({ sha, short: sha.slice(0, 7), pages: files.length }, null, 2) + "\n",
 );
 console.log(`synced ${files.length} pages from ${sha.slice(0, 7)}`);
-console.log(`next: node hack/gen-design-system.mjs   # the gallery, from that same sha`);
+console.log(`next: node hack/gen-components.mjs   # the gallery, from that same sha`);
