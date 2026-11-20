@@ -268,6 +268,20 @@ const exists = (p) => {
       const hop = follow(old);
       if (!hop?.to.startsWith("https://fiesta.rastrillo.org/")) {
         fail(`components: ${old} goes to ${hop?.to ?? "nowhere"}, want Fiesta's page`);
+      } else if (hop.status !== "301") {
+        fail(`components: ${old} answers ${hop.status}, want 301`);
+      }
+    }
+    // The site's own pages point into the gallery: the homepage's buttons
+    // and its markup windows' stylesheets (inside srcdoc, so entity-encoded),
+    // and the docs sidebar. Each must be a file the build really holds.
+    const outside = walk(site, (name) => name.endsWith(".html")).filter(
+      (file) => !file.startsWith(out + "/"),
+    );
+    for (const file of outside) {
+      const html = readFileSync(file, "utf8").replaceAll("&quot;", '"').replaceAll("&amp;", "&");
+      for (const [, path] of html.matchAll(/(?:href|src)="(\/components\/[^"#?]*)/g)) {
+        if (!served(path)) fail(`components: ${file.slice(site.length)} links ${path}, which is not in _site`);
       }
     }
     // The root file carries every rule dsgen wrote, in its order.
