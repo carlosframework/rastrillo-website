@@ -11,6 +11,57 @@ go install amadan.net/rastrillo/rastrillo/cmd/rastrillo@latest
 You need Go 1.26 or newer. [The CLI reference](/docs/cli) has every
 command; you will mostly use three of them.
 
+## Check a downloaded release
+
+`go install` checks the module against Go's checksum database, so you
+need do nothing more. Each
+[release](https://amadan.net/rastrillo/rastrillo/-/releases) also has
+the CLI as a tarball for macOS and Linux. To check one you downloaded,
+put the release's `checksums.txt` in the same folder and run:
+
+```sh
+sha256sum --ignore-missing -c checksums.txt
+```
+
+On macOS, use `shasum -a 256` in place of `sha256sum`.
+
+Releases after v0.47.0 also carry a CycloneDX SBOM, a list of the
+modules inside, for each tarball (`rastrillo_<version>_linux_amd64.cdx.json`)
+and one for the module as a whole (`rastrillo_<version>_module.cdx.json`).
+`checksums.txt` covers them too. To look for known vulnerabilities, give
+one to a scanner, for example `grype sbom:rastrillo_<version>_module.cdx.json`.
+
+The build is reproducible, so you can also rebuild the binary and
+compare. For the Linux amd64 tarball of v0.47.0, on a Linux amd64
+machine, check which Go built it with
+`go version rastrillo_v0.47.0_linux_amd64/rastrillo`, then run:
+
+```sh
+bin=$(mktemp -d)
+GOTOOLCHAIN=go1.26.11 CGO_ENABLED=0 GOBIN=$bin go install -trimpath \
+  amadan.net/rastrillo/rastrillo/cmd/rastrillo@v0.47.0
+cmp "$bin/rastrillo" rastrillo_v0.47.0_linux_amd64/rastrillo
+```
+
+Releases after v0.47.0 are signed with Rastrillo's release key. The
+signature in `checksums.txt.sig` covers `checksums.txt`, which lists the
+release files. The same key signs the release's Git tag. The public key
+is in the repository at `hack/allowed_signers`, with fingerprint
+`SHA256:dZjcvUHtTguEVEMybnLcDLsn5U82UdNIkC6CbD1GUKA`. Save that file
+beside the release's `checksums.txt` and `checksums.txt.sig`, then run:
+
+```sh
+ssh-keygen -Y verify -f allowed_signers -I release@rastrillo.org \
+  -n file -s checksums.txt.sig < checksums.txt
+```
+
+The command prints `Good "file" signature for release@rastrillo.org`.
+Then verify the release files against `checksums.txt` as described
+above. To verify a tag in a clone of the repository, run
+`hack/sign-ssh.sh verify-tag vX.Y.Z`. It accepts only an SSH signature by
+`release@rastrillo.org`. Plain `git verify-tag` would also accept a GPG
+signature your keyring trusts.
+
 ## Scaffold an app
 
 ```sh
@@ -34,7 +85,7 @@ cmd/notes/main.go       Resolve -> db.Open -> App -> Serve
 internal/notes/         models, migrations, app, handlers, render, templates, static,
                         and harness + example tests, passing out of the box
 manifest/               the declarative path: drop a <name>.toml here
-Makefile                make ci = vet + fmt + staticcheck + govulncheck + gitleaks + budget + code + routes + csp + test + perf + generate check
+Makefile                make ci = vet + fmt + go fix + staticcheck + lint + govulncheck + gitleaks + budget + code + routes + csp + test + perf + generate check
 .amadan/ci, ci.d/       amadan runner CI, delegating to make
 internal/notes/icons/   app-owned icons, edit freely
 AGENTS.md               instructions + UX conventions, the source of truth
